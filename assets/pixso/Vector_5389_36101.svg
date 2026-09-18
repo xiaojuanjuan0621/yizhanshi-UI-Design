@@ -1,0 +1,10 @@
+<svg viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="19.000000" height="19.000000" fill="none" customFrame="#000000">
+	<defs>
+		<linearGradient id="paint_linear_17" x1="9.5" x2="9.5" y1="0" y2="19" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(63,119,242)" offset="0" stop-opacity="1" />
+			<stop stop-color="rgb(107,130,240)" offset="0.5" stop-opacity="1" />
+			<stop stop-color="rgb(121,75,232)" offset="1" stop-opacity="1" />
+		</linearGradient>
+	</defs>
+	<path id="星形 1" d="M12.7175 5.88479C12.8093 6.05266 12.9473 6.19069 13.1152 6.28246L17.3952 8.62258C18.0889 9.00186 18.0889 9.99814 17.3952 10.3774L13.1152 12.7175C12.9473 12.8093 12.8093 12.9473 12.7175 13.1152L10.3774 17.3952C9.99814 18.0889 9.00186 18.0889 8.62258 17.3952L6.28246 13.1152C6.19069 12.9473 6.05266 12.8093 5.88479 12.7175L1.60478 10.3774C0.911088 9.99814 0.911088 9.00186 1.60478 8.62258L5.88479 6.28246C6.05266 6.19069 6.19069 6.05266 6.28246 5.88479L8.62258 1.60478C9.00186 0.911088 9.99814 0.911088 10.3774 1.60478L12.7175 5.88479L12.7175 5.88479Z" fill="url(#paint_linear_17)" fill-rule="evenodd" />
+</svg>

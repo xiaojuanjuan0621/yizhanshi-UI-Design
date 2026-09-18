@@ -1,0 +1,40 @@
+<svg viewBox="0 0 237 328" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="237.000000" height="328.000000" fill="none" customFrame="#000000" mask="url(#mask_27)">
+	<mask id="mask_27" width="183.000000" height="274.000000" x="27.000000" y="10.000000" maskUnits="userSpaceOnUse">
+		<g filter="url(#pixso_custom_mask_type_alpha)">
+			<g filter="url(#filter_79)">
+				<rect id="蒙版" width="183.000000" height="274.000000" x="27.000000" y="10.000000" rx="10.000000" fill="rgb(255,255,255)" />
+				<path d="M37 8L200 8C206.627 8 212 13.3726 212 20L212 274C212 280.627 206.627 286 200 286L37 286C30.3726 286 25 280.627 25 274L25 20C25 13.3726 30.3726 8 37 8ZM210 20C210 14.4772 205.523 10 200 10L37 10C31.4772 10 27 14.4772 27 20L27 274C27 279.523 31.4772 284 37 284L200 284C205.523 284 210 279.523 210 274L210 20Z" fill="rgb(255,255,255)" fill-rule="evenodd" />
+			</g>
+		</g>
+	</mask>
+	<defs>
+		<g id="pixso_custom_effect_79">
+			<effect x="0.000000" y="17.000000" visibility="visible" fill="rgb(192,195,201)" fill-opacity="0.250980407" effectType="dropShadow" stdDeviation="25" radius="0" />
+			<effect x="0.000000" y="4.000000" visibility="visible" fill="rgb(255,255,255)" fill-opacity="0.274509817" effectType="dropShadow" stdDeviation="3" radius="0" />
+			<effect visibility="visible" effectType="backgroundBlur" saturation="0" stdDeviation="48.9290428" />
+		</g>
+		<filter id="filter_79" width="237.000000" height="328.000000" x="0.000000" y="0.000000" filterUnits="userSpaceOnUse" customEffect="url(#pixso_custom_effect_79)" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix" />
+			<feOffset dx="0.000000" dy="17.000000" in="SourceAlpha" />
+			<feGaussianBlur stdDeviation="8.33333302" />
+			<feColorMatrix type="matrix" values="0 0 0 0 0.752941 0 0 0 0 0.764706 0 0 0 0 0.788235 0 0 0 0.25098 0 " />
+			<feBlend result="effect_dropShadow_1" in2="BackgroundImageFix" mode="normal" />
+			<feOffset dx="0.000000" dy="4.000000" in="SourceAlpha" />
+			<feGaussianBlur stdDeviation="1" />
+			<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.27451 0 " />
+			<feBlend result="effect_dropShadow_2" in2="effect_dropShadow_1" mode="normal" />
+			<feBlend result="shape" in="SourceGraphic" in2="effect_dropShadow_2" mode="normal" />
+		</filter>
+		<clipPath id="outline_mask_11" transform="matrix(1,0,0,1,-0,-0)">
+			<path d="M200 8L37 8C30.3726 8 25 13.3726 25 20L25 274C25 280.627 30.3726 286 37 286L200 286C206.627 286 212 280.627 212 274L212 20C212 13.3726 206.627 8 200 8Z" fill="rgb(255,255,255)" fill-rule="evenodd" />
+		</clipPath>
+		<filter id="pixso_custom_mask_type_alpha">
+			<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0 " />
+		</filter>
+	</defs>
+	<g data-pixso-skip-parse="true">
+		<foreignObject width="237.000000" height="328.000000" x="0.000000" y="0.000000">
+			<div xmlns="http://www.w3.org/1999/xhtml" style="clip-path:url(#outline_mask_11);height:100%;backdrop-filter:blur(24.464521px);width:100%;-webkit-backdrop-filter:blur(24.464521px);" />
+		</foreignObject>
+	</g>
+</svg>

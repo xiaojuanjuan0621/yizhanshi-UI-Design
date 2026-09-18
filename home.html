@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一站式数据服务平台 - 首页工作台</title>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & CSS VARIABLES (严格遵循 02-Design_Tokens 规范与参考图色彩)
+       ========================================================================== */
+    :root {
+      /* 品牌主色与 AI 渐变 */
+      --brand: #256DF8;               /* 按钮主色 */
+      --brand-hover: #1A57D0;
+      --brand-light: #EEF2FF;
+      --brand-gradient: linear-gradient(135deg, #3B66F1 0%, #6366F1 100%);
+      --accent: #00B4D8;              /* 极光青 */
+      --accent-purple: #8B5CF6;       /* AI 智能紫 */
+      --accent-orange: #FF7D00;       /* 浦惠暖橙 */
+
+      /* 渐变流质感 */
+      --grad-ai-sphere: linear-gradient(135deg, #3B66F1 0%, #8B5CF6 50%, #00B4D8 100%);
+      --grad-search-btn: linear-gradient(135deg, #4E75F8 0%, #8353E8 100%);
+      --grad-badge-active: linear-gradient(135deg, #4A6CF7 0%, #7B61FF 100%);
+      --grad-card-hover: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(246,249,255,1) 100%);
+      --grad-product-banner: linear-gradient(135deg, #EEF4FF 0%, #F5F3FF 50%, #E8F7FF 100%);
+      --grad-explore-btn: linear-gradient(135deg, #6FA5FD 0%, #3571FD 100%);
+
+      /* 风险与状态语义 */
+      --risk-l0: #00A20B;
+      --risk-l0-bg: rgba(0, 162, 11, 0.1);
+      --risk-l1: #1B7DEA;
+      --risk-l1-bg: rgba(27, 125, 234, 0.1);
+      --risk-l2: #F5A216;
+      --risk-l2-bg: rgba(245, 162, 22, 0.1);
+      --risk-l3: #F24B5C;
+      --risk-l3-bg: rgba(242, 75, 92, 0.1);
+
+      /* 字体族 */
+      --font-sans: '阿里巴巴普惠体 3.0', 'PingFang SC', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Microsoft YaHei", sans-serif;
+      --font-mono: 'JetBrains Mono', Consolas, monospace;
+
+      /* 4px 栅格与三档圆角 */
+      --r-xs: 6px;
+      --r-sm: 10px;
+      --r-md: 16px;
+      --r-lg: 20px;
+      --r-pill: 9999px;
+
+      /* 1px 精细光泽阴影 */
+      --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04);
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 6px 18px -2px rgba(59, 102, 241, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 14px 34px -4px rgba(59, 102, 241, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+      
+      /* Pixso 原生搜索栏专属大柔光投影 */
+      --shadow-search-pixso: 0 14px 36px 0 rgba(192, 205, 253, 0.38);
+
+      --ease: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 浅色主题 (Light Mode - 默认金融通透清爽风格，融合设计稿全屏全息背景图) */
+    :root[data-theme="light"], :root {
+      --bg-page: #F3F5FA;             /* 兜底色 */
+      --bg-card: #FFFFFF;             /* 纯白卡片 */
+      --bg-card-subtle: #F8FAFD;
+      --bg-input: #FFFFFF;
+      --bg-subtle: #EDF2F9;
+      --border: #E5EBF5;              /* 1px 精细分界线 */
+      --border-light: #F0F4FA;
+      --border-hover: #CBD8F0;
+      
+      --text-primary: #303133;        /* Pixso 标题主色 */
+      --text-secondary: #4B5563;      /* Pixso 正文色 */
+      --text-muted: #9397A4;          /* Pixso 辅助/占位 */
+      --text-inverse: #FFFFFF;
+
+      --header-bg: rgba(255, 255, 255, 0.94);
+      --search-box-bg: #FFFFFF;
+    }
+
+    /* 深色主题 (Dark Mode - 极客工业级深邃蓝夜) */
+    :root[data-theme="dark"] {
+      --bg-page: #0C121E;
+      --bg-card: #151F32;
+      --bg-card-subtle: #18243A;
+      --bg-input: #121A2B;
+      --bg-subtle: #1E2C45;
+      --border: #24344E;
+      --border-light: #1A273D;
+      --border-hover: #3D5377;
+      
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --text-inverse: #0F172A;
+
+      --header-bg: rgba(21, 31, 50, 0.94);
+      --search-box-bg: #151F32;
+      --shadow-search-pixso: 0 14px 36px 0 rgba(0, 0, 0, 0.5);
+    }
+
+    /* ==========================================================================
+       2. RESET & BASE STYLES (带全屏设计稿背景图片)
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-page);
+      background-image: url('assets/images/page-bg-mesh@2x.png');
+      background-repeat: no-repeat;
+      background-position: top center;
+      background-size: 1920px auto;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: color var(--ease);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    :root[data-theme="dark"] body {
+      background-image: none;
+    }
+    .font-mono {
+      font-family: var(--font-mono) !important;
+    }
+
+    /* ==========================================================================
+       3. TOP NAVIGATION (参考图与 Pixso 顶部导航结构)
+       ========================================================================== */
+    .platform-header {
+      background: var(--header-bg);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      height: 64px;
+      padding: 0 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-xs);
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .brand-logo-img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(59, 102, 241, 0.3));
+    }
+    .brand-logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+    }
+
+    /* 顶部导航菜单选项卡 */
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-tab-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 18px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: var(--r-pill);
+      transition: all var(--ease);
+      cursor: pointer;
+    }
+    .nav-tab-item:hover {
+      color: var(--text-primary);
+      background: var(--bg-subtle);
+    }
+    .nav-tab-item.active {
+      background: var(--grad-badge-active);
+      color: #FFFFFF;
+      font-weight: 600;
+      box-shadow: 0 3px 10px rgba(74, 108, 247, 0.3);
+    }
+    .nav-tab-item svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* 顶部右侧用户信息 */
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      font-size: 13px;
+    }
+    .user-greeting {
+      color: var(--text-secondary);
+    }
+    .user-greeting b {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .header-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: var(--r-sm);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all var(--ease);
+    }
+    .header-action-btn:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+    .theme-toggle-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--r-pill);
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text-secondary);
+      transition: all var(--ease);
+    }
+    .theme-toggle-btn:hover {
+      background: var(--bg-subtle);
+      color: var(--text-primary);
+    }
+
+    /* ==========================================================================
+       4. PIXSO 原生智能搜索大栏
+       ========================================================================== */
+    .main-container {
+      max-width: 1460px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 36px 48px;
+      flex: 1;
+    }
+
+    .ai-search-section {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      margin-bottom: 28px;
+    }
+
+    .search-input-box {
+      flex: 1;
+      background: var(--search-box-bg);
+      border-radius: 20px;
+      position: relative;
+      padding: 16px 18px 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-search-pixso);
+      transition: all var(--ease);
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+    .search-input-box::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(0, 59, 249, 0.8) 0%, rgba(0, 129, 255, 0.9) 50%, rgba(130, 0, 255, 0.85) 100%);
+      z-index: -1;
+      opacity: 0.85;
+      transition: opacity var(--ease);
+    }
+    .search-input-box:focus-within::before {
+      opacity: 1;
+      filter: drop-shadow(0 0 8px rgba(78, 117, 248, 0.5));
+    }
+
+    .search-left-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .search-main-input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-size: 15px;
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      outline: none;
+      letter-spacing: -0.2px;
+    }
+    .search-main-input::placeholder {
+      color: #9397A4;
+      font-size: 14px;
+    }
+
+    .search-agent-tags {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .agent-pill-img-btn {
+      height: 36px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      transition: transform var(--ease), filter var(--ease);
+      user-select: none;
+    }
+    .agent-pill-img-btn:hover {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 4px 8px rgba(37, 109, 248, 0.25));
+    }
+    .agent-pill-img-btn:active {
+      transform: translateY(0);
+    }
+    .agent-pill-img {
+      height: 36px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .search-send-btn-img {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform var(--ease), filter var(--ease);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: transparent;
+      padding: 0;
+    }
+    .search-send-btn-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 14px rgba(74, 108, 247, 0.45));
+    }
+    .search-send-btn-img:hover img {
+      transform: scale(1.08);
+      filter: drop-shadow(0 8px 20px rgba(74, 108, 247, 0.6));
+    }
+    .search-send-btn-img:active img {
+      transform: scale(0.96);
+    }
+
+    .agent-assistant-entry {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      padding: 8px 14px;
+      border-radius: var(--r-md);
+      transition: all var(--ease);
+      position: relative;
+    }
+    .agent-assistant-entry:hover {
+      background: rgba(59, 102, 241, 0.08);
+    }
+    .robot-cut-avatar {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 16px rgba(59, 102, 241, 0.3));
+      animation: gentle-bob 3s ease-in-out infinite;
+    }
+    @keyframes gentle-bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    .assistant-title-box {
+      display: flex;
+      flex-direction: column;
+    }
+    .assistant-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: #256DF8;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .assistant-sub {
+      font-size: 11px;
+      color: #9397A4;
+    }
+    .assistant-star-dec {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      font-size: 11px;
+      color: #8B5CF6;
+      animation: pulse-star 2s infinite;
+    }
+    @keyframes pulse-star {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+
+    /* ==========================================================================
+       5. MAIN WORKSPACE GRID (上部左卡片区 1057px : 右数据产品专区 515px 比例严格对齐 Pixso)
+       ========================================================================== */
+    .workspace-grid {
+      display: grid;
+      grid-template-columns: 2.05fr 1fr;
+      gap: 28px;
+      margin-bottom: 28px;
+    }
+
+    .capability-card-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .mode-switch-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 22px;
+    }
+    .mode-toggle-group {
+      background: #EDF1F7;
+      border: 1px solid #DFE5F0;
+      padding: 4px;
+      border-radius: var(--r-pill);
+      display: inline-flex;
+      align-items: center;
+    }
+    :root[data-theme="dark"] .mode-toggle-group {
+      background: #1C273C;
+      border-color: #2D3D5A;
+    }
+    .mode-toggle-btn {
+      padding: 6px 22px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--r-pill);
+      border: none;
+      background: transparent;
+      color: #6B7280;
+      cursor: pointer;
+      transition: all var(--ease);
+    }
+    .mode-toggle-btn.active {
+      background: #FFFFFF;
+      color: #256DF8;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+    :root[data-theme="dark"] .mode-toggle-btn.active {
+      background: #256DF8;
+      color: #FFFFFF;
+    }
+
+    .feature-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      flex: 1;
+    }
+    .feature-card {
+      background: var(--bg-card-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--r-md);
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: all var(--ease);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .feature-card:hover {
+      background: var(--bg-card);
+      border-color: #256DF8;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .feature-card.disabled {
+      cursor: default;
+      opacity: 0.85;
+    }
+    .feature-card.disabled:hover {
+      transform: none;
+      border-color: var(--border);
+      box-shadow: none;
+    }
+    /* 卡片图片尺寸变大（从 58px 放大到 78px，视觉比例更饱满突出） */
+    .card-icon-cut {
+      width: 78px;
+      height: 78px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.07));
+      transition: transform var(--ease);
+    }
+    .feature-card:hover .card-icon-cut {
+      transform: scale(1.08);
+    }
+    .card-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .card-link-text {
+      font-size: 12px;
+      color: #6B7280;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
+      transition: color var(--ease);
+    }
+    .feature-card:hover .card-link-text {
+      color: #256DF8;
+    }
+    .card-link-text.disabled-text {
+      color: #9397A4;
+    }
+
+    .grid-nav-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-pill);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--text-secondary);
+      z-index: 10;
+    }
+    .grid-nav-arrow:hover {
+      background: var(--bg-subtle);
+      color: #256DF8;
+    }
+    .grid-nav-left { left: 6px; }
+    .grid-nav-right { right: 6px; }
+
+    /* ==========================================================================
+       6. 数据产品专区 浦查查 (100% 绝对像素对齐 Pixso 475x327 切图画幅)
+       ========================================================================== */
+    .product-zone-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+    .product-zone-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+    .product-header-icon {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    /* 浦查查 Banner 容器：高度缩小优化（从 327px 紧凑压缩至 275px，保持高度协调） */
+    .product-banner-card {
+      position: relative;
+      width: 100%;
+      height: 275px;
+      min-height: 275px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #DCE6F8;
+      box-shadow: 0 4px 16px rgba(59, 102, 241, 0.06);
+    }
+
+    /* 完整 3D 水晶球全景背景图层 (保持右侧对齐并适度内缩) */
+    .puchacha-bg-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: right center;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* 内容层：紧凑居中布局 */
+    .product-info-layer {
+      position: absolute;
+      left: 28px;
+      top: 22px;
+      bottom: 22px;
+      width: 250px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-main-name {
+      font-size: 24px;
+      font-weight: 700;
+      color: #303133;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+    .product-main-desc {
+      font-size: 12px;
+      color: #4B5563;
+      line-height: 1.5;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .product-keywords {
+      font-size: 11px;
+      color: #6B7280;
+      font-family: var(--font-mono);
+      letter-spacing: 0.2px;
+    }
+
+    /* 立即探索按钮 (Pixso 原生 129x40，高光渐变圆角) */
+    .btn-explore {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 129px;
+      height: 40px;
+      background: var(--grad-explore-btn);
+      color: #FFFFFF;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 500px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(53, 113, 253, 0.35);
+      transition: all var(--ease);
+    }
+    .btn-explore:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(53, 113, 253, 0.5);
+    }
+    .btn-explore:active {
+      transform: translateY(0);
+    }
+
+    /* Banner 左右轮播箭头 */
+    .banner-arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+      border-radius: var(--r-pill);
+      background: rgba(255, 255, 255, 0.88);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      z-index: 5;
+      transition: all var(--ease);
+      box-shadow: var(--shadow-xs);
+    }
+    .banner-arrow-btn:hover {
+      background: #256DF8;
+      color: #FFFFFF;
+    }
+    .banner-arrow-left { left: 8px; }
+    .banner-arrow-right { right: 8px; }
+
+    /* ==========================================================================
+       7. BOTTOM THREE COLUMNS (历史访问 / 我的收藏 / 猜你想看)
+       第 3 列【猜你想看】与上方【数据产品专区】右边缘及栅格宽度 100% 绝对对齐
+       ========================================================================== */
+    .bottom-stream-grid {
+      display: grid;
+      /* 栅格分配：左两列占据与上方功能面板相同的空间，右列与数据产品专区等宽且右边缘完全对齐 */
+      grid-template-columns: 1.025fr 1.025fr 1fr;
+      gap: 28px;
+    }
+    .stream-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      padding: 22px 24px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+    .stream-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .stream-title-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .stream-cut-icon {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+    }
+    .btn-refresh {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: var(--r-xs);
+      transition: all var(--ease);
+    }
+    .btn-refresh:hover {
+      color: #256DF8;
+      background: var(--bg-subtle);
+    }
+    .btn-refresh svg {
+      width: 13px;
+      height: 13px;
+      transition: transform 0.4s ease;
+    }
+    .btn-refresh:active svg {
+      transform: rotate(180deg);
+    }
+
+    /* 列表项条目 */
+    .stream-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .stream-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 6px 8px;
+      border-radius: var(--r-sm);
+      transition: all var(--ease);
+      cursor: pointer;
+    }
+    .stream-item:hover {
+      background: var(--bg-subtle);
+      color: #256DF8;
+      transform: translateX(3px);
+    }
+    .stream-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #256DF8;
+      flex-shrink: 0;
+    }
+    .stream-star {
+      color: #F5A216;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+    .stream-text {
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ==========================================================================
+       8. AI QUICK DIALOGUE MODAL & ROLE FLOATING
+       ========================================================================== */
+    .quick-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--ease);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .quick-modal-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .quick-modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-lg);
+      box-shadow: var(--shadow-lg);
+      width: 640px;
+      max-width: 90vw;
+      padding: 24px;
+      position: relative;
+      animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes modal-pop {
+      0% { transform: scale(0.95); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .role-floating-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      border-radius: var(--r-pill);
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 200;
+      font-size: 12px;
+    }
+    .role-select {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
+      padding: 4px 8px;
+      border-radius: var(--r-sm);
+      font-size: 12px;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. 顶部 Header 导航 -->
+  <header class="platform-header">
+    <div class="header-left">
+      <a href="home.html" class="brand-logo-wrap">
+        <img src="assets/images/logo.png" alt="Logo" class="brand-logo-img">
+        <span class="brand-logo-text">一站式数据服务平台</span>
+      </a>
+
+      <!-- 导航选项卡 -->
+      <nav class="header-nav">
+        <a href="home.html" class="nav-tab-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          首页
+        </a>
+        <a href="app-center.html" class="nav-tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          应用中心
+        </a>
+        <a href="service-center.html" class="nav-tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          服务中心
+        </a>
+        <a href="dataset-detail.html" class="nav-tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          数据字典
+        </a>
+        <a href="design-system.html" class="nav-tab-item" title="查看活体设计规范">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          设计规范
+        </a>
+        <a href="security-audit.html" class="nav-tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          平台管理
+        </a>
+      </nav>
+    </div>
+
+    <!-- 右侧用户信息与设置 -->
+    <div class="header-right">
+      <a href="my-approvals.html" class="user-greeting" style="text-decoration:none; cursor:pointer;" title="点击进入我的页面与审批工作台">您好，<b>张科技 (科技人员)</b> <span style="font-size:10px; background:var(--brand); color:#fff; padding:1px 6px; border-radius:10px; margin-left:4px; font-weight:bold;">3 待办</span></a>
+      <button class="header-action-btn" onclick="alert('感谢您的反馈！数据服务支持团队将在1小时内响应。')">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        反馈
+      </button>
+      <button class="theme-toggle-btn" id="themeBtn" title="切换深色/浅色主题">
+        <span id="themeIcon">🌓</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- 2. 主页面内容区域 -->
+  <main class="main-container">
+
+    <!-- 顶层 Pixso 1:1 智能问数与 Agent 检索栏 -->
+    <section class="ai-search-section">
+      <div class="search-input-box">
+        <div class="search-left-area">
+          <input type="text" id="aiInput" class="search-main-input" placeholder="请输入问题，或点击左侧相关Agent" onkeydown="handleSearchKey(event)">
+          
+          <!-- 使用设计稿直接导出的 Agent 胶囊切图 -->
+          <div class="search-agent-tags">
+            <div class="agent-pill-img-btn" onclick="selectAgent('智能取数 Agent')">
+              <img src="assets/images/agent-tag-fetch@2x.png" alt="智能取数 Agent" class="agent-pill-img">
+            </div>
+            <div class="agent-pill-img-btn" onclick="selectAgent('智能问数 Agent')">
+              <img src="assets/images/agent-tag-ask@2x.png" alt="智能问数 Agent" class="agent-pill-img">
+            </div>
+            <div class="agent-pill-img-btn" onclick="selectAgent('模板取数 Agent')">
+              <img src="assets/images/agent-tag-template@2x.png" alt="模板取数 Agent" class="agent-pill-img">
+            </div>
+          </div>
+        </div>
+
+        <!-- 搜索发送大圆按钮 -->
+        <button class="search-send-btn-img" id="sendQueryBtn" onclick="triggerAISearch()" title="发送 AI 查询">
+          <img src="assets/images/search-arrow-btn@2x.png" alt="发送">
+        </button>
+      </div>
+
+      <!-- 右侧用数助手入口 -->
+      <div class="agent-assistant-entry" onclick="openAssistantModal()">
+        <span class="assistant-star-dec">✦</span>
+        <img src="assets/images/ai-agent-robot@2x.png" alt="用数助手" class="robot-cut-avatar">
+        <div class="assistant-title-box">
+          <div class="assistant-name">用数助手</div>
+          <div class="assistant-name" style="font-size: 13px; font-weight:600;">Agent ✦</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 中部主工作台栅格 (左侧 6 功能卡片 + 右侧数据产品专区) -->
+    <section class="workspace-grid">
+      
+      <!-- 左侧卡片面板 -->
+      <div class="capability-card-panel">
+        
+        <!-- 业务模式 / 技术模式 切换器 -->
+        <div class="mode-switch-bar">
+          <div class="mode-toggle-group">
+            <button class="mode-toggle-btn" id="btnModeBiz" onclick="switchCapabilityMode('biz')">业务模式</button>
+            <button class="mode-toggle-btn active" id="btnModeTech" onclick="switchCapabilityMode('tech')">技术模式</button>
+          </div>
+        </div>
+
+        <!-- 业务模式下的翻页箭头 -->
+        <button class="grid-nav-arrow grid-nav-left" id="bizArrowLeft" onclick="rotateBizCards(-1)">❮</button>
+        <button class="grid-nav-arrow grid-nav-right" id="bizArrowRight" onclick="rotateBizCards(1)">❯</button>
+
+        <!-- 6 个核心卡片 Grid -->
+        <div class="feature-cards-grid" id="featureGridContainer">
+          <!-- 动态渲染真实图片卡片 -->
+        </div>
+
+      </div>
+
+      <!-- 右侧数据产品专区 (浦查查 100% 绝对对齐 Pixso 475x327 切图背景) -->
+      <div class="product-zone-panel">
+        <div class="product-zone-header">
+          <img src="assets/images/product/puchacha-icon@2x.png" alt="数据产品" class="product-header-icon">
+          <span>数据产品专区</span>
+        </div>
+
+        <!-- 浦查查 Card：采用专用底图图层 + 绝对定位文字层，彻底解决对齐问题 -->
+        <div class="product-banner-card">
+          <!-- 左右切换轮播按钮 -->
+          <button class="banner-arrow-btn banner-arrow-left" onclick="slideProductBanner(-1)">❮</button>
+          <button class="banner-arrow-btn banner-arrow-right" onclick="slideProductBanner(1)">❯</button>
+
+          <!-- 100% 铺满对齐的 Pixso 原版 3D 全景背景图 -->
+          <img src="assets/images/product/puchacha-bg-full@2x.png" alt="浦查查全景切图" class="puchacha-bg-layer">
+
+          <!-- 精准定位的内容文字层 -->
+          <div class="product-info-layer" id="productBannerInfo">
+            <div>
+              <h2 class="product-main-name">浦查查</h2>
+              <p class="product-main-desc">我们自己的企业查询和拓客平台</p>
+              <div class="product-keywords">查企业 ｜ 查产业 ｜ 查园区</div>
+            </div>
+            <div>
+              <button class="btn-explore" onclick="alert('正在进入浦查查企业全景拓客工作台...')">
+                立即探索 →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 底部三列快速动态栏 (历史访问 / 我的收藏 / 猜你想看) -->
+    <section class="bottom-stream-grid">
+      
+      <!-- 列 1: 历史访问 -->
+      <div class="stream-card">
+        <div class="stream-header">
+          <div class="stream-title-box">
+            <img src="assets/images/stream/icon-history@2x.png" alt="历史访问" class="stream-cut-icon">
+            <span>历史访问</span>
+          </div>
+          <button class="btn-refresh" onclick="refreshList('historyList')">
+            换一换 
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          </button>
+        </div>
+        <ul class="stream-list" id="historyList">
+          <li class="stream-item" onclick="openItemDetail('供应链风险总结分析一站式报表')">
+            <span class="stream-dot"></span>
+            <span class="stream-text">供应链风险总结分析一站式报表</span>
+          </li>
+          <li class="stream-item" onclick="openItemDetail('超级产品客群画像分析')">
+            <span class="stream-dot"></span>
+            <span class="stream-text">超级产品客群画像分析</span>
+          </li>
+          <li class="stream-item" onclick="openItemDetail('总结零售月报智能总结分析')">
+            <span class="stream-dot"></span>
+            <span class="stream-text">总结零售月报智能总结分析</span>
+          </li>
+          <li class="stream-item" onclick="openItemDetail('浦惠重点商户交易监测表')">
+            <span class="stream-dot"></span>
+            <span class="stream-text">浦惠重点商户交易监测表</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 列 2: 我的收藏 -->
+      <div class="stream-card">
+        <div class="stream-header">
+          <div class="stream-title-box">
+            <img src="assets/images/stream/icon-favorite@2x.png" alt="我的收藏" class="stream-cut-icon">
+            <span>我的收藏</span>
+          </div>
+          <button class="btn-refresh" onclick="refreshList('favoriteList')">
+            换一换 
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          </button>
+        </div>
+        <ul class="stream-list" id="favoriteList">
+          <li class="stream-item" onclick="openItemDetail('超级产品客群画像分析')">
+            <span class="stream-star">★</span>
+            <span class="stream-text">超级产品客群画像分析</span>
+          </li>
+          <li class="stream-item" onclick="openItemDetail('供应链风险总结分析一站式报表')">
+            <span class="stream-star">★</span>
+            <span class="stream-text">供应链风险总结分析一站式报表</span>
+          </li>
+          <li class="stream-item" onclick="openItemDetail('对公信贷逾期预警特征集')">
+            <span class="stream-star">★</span>
+            <span class="stream-text">对公信贷逾期预警特征集</span>
+          </li>
+          <li class="stream-item" onclick="openItemDetail('总结零售月报智能总结分析')">
+            <span class="stream-star">★</span>
+            <span class="stream-text">总结零售月报智能总结分析</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 列 3: 猜你想看 -->
+      <div class="stream-card">
+        <div class="stream-header">
+          <div class="stream-title-box">
+            <img src="assets/images/stream/icon-recommend@2x.png" alt="猜你想看" class="stream-cut-icon">
+            <span>猜你想看</span>
+          </div>
+          <button class="btn-refresh" onclick="refreshList('recommendList')">
+            换一换 
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+          </button>
+        </div>
+        <ul class="stream-list" id="recommendList">
+          <li class="stream-item" onclick="openItemDetail('一站式小助手数据报表智能AI是如何匹配使用...')">
+            <span class="stream-dot" style="background: var(--accent-purple);"></span>
+            <span class="stream-text">一站式小助手数据报表智能AI是如何匹配使用...</span>
+          </li>
+          <li class="stream-item" onclick="openItemDetail('零售月报智能总结分析...')">
+            <span class="stream-dot" style="background: var(--accent-purple);"></span>
+            <span class="stream-text">零售月报智能总结分析...</span>
+          </li>
+          <li class="stream-item" onclick="openItemDetail('基于大模型的自然语言 SQL 快速生成指南')">
+            <span class="stream-dot" style="background: var(--accent-purple);"></span>
+            <span class="stream-text">基于大模型的自然语言 SQL 快速生成指南</span>
+          </li>
+          <li class="stream-item" onclick="openItemDetail('银行普惠小微企业画像特征数据集上线通知')">
+            <span class="stream-dot" style="background: var(--accent-purple);"></span>
+            <span class="stream-text">银行普惠小微企业画像特征数据集上线通知</span>
+          </li>
+        </ul>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 3. AI 交互与详情快速弹窗 (Modal) -->
+  <div class="quick-modal-backdrop" id="aiModal" onclick="closeModal(event)">
+    <div class="quick-modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🤖 用数助手 Agent · 智能问答结果</span>
+        </div>
+        <button style="background:none;border:none;font-size:18px;cursor:pointer;color:var(--text-secondary);" onclick="closeModal()">✕</button>
+      </div>
+      <div id="modalBody" style="font-size: 14px; line-height: 1.6; color: var(--text-primary);">
+        <!-- 动态生成内容 -->
+      </div>
+      <div style="margin-top: 20px; display:flex; justify-content:flex-end; gap:10px;">
+        <button class="header-action-btn" onclick="closeModal()">关闭</button>
+        <button class="btn-explore" style="padding:6px 16px; width:auto;" onclick="window.location.href='dataset-detail.html'">进入取数工作台 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. 右下角常驻多角色切换模拟器 -->
+  <div class="role-floating-widget">
+    <span>🎭 模拟生效角色:</span>
+    <select class="role-select" id="roleSelector" onchange="handleRoleChange(this.value)">
+      <option value="business">三线员工 (Business)</option>
+      <option value="tech" selected>银行科技人员 (Tech)</option>
+      <option value="admin">系统管理员 (Admin)</option>
+    </select>
+  </div>
+
+  <!-- ==========================================================================
+       9. VANILLA JS 交互逻辑
+       ========================================================================== */
+  -->
+  <script>
+    // 1. 数据配置：技术模式 vs 业务模式卡片 (采用 Pixso 导出的真实 @2x 切图)
+    const techCards = [
+      {
+        iconSrc: 'assets/images/tech/icon-report@2x.png',
+        title: '看报表',
+        linkText: '查看 →',
+        url: 'dataset-detail.html',
+        disabled: false
+      },
+      {
+        iconSrc: 'assets/images/tech/icon-ask@2x.png',
+        title: '问数',
+        linkText: '查看 →',
+        url: 'javascript:void(0)',
+        action: 'openAskData',
+        disabled: false
+      },
+      {
+        iconSrc: 'assets/images/tech/icon-explore@2x.png',
+        title: '探数',
+        linkText: '查看 →',
+        url: 'javascript:void(0)',
+        action: 'openExplore',
+        disabled: false
+      },
+      {
+        iconSrc: 'assets/images/tech/icon-analyze@2x.png',
+        title: '析数',
+        linkText: '查看 →',
+        url: 'javascript:void(0)',
+        action: 'openAnalyze',
+        disabled: false
+      },
+      {
+        iconSrc: 'assets/images/tech/icon-extract@2x.png',
+        title: '取数',
+        linkText: '查看 →',
+        url: 'dataset-detail.html',
+        disabled: false
+      },
+      {
+        iconSrc: 'assets/images/tech/icon-building@2x.png',
+        title: '更多建设中...',
+        linkText: '敬请期待',
+        url: 'javascript:void(0)',
+        disabled: true
+      }
+    ];
+
+    const bizCards = [
+      {
+        iconSrc: 'assets/images/biz/icon-super-prod@2x.png',
+        title: '超级产品',
+        linkText: '查看 →',
+        url: 'javascript:void(0)',
+        disabled: false
+      },
+      {
+        iconSrc: 'assets/images/biz/icon-puhui@2x.png',
+        title: '浦惠来了',
+        linkText: '查看 →',
+        url: 'javascript:void(0)',
+        disabled: false
+      },
+      {
+        iconSrc: 'assets/images/biz/icon-tech-fin@2x.png',
+        title: '科技金融',
+        linkText: '查看 →',
+        url: 'javascript:void(0)',
+        disabled: false
+      },
+      {
+        iconSrc: 'assets/images/biz/icon-inclusive-fin@2x.png',
+        title: '普惠金融',
+        linkText: '查看 →',
+        url: 'javascript:void(0)',
+        disabled: false
+      },
+      {
+        iconSrc: 'assets/images/biz/icon-cross-border@2x.png',
+        title: '跨境金融',
+        linkText: '查看 →',
+        url: 'javascript:void(0)',
+        disabled: false
+      },
+      {
+        iconSrc: 'assets/images/biz/icon-treasury-fin@2x.png',
+        title: '财资金融',
+        linkText: '查看 →',
+        url: 'javascript:void(0)',
+        disabled: false
+      }
+    ];
+
+    // 2. 渲染卡片网格
+    let currentMode = 'tech';
+    const featureGridContainer = document.getElementById('featureGridContainer');
+    const bizArrowLeft = document.getElementById('bizArrowLeft');
+    const bizArrowRight = document.getElementById('bizArrowRight');
+
+    function renderCards(mode) {
+      currentMode = mode;
+      const cards = mode === 'tech' ? techCards : bizCards;
+      
+      // 控制翻页箭头显隐
+      if (mode === 'biz') {
+        bizArrowLeft.style.display = 'flex';
+        bizArrowRight.style.display = 'flex';
+      } else {
+        bizArrowLeft.style.display = 'none';
+        bizArrowRight.style.display = 'none';
+      }
+
+      featureGridContainer.innerHTML = cards.map(item => `
+        <div class="feature-card ${item.disabled ? 'disabled' : ''}" onclick="handleCardClick('${item.title}', '${item.action || ''}', '${item.url}', ${item.disabled})">
+          <img src="${item.iconSrc}" alt="${item.title}" class="card-icon-cut">
+          <div class="card-info">
+            <div class="card-title">${item.title}</div>
+            <div class="card-link-text ${item.disabled ? 'disabled-text' : ''}">${item.linkText}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function switchCapabilityMode(mode) {
+      const btnTech = document.getElementById('btnModeTech');
+      const btnBiz = document.getElementById('btnModeBiz');
+
+      if (mode === 'tech') {
+        btnTech.classList.add('active');
+        btnBiz.classList.remove('active');
+      } else {
+        btnBiz.classList.add('active');
+        btnTech.classList.remove('active');
+      }
+      renderCards(mode);
+    }
+
+    function handleCardClick(title, action, url, disabled) {
+      if (disabled) return;
+      if (action === 'openAskData') {
+        document.getElementById('aiInput').focus();
+        document.getElementById('aiInput').placeholder = "已进入【问数模式】，请输入口径、指标或趋势问题...";
+        return;
+      }
+      if (url && url !== 'javascript:void(0)') {
+        window.location.href = url;
+      } else {
+        openModalWithContent(`🚀 正在进入<strong>【${title}】</strong>专属业务工作台，支持多维联动下钻与特征过滤。`);
+      }
+    }
+
+    function rotateBizCards(dir) {
+      // 翻页动效
+      featureGridContainer.style.opacity = '0.4';
+      setTimeout(() => {
+        featureGridContainer.style.opacity = '1';
+      }, 150);
+    }
+
+    // 3. Agent 标签选择与搜索交互
+    let activeAgent = '智能取数 Agent';
+    function selectAgent(agentName) {
+      activeAgent = agentName;
+      document.getElementById('aiInput').placeholder = `已切换为 [${agentName}]，请输入您的问题或数据集需求...`;
+      document.getElementById('aiInput').focus();
+    }
+
+    function handleSearchKey(e) {
+      if (e.key === 'Enter') {
+        triggerAISearch();
+      }
+    }
+
+    function triggerAISearch() {
+      const query = document.getElementById('aiInput').value.trim();
+      const text = query || "查询近7日零售客户交易活跃度前 10 排名与异常趋势";
+      
+      openModalWithContent(`
+        <div style="background:var(--bg-subtle); padding:12px; border-radius:8px; margin-bottom:14px; font-family:var(--font-mono); font-size:13px;">
+          <strong>🎯 执行 Agent：</strong><span style="color:#256DF8;">${activeAgent}</span><br>
+          <strong>💬 用户提问：</strong>${text}
+        </div>
+        <p><strong>✨ AI 智能解析结论：</strong></p>
+        <p style="margin-top:6px; color:var(--text-secondary);">
+          已为您关联核心资产 <code class="font-mono" style="color:#256DF8;">@dept/retail_cust_360</code> 与实时交易流水表。数据质量健康度 <strong>99.8%</strong>，权限层级为 <strong>L0 基础公开</strong>。
+        </p>
+        <div style="margin-top:12px; padding:10px; background:var(--risk-l0-bg); border:1px solid var(--risk-l0); border-radius:6px; font-size:12px; color:var(--risk-l0);">
+          ✔ 已生成对应的快速 SQL 提取脚本与可视化图表预览。
+        </div>
+      `);
+    }
+
+    function openAssistantModal() {
+      openModalWithContent(`
+        <div style="display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+          <img src="assets/images/ai-agent-robot@2x.png" style="width:48px;height:48px;object-fit:contain;">
+          <div>
+            <h4 style="margin:0; font-size:16px;">我是您的专属【用数助手 Agent】</h4>
+            <p style="margin:2px 0 0; font-size:12px; color:var(--text-muted);">全天候提供智能看数、问口径、探数与取数支持</p>
+          </div>
+        </div>
+        <p>您可以随时向我发起以下指令：</p>
+        <ul style="padding-left:20px; margin-top:8px; color:var(--text-secondary); font-size:13px; line-height:1.8;">
+          <li>“帮我查询本月普惠金融贷款逾期率与环比变化”</li>
+          <li>“导出供应链拓客评分高于 80 分的企业清单”</li>
+          <li>“分析零售月报中财富管理客户增长归因”</li>
+        </ul>
+      `);
+    }
+
+    function openItemDetail(title) {
+      openModalWithContent(`
+        <h4 style="margin-bottom:8px;">📄 ${title}</h4>
+        <p style="color:var(--text-secondary); font-size:13px;">已为您定位至该报表/数据集。更新频率为<strong>每日 T+1 同步</strong>，支持一键在报表大屏中打开并下钻维度。</p>
+      `);
+    }
+
+    // 4. 数据产品专区轮播切换
+    const productBanners = [
+      {
+        name: '浦查查',
+        desc: '我们自己的企业查询和拓客平台',
+        keywords: '查企业 ｜ 查产业 ｜ 查园区'
+      },
+      {
+        name: '数智星看板',
+        desc: '全行核心业务指标一站式多维可视化门户',
+        keywords: '指标雷达 ｜ 实时监控 ｜ 异常预警'
+      },
+      {
+        name: '风控哨兵',
+        desc: '对公与零售信贷毫秒级反欺诈拦截中台',
+        keywords: '规则引擎 ｜ 实时流计算 ｜ 智能阻断'
+      }
+    ];
+    let currentBannerIdx = 0;
+    function slideProductBanner(dir) {
+      currentBannerIdx = (currentBannerIdx + dir + productBanners.length) % productBanners.length;
+      const banner = productBanners[currentBannerIdx];
+      const infoBox = document.getElementById('productBannerInfo');
+      infoBox.innerHTML = `
+        <div>
+          <h2 class="product-main-name">${banner.name}</h2>
+          <p class="product-main-desc">${banner.desc}</p>
+          <div class="product-keywords">${banner.keywords}</div>
+        </div>
+        <div>
+          <button class="btn-explore" onclick="alert('正在进入${banner.name}工作台...')">
+            立即探索 →
+          </button>
+        </div>
+      `;
+    }
+
+    // 5. 换一换列表随机打乱
+    function refreshList(listId) {
+      const listEl = document.getElementById(listId);
+      const items = Array.from(listEl.children);
+      items.sort(() => Math.random() - 0.5);
+      listEl.innerHTML = '';
+      items.forEach(item => listEl.appendChild(item));
+    }
+
+    // 6. 弹窗控制
+    const aiModal = document.getElementById('aiModal');
+    const modalBody = document.getElementById('modalBody');
+    function openModalWithContent(html) {
+      modalBody.innerHTML = html;
+      aiModal.classList.add('active');
+    }
+    function closeModal(e) {
+      if (e && e.target !== aiModal && !e.target.classList.contains('header-action-btn') && !e.target.innerText.includes('✕')) return;
+      aiModal.classList.remove('active');
+    }
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') aiModal.classList.remove('active');
+    });
+
+    // 7. 深浅主题切换
+    const themeBtn = document.getElementById('themeBtn');
+    const themeIcon = document.getElementById('themeIcon');
+    const htmlEl = document.documentElement;
+
+    themeBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      themeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌓';
+    });
+
+    // 初始化读取本地主题与卡片渲染
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    htmlEl.setAttribute('data-theme', savedTheme);
+    themeIcon.textContent = savedTheme === 'dark' ? '☀️' : '🌓';
+    renderCards('tech');
+
+    // 8. 多角色切换模拟
+    function handleRoleChange(role) {
+      document.documentElement.setAttribute('data-demo-role', role);
+      console.log('当前激活角色:', role);
+    }
+  </script>
+</body>
+</html>

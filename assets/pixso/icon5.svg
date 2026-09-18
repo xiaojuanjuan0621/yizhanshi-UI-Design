@@ -1,0 +1,11 @@
+<svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32.000000" height="32.000000" fill="none" customFrame="#000000">
+	<defs>
+		<linearGradient id="paint_linear_19" x1="8.9781065" x2="27.0537453" y1="8.40576553" y2="28.7085781" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(116,151,241)" offset="0" stop-opacity="1" />
+			<stop stop-color="rgb(217,176,251)" offset="0.493310153" stop-opacity="1" />
+			<stop stop-color="rgb(104,85,206)" offset="1" stop-opacity="1" />
+		</linearGradient>
+	</defs>
+	<rect id="首页顶部icon" width="32.000000" height="32.000000" x="0.000000" y="0.000000" />
+	<path id="路径" d="M17.3606 3.72925L27.138 10.7469C28.0975 11.4356 28.6665 12.5442 28.6666 13.7252L28.6666 25.0419C28.6666 27.0669 27.025 28.7086 25 28.7086L20 28.7086L20 23.3752C20 21.1662 18.209 19.3752 16 19.3752C13.791 19.3752 12 21.1662 12 23.3752L12 28.7086L6.99998 28.7086C4.97498 28.7086 3.33331 27.0669 3.33331 25.0419L3.33331 13.7256C3.33336 12.5444 3.90241 11.4356 4.86198 10.7469L14.6393 3.72925C15.4525 3.14551 16.5474 3.14551 17.3606 3.72925Z" fill="url(#paint_linear_19)" fill-rule="evenodd" />
+</svg>

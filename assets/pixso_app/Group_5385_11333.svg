@@ -1,0 +1,44 @@
+<svg viewBox="0 0 32 28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32.000000" height="28.000000" fill="none" customFrame="#000000">
+	<defs>
+		<g id="pixso_custom_effect_87">
+			<effect x="0.000000" y="2.000000" visibility="visible" fill="rgb(89,89,214)" fill-opacity="1" effectType="dropShadow" showShadowBehind="1" stdDeviation="5" radius="0" />
+		</g>
+		<filter id="filter_87" width="20.473633" height="27.995605" x="11.526367" y="0.004395" filterUnits="userSpaceOnUse" customEffect="url(#pixso_custom_effect_87)" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix" />
+			<feColorMatrix result="hardAlpha" in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10 0 " />
+			<feOffset dx="0.000000" dy="2.000000" in="hardAlpha" />
+			<feGaussianBlur stdDeviation="1.66666663" />
+			<feColorMatrix type="matrix" values="0 0 0 0 0.34902 0 0 0 0 0.34902 0 0 0 0 0.839216 0 0 0 1 0 " />
+			<feBlend result="effect_dropShadow_1" in2="BackgroundImageFix" mode="normal" />
+			<feBlend result="shape" in="SourceGraphic" in2="effect_dropShadow_1" mode="normal" />
+		</filter>
+		<linearGradient id="paint_linear_107" x1="21.7632427" x2="21.7632427" y1="9.30286121" y2="21.007782" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(255,255,255)" offset="0" stop-opacity="1" />
+			<stop stop-color="rgb(255,255,255)" offset="1" stop-opacity="0.100000001" />
+		</linearGradient>
+		<g id="pixso_custom_effect_88">
+			<effect x="0.000000" y="2.000000" visibility="visible" fill="rgb(89,89,214)" fill-opacity="1" effectType="dropShadow" showShadowBehind="1" stdDeviation="5" radius="0" />
+		</g>
+		<filter id="filter_88" width="20.540039" height="27.997925" x="0.000000" y="0.000000" filterUnits="userSpaceOnUse" customEffect="url(#pixso_custom_effect_88)" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix" />
+			<feColorMatrix result="hardAlpha" in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 10 0 " />
+			<feOffset dx="0.000000" dy="2.000000" in="hardAlpha" />
+			<feGaussianBlur stdDeviation="1.66666663" />
+			<feColorMatrix type="matrix" values="0 0 0 0 0.34902 0 0 0 0 0.34902 0 0 0 0 0.839216 0 0 0 1 0 " />
+			<feBlend result="effect_dropShadow_1" in2="BackgroundImageFix" mode="normal" />
+			<feBlend result="shape" in="SourceGraphic" in2="effect_dropShadow_1" mode="normal" />
+		</filter>
+		<linearGradient id="paint_linear_108" x1="10.2699556" x2="10.2699556" y1="9.29925728" y2="21.0056458" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(255,255,255)" offset="0" stop-opacity="1" />
+			<stop stop-color="rgb(255,255,255)" offset="1" stop-opacity="0.100000001" />
+		</linearGradient>
+	</defs>
+	<g id="编组">
+		<g filter="url(#filter_87)">
+			<path id="差集" d="M25.0883 18.1777C25.0883 18.1777 20.7124 17.8376 16.5346 19.444L16.5323 7.5889C16.4311 5.02782 17.6235 3.98104 19.7839 3.59037C21.447 3.29192 23.1521 3.20631 25.0883 3.00439C25.0883 7.93339 25.0816 17.008 25.0816 17.008L25.0883 18.1777ZM26.2851 5.2276L26.2851 18.7638C22.9696 19.3014 19.9424 19.7886 16.9438 20.2758C16.9482 20.2868 17.2892 20.9956 17.5158 21L25.9749 20.9978C26.3444 20.978 26.9561 19.9773 26.9979 19.3869L26.9979 6.5201L27.0001 6.5201L27.0001 5.2276L26.2851 5.2276Z" fill="url(#paint_linear_107)" fill-rule="evenodd" />
+		</g>
+		<g filter="url(#filter_88)">
+			<path id="差集" d="M6.97785 3C8.91607 3.20629 10.6189 3.28967 12.2821 3.58811C14.4403 3.97879 15.6371 5.02556 15.5337 7.58663L15.5315 19.4418C11.5525 17.9119 7.39384 18.1476 7.00523 18.1696C6.98581 18.1707 6.9758 18.1713 6.97571 18.1711L6.9845 17.0014C6.9845 17.0014 6.97785 7.92687 6.97785 3ZM15.0475 20.2715C12.0489 19.7865 9.06348 19.2993 5.74805 18.7594L5.74805 5.22974L5 5.22974L5 19.3475C5.01757 19.9312 5.68417 20.978 6.06039 20.9956L14.4776 20.9979C14.7064 20.9913 15.0475 20.2737 15.0475 20.2715Z" fill="url(#paint_linear_108)" fill-rule="evenodd" />
+		</g>
+	</g>
+</svg>

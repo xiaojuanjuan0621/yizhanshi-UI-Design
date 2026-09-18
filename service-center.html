@@ -1,0 +1,3470 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一站式数据服务平台 - 服务中心</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & SYSTEM BASE
+       ========================================================================== */
+    :root {
+      --brand: #256DF8;
+      --brand-hover: #1A57D0;
+      --brand-light: #EBF2FE;
+      --brand-gradient: linear-gradient(135deg, #256DF8 0%, #4F46E5 100%);
+      
+      --color-success: #10B981;
+      --color-warning: #F59E0B;
+      --color-danger: #EF4444;
+      --color-info: #3B82F6;
+
+      --font-sans: 'PingFang SC', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', Consolas, monospace;
+
+      --bg-page: #F8FAFD;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #F1F5F9;
+      --border: #E2E8F0;
+      --border-light: #F1F5F9;
+      
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      
+      --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-card: 0 2px 10px rgba(15, 23, 42, 0.04);
+      --shadow-hover: 0 12px 28px -4px rgba(37, 109, 248, 0.15);
+      
+      --ease: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: #F8FAFD;
+      background-image: url('assets/images/page-bg-mesh@2x.png');
+      background-repeat: no-repeat;
+      background-position: top center;
+      background-size: 1920px auto;
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .svg-icon-sm {
+      width: 14px;
+      height: 14px;
+      vertical-align: -2px;
+      stroke-width: 2;
+    }
+
+    .nav-svg-icon {
+      width: 15px;
+      height: 15px;
+      vertical-align: -2px;
+      stroke-width: 2;
+    }
+
+    /* ==========================================================================
+       2. PLATFORM HEADER
+       ========================================================================== */
+    .platform-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-logo-img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .brand-logo-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+      letter-spacing: -0.2px;
+    }
+
+    .nav-tabs-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-tab-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--ease);
+    }
+
+    .nav-tab-item:hover {
+      color: var(--brand);
+      background: rgba(37, 109, 248, 0.05);
+    }
+
+    .nav-tab-item.active {
+      color: var(--brand);
+      font-weight: 600;
+      background: #EFF6FF;
+    }
+
+    .nav-tab-item svg {
+      width: 15px;
+      height: 15px;
+      stroke-width: 2;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-greeting {
+      font-size: 13px;
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      text-decoration: none;
+    }
+
+    .user-greeting:hover {
+      color: var(--brand);
+    }
+
+    .badge-pending {
+      font-size: 11px;
+      background: var(--brand);
+      color: #FFFFFF;
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .header-action-btn {
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      border-radius: 6px;
+      transition: var(--ease);
+      cursor: pointer;
+    }
+
+    .header-action-btn:hover {
+      background: #F1F5F9;
+      color: var(--text-primary);
+    }
+
+    .agent-header-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, #EFF6FF 0%, #EDE9FE 100%);
+      border: 1px solid #DBEAFE;
+      border-radius: 9999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #4F46E5;
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .agent-header-pill:hover {
+      box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+      transform: translateY(-1px);
+    }
+
+    /* ==========================================================================
+       3. MAIN LAYOUT (卡片列表视图)
+       ========================================================================== */
+    .app-main-layout {
+      display: flex;
+      flex: 1;
+      width: 100%;
+      position: relative;
+    }
+
+    .category-nav-sidebar {
+      width: 220px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(14px);
+      border-right: 1px solid var(--border);
+      padding: 14px 10px 30px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex-shrink: 0;
+      transition: width 0.2s ease;
+      overflow-y: auto;
+      max-height: calc(100vh - 65px);
+    }
+
+    .sidebar-header-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 6px 10px 8px;
+      border-bottom: 1px solid #F1F5F9;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-head-caption {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #94A3B8;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .btn-toggle-sidebar {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: var(--ease);
+    }
+    .btn-toggle-sidebar:hover {
+      background: #F1F5F9;
+      color: #0F172A;
+    }
+
+    .category-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #475569;
+      cursor: pointer;
+      transition: var(--ease);
+      user-select: none;
+      margin-bottom: 6px;
+    }
+
+    .category-nav-item:hover {
+      background: #F1F5F9;
+      color: #1E293B;
+    }
+
+    .category-nav-item.active {
+      background: #256DF8;
+      color: #FFFFFF;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(37, 109, 248, 0.25);
+    }
+
+    .category-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .cat-count-badge {
+      font-size: 11px;
+      font-weight: 600;
+      background: #F1F5F9;
+      color: #64748B;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-family: var(--font-mono);
+    }
+
+    .category-nav-item.active .cat-count-badge {
+      background: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+    }
+
+    /* 树状导航 (严格对标图片 1 & 图片 2 企业级与领域级) */
+    .tree-nav-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .tree-top-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 4px;
+    }
+
+    .tree-top-header {
+      background: #EEF4FE;
+      color: #1E293B;
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 13.5px;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--ease);
+      border: 1px solid #E0EBFF;
+    }
+    .tree-top-header:hover {
+      background: #E2ECFE;
+    }
+
+    .tree-top-title-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .tree-top-arrow {
+      font-size: 12px;
+      color: #64748B;
+      transition: transform 0.2s ease;
+      display: inline-block;
+    }
+    .tree-top-group.collapsed .tree-top-arrow {
+      transform: rotate(-90deg);
+    }
+    .tree-top-group.collapsed .tree-top-children {
+      display: none;
+    }
+
+    .tree-top-children {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 4px 0 2px 2px;
+    }
+
+    .tree-sub-group {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .tree-sub-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 6px;
+      border-radius: 4px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--ease);
+    }
+    .tree-sub-header:hover {
+      background: #F8FAFC;
+      color: #0F172A;
+    }
+
+    .tree-sub-left {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .tree-checkbox {
+      width: 13px;
+      height: 13px;
+      border-radius: 2px;
+      cursor: pointer;
+      accent-color: #256DF8;
+    }
+
+    .tree-sub-arrow {
+      font-size: 10px;
+      color: #94A3B8;
+      transition: transform 0.2s ease;
+      display: inline-block;
+      padding-right: 2px;
+    }
+    .tree-sub-group.collapsed .tree-sub-arrow {
+      transform: rotate(-90deg);
+    }
+    .tree-sub-group.collapsed .tree-sub-children {
+      display: none;
+    }
+
+    .tree-sub-children {
+      position: relative;
+      margin-left: 14px;
+      padding-left: 12px;
+      border-left: 1px solid #CBD5E1;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      margin-bottom: 4px;
+    }
+
+    .tree-leaf-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: #475569;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--ease);
+    }
+    .tree-leaf-item:hover {
+      background: #F1F5F9;
+      color: #0F172A;
+    }
+    .tree-leaf-item.active {
+      background: #EFF6FF;
+      color: #256DF8;
+      font-weight: 600;
+    }
+
+    /* 搜索栏内嵌下拉筛选 (用户需求: 搜索框那里下拉可以筛选:标签查询、指标查询这种) */
+    .search-type-inline-select {
+      height: 36px;
+      border: none;
+      background: #F1F5F9;
+      padding: 0 10px 0 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #1E293B;
+      cursor: pointer;
+      outline: none;
+      margin-right: 12px;
+      transition: var(--ease);
+      border: 1px solid transparent;
+    }
+
+    .search-type-inline-select:hover {
+      background: #E2E8F0;
+    }
+
+    .search-type-inline-select:focus {
+      border-color: #256DF8;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 2px rgba(37, 109, 248, 0.15);
+    }
+
+    /* 顶部服务监控导流横幅 (完全对标设计规范与服务监控页) */
+    .monitor-banner-entry {
+      width: 100%;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .monitor-banner-entry:hover {
+      border-color: #BFDBFE;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 22px rgba(37, 109, 248, 0.12);
+      background: linear-gradient(135deg, #FFFFFF 0%, #F0F7FF 100%);
+    }
+
+    .monitor-banner-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .monitor-banner-3d-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 13px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(37, 109, 248, 0.18);
+      border: 1.5px solid rgba(255, 255, 255, 0.9);
+      flex-shrink: 0;
+      background: #FFF;
+      transition: transform 0.25s ease;
+    }
+
+    .monitor-banner-entry:hover .monitor-banner-3d-wrap {
+      transform: scale(1.06);
+    }
+
+    .monitor-banner-3d-icon {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .monitor-banner-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .monitor-banner-title-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .monitor-banner-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0F172A;
+      letter-spacing: -0.2px;
+    }
+
+    .live-pulse-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #ECFDF5;
+      color: #059669;
+      border: 1px solid #A7F3D0;
+      padding: 2px 9px;
+      border-radius: 9999px;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+
+    .pulse-dot {
+      width: 6.5px;
+      height: 6.5px;
+      border-radius: 50%;
+      background: #10B981;
+      animation: pulseAnim 1.8s infinite;
+    }
+
+    @keyframes pulseAnim {
+      0% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 5px rgba(16, 185, 129, 0); }
+      100% { transform: scale(0.9); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .monitor-banner-subtitle {
+      font-size: 12.5px;
+      color: #64748B;
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .monitor-banner-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .btn-enter-monitor {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: #EFF6FF;
+      color: #256DF8;
+      border: 1px solid #BFDBFE;
+      padding: 7px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .monitor-banner-entry:hover .btn-enter-monitor {
+      background: #256DF8;
+      color: #FFFFFF;
+      border-color: #256DF8;
+      box-shadow: 0 3px 10px rgba(37, 109, 248, 0.28);
+    }
+
+    .btn-enter-monitor svg {
+      transition: transform 0.2s ease;
+    }
+
+    .monitor-banner-entry:hover .btn-enter-monitor svg {
+      transform: translateX(3px);
+    }
+
+    .services-main-content {
+      flex: 1;
+      padding: 20px 28px 40px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-x: hidden;
+    }
+
+    .search-hero-bar {
+      width: 100%;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1.5px solid #E2E8F0;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      padding: 0 8px 0 16px;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.02);
+      transition: var(--ease);
+    }
+
+    .search-hero-bar:focus-within {
+      border-color: #256DF8;
+      box-shadow: 0 0 0 4px rgba(37, 109, 248, 0.12);
+    }
+
+    .search-hero-icon {
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      margin-right: 12px;
+    }
+
+    .search-hero-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: #0F172A;
+      background: transparent;
+    }
+
+    .search-arrow-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #256DF8 0%, #6366F1 100%);
+      color: #FFFFFF;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .search-arrow-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 2px 8px rgba(37, 109, 248, 0.3);
+    }
+
+    .filter-sort-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .btn-dropdown-trigger {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #334155;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .dropdown-menu-popover {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 6px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.1);
+      padding: 6px;
+      min-width: 150px;
+      z-index: 50;
+      display: none;
+    }
+
+    .dropdown-menu-popover.show { display: block; }
+
+    .dropdown-option-item {
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      color: #475569;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .dropdown-option-item:hover, .dropdown-option-item.active {
+      background: #EFF6FF;
+      color: #256DF8;
+      font-weight: 600;
+    }
+
+    .sort-actions-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sort-pill-btn {
+      padding: 6px 14px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 12.5px;
+      color: #64748B;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .sort-pill-btn.active {
+      border-color: #256DF8;
+      color: #256DF8;
+      font-weight: 600;
+      background: #EFF6FF;
+    }
+
+    .btn-create-service {
+      padding: 6px 14px;
+      background: #256DF8;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: var(--ease);
+      box-shadow: 0 2px 6px rgba(37, 109, 248, 0.25);
+    }
+
+    .btn-workbench-link {
+      padding: 6px 13px;
+      background: #FFFFFF;
+      color: #334155;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: var(--ease);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .btn-workbench-link:hover {
+      border-color: #256DF8;
+      color: #256DF8;
+      background: #F8FAFC;
+    }
+
+    .btn-workbench-link svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2;
+    }
+
+    /* 5 列卡片网格 */
+    .services-grid-5col {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+
+    @media (max-width: 1480px) { .services-grid-5col { grid-template-columns: repeat(4, 1fr); } }
+    @media (max-width: 1180px) { .services-grid-5col { grid-template-columns: repeat(3, 1fr); } }
+
+    .service-card-item {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 250px;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+
+    .service-card-item:hover {
+      transform: translateY(-3px);
+      border-color: #8B5CF6;
+      box-shadow: 0 10px 24px -4px rgba(139, 92, 246, 0.18);
+    }
+
+    .card-top-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .card-squircle-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      user-select: none;
+      flex-shrink: 0;
+      letter-spacing: 0;
+    }
+
+    .icon-bg-green  { background: linear-gradient(135deg, #10B981, #059669); }
+    .icon-bg-orange { background: linear-gradient(135deg, #F59E0B, #D97706); }
+    .icon-bg-purple { background: linear-gradient(135deg, #8B5CF6, #6D28D9); }
+    .icon-bg-yellow { background: linear-gradient(135deg, #FBBF24, #B45309); }
+    .icon-bg-blue   { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+
+    .card-title-text {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0F172A;
+      line-height: 1.35;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .card-category-pill {
+      align-self: flex-start;
+      font-size: 11px;
+      font-weight: 500;
+      color: #256DF8;
+      background: #EFF6FF;
+      border: 1px solid #DBEAFE;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .card-desc-text {
+      font-size: 12px;
+      color: #64748B;
+      line-height: 1.55;
+      margin: 8px 0 14px 0;
+      height: 38px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .btn-card-visit {
+      width: 100%;
+      height: 32px;
+      background: #EFF6FF;
+      border: 1px solid #DBEAFE;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #256DF8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--ease);
+    }
+
+    .btn-card-visit:hover {
+      background: #256DF8;
+      color: #FFFFFF;
+      border-color: #256DF8;
+    }
+
+    .card-metrics-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 10px;
+      margin-top: 10px;
+      border-top: 1px dashed #F1F5F9;
+      font-size: 11px;
+      color: #94A3B8;
+    }
+
+    .metric-item-num {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #475569;
+      font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .card-bottom-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+
+    .card-action-icons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #94A3B8;
+    }
+
+    .card-analysis-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: #EFF6FF;
+      border: 1px solid #DBEAFE;
+      border-radius: 9999px;
+      font-size: 11px;
+      color: #256DF8;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .card-analysis-pill:hover {
+      background: #256DF8;
+      color: #FFFFFF;
+    }
+
+    /* 底部链接栏 */
+    .platform-bottom-footer {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: auto;
+    }
+
+    .footer-link-group {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+
+    .footer-link-item {
+      font-size: 12.5px;
+      color: #64748B;
+      text-decoration: none;
+    }
+
+    .footer-link-item.highlight {
+      color: #256DF8;
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       4. SERVICE DETAIL PAGE VIEW (对标参考图片 media_1789636694172.png)
+       ========================================================================== */
+    .service-detail-page-container {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      min-height: calc(100vh - 60px);
+      background-color: transparent;
+    }
+
+    .service-detail-page-container.active {
+      display: flex;
+    }
+
+    /* 详情顶部返回与操作导航条 */
+    .detail-nav-header-bar {
+      position: sticky;
+      top: 60px;
+      z-index: 90;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02);
+    }
+
+    .detail-nav-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-back-to-list {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid #CBD5E1;
+      background: #FFFFFF;
+      font-size: 13px;
+      font-weight: 500;
+      color: #334155;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .btn-back-to-list:hover {
+      border-color: #256DF8;
+      color: #256DF8;
+      background: #F8FAFC;
+    }
+
+    .detail-breadcrumb-text {
+      font-size: 13px;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .detail-breadcrumb-text b {
+      color: #0F172A;
+    }
+
+    .detail-nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .esf-healthy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #059669;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .pulse-dot-green {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 6px #10B981;
+    }
+
+    .btn-detail-copy {
+      padding: 7px 16px;
+      border-radius: 8px;
+      border: 1px solid #CBD5E1;
+      background: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: #334155;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--ease);
+    }
+
+    .btn-detail-copy:hover {
+      border-color: #256DF8;
+      color: #256DF8;
+    }
+
+    .btn-detail-apply {
+      padding: 7px 18px;
+      border-radius: 8px;
+      border: none;
+      background: var(--brand);
+      color: #FFFFFF;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--ease);
+      box-shadow: 0 2px 8px rgba(37, 109, 248, 0.25);
+    }
+
+    .btn-detail-apply:hover {
+      background: var(--brand-hover);
+      transform: translateY(-1px);
+    }
+
+    /* 详情页面双栏栅格 (对标参考图片) */
+    .detail-content-grid {
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 24px 36px 60px 36px;
+      display: grid;
+      grid-template-columns: 1fr 390px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* 左侧列：上方放系统信息、简介、治理，最下面放入参出参 */
+    .detail-left-col {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .detail-card-box {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 20px 24px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+    }
+
+    .detail-section-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    /* 1. 基本系统信息网格 */
+    .info-kv-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px 18px;
+    }
+
+    .info-kv-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .info-kv-label {
+      font-size: 11.5px;
+      color: #64748B;
+    }
+
+    .info-kv-val {
+      font-size: 13px;
+      font-weight: 600;
+      color: #0F172A;
+    }
+
+    .code-pill {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      background: #F1F5F9;
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: #1E293B;
+      display: inline-block;
+      width: fit-content;
+    }
+
+    /* 2. 服务简介说明 (对标截图上方的淡蓝条) */
+    .detail-intro-strip {
+      background: #EFF6FF;
+      border: 1px solid #DBEAFE;
+      border-radius: 12px;
+      padding: 16px 20px;
+    }
+
+    .intro-strip-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #1D4ED8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .intro-strip-desc {
+      font-size: 13px;
+      color: #1E3A8A;
+      line-height: 1.6;
+    }
+
+    /* 3. 治理与质量要求网格 */
+    .governance-kv-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px 20px;
+    }
+
+    .badge-format-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 1px 7px;
+      background: #EFF6FF;
+      color: #256DF8;
+      border: 1px solid #BFDBFE;
+      border-radius: 4px;
+      font-size: 11.5px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+
+    /* 4. 最下方的入参出参定义 (严格对标截图) */
+    .params-container-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .param-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .param-group-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .param-group-subtitle {
+      font-size: 11.5px;
+      font-weight: normal;
+      color: #94A3B8;
+      margin-left: 4px;
+    }
+
+    .protocol-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+
+    .tag-blue { background: #EFF6FF; color: #256DF8; }
+    .tag-green { background: #ECFDF5; color: #059669; }
+
+    .clean-spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5px;
+      text-align: left;
+    }
+
+    .clean-spec-table th {
+      background: #F8FAFC;
+      color: #64748B;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-bottom: 1px solid #E2E8F0;
+      font-size: 11.5px;
+    }
+
+    .clean-spec-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #F1F5F9;
+      color: #334155;
+    }
+
+    .clean-spec-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .field-name-mono {
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .type-pill-purple {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      background: #F3E8FF;
+      color: #7E22CE;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+    }
+
+    /* 右侧列：领域集市 · 服务运行看板 (对标截图) */
+    .detail-right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .mart-dashboard-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* 看板头部 + 系统筛选下拉 (用户需求) */
+    .mart-header-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #F1F5F9;
+      padding-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .mart-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .kpi-select-dropdown {
+      height: 28px;
+      padding: 0 8px;
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 6px;
+      font-size: 11.5px;
+      color: #334155;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .kpi-select-dropdown:focus {
+      border-color: #256DF8;
+    }
+
+    /* 4 项 KPI 四宫格 (对标截图) */
+    .kpi-quad-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .kpi-quad-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .kpi-quad-label {
+      font-size: 11.5px;
+      color: #64748B;
+    }
+
+    .kpi-quad-val {
+      font-size: 20px;
+      font-weight: 800;
+      color: #256DF8;
+      margin-top: 4px;
+      font-family: var(--font-mono);
+    }
+
+    /* 趋势图卡片 (对标截图 + 增加时间筛选) */
+    .trend-chart-box {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .trend-chart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .trend-peak-pill {
+      font-size: 11px;
+      font-weight: 600;
+      color: #256DF8;
+      font-family: var(--font-mono);
+    }
+
+    .svg-chart-wrap {
+      width: 100%;
+      height: 90px;
+      position: relative;
+    }
+
+    .chart-svg {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .chart-xaxis-line {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: #94A3B8;
+      padding: 0 4px;
+      font-family: var(--font-mono);
+      margin-top: 4px;
+    }
+
+    /* 消费方系统分布 (对标截图) */
+    .consumers-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .consumers-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 4px;
+    }
+
+    .consumer-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #F8FAFC;
+      border: 1px solid #EDF2F7;
+      border-radius: 8px;
+      font-size: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .consumer-item-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      background: rgba(37, 109, 248, 0.06);
+      z-index: 1;
+    }
+
+    .consumer-name-text {
+      position: relative;
+      z-index: 2;
+      color: #1E293B;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .consumer-pct-text {
+      position: relative;
+      z-index: 2;
+      color: #256DF8;
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+
+    /* ==========================================================================
+       5. 申请授权弹窗
+       ========================================================================== */
+    .auth-modal-mask {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .auth-modal-mask.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .auth-dialog {
+      width: 720px;
+      max-width: 90vw;
+      background: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px -8px rgba(15, 23, 42, 0.16);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .auth-dialog-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid #EDF2F7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFCFE;
+    }
+
+    .auth-dialog-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .auth-dialog-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .auth-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .form-label span.req {
+      color: #EF4444;
+      margin-left: 2px;
+    }
+
+    .form-input {
+      height: 36px;
+      padding: 0 12px;
+      background: #F8FAFC;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      font-size: 12.5px;
+      color: #0F172A;
+      outline: none;
+      transition: var(--ease);
+    }
+
+    .form-input:focus {
+      border-color: #256DF8;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(37, 109, 248, 0.12);
+    }
+
+    .auth-dialog-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #EDF2F7;
+      background: #FAFCFE;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* 审批详情流转弹窗 (对标图2) */
+    .flow-dialog {
+      width: 780px;
+      max-width: 92vw;
+      background: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: 0 24px 48px -12px rgba(15, 23, 42, 0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalPop 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes modalPop {
+      0% { transform: scale(0.95); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .flow-dialog-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid #F1F5F9;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .flow-dialog-header h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .flow-btn-close {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      color: #94A3B8;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: var(--ease);
+    }
+
+    .flow-btn-close:hover {
+      background: #F1F5F9;
+      color: #0F172A;
+    }
+
+    .flow-dialog-body {
+      padding: 24px 28px 20px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .flow-target-svc-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #256DF8;
+    }
+
+    .flow-cards-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .flow-step-card {
+      flex: 1;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.05);
+      display: flex;
+      flex-direction: column;
+      transition: var(--ease);
+    }
+
+    .flow-step-card:hover {
+      box-shadow: 0 8px 20px -4px rgba(37, 109, 248, 0.12);
+      border-color: #BFDBFE;
+    }
+
+    .flow-card-head {
+      background: #EFF6FF;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #DBEAFE;
+    }
+
+    .flow-card-head-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #1D4ED8;
+    }
+
+    .flow-badge-pending {
+      font-size: 11px;
+      background: #F59E0B;
+      color: #FFFFFF;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+
+    .flow-card-content {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 12px;
+      background: #FFFFFF;
+    }
+
+    .flow-info-group {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .flow-info-label {
+      color: #94A3B8;
+      font-size: 11.5px;
+    }
+
+    .flow-info-val {
+      color: #1E293B;
+      font-weight: 500;
+      line-height: 1.4;
+      word-break: break-all;
+    }
+
+    .flow-arrow-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #256DF8;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(37, 109, 248, 0.3);
+    }
+
+    .flow-dialog-footer {
+      padding: 16px 24px 24px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-flow-confirm {
+      padding: 8px 36px;
+      border-radius: 8px;
+      background: #256DF8;
+      color: #FFFFFF;
+      font-size: 13.5px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: var(--ease);
+      box-shadow: 0 2px 8px rgba(37, 109, 248, 0.25);
+    }
+
+    .btn-flow-confirm:hover {
+      background: #1D4ED8;
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. 顶部 Header 导航 -->
+  <header class="platform-header">
+    <div class="header-left">
+      <a href="home.html" class="brand-logo-wrap">
+        <img src="assets/pixso/fJ8X4eJNz.png" alt="Logo" class="brand-logo-img" onerror="this.src='assets/images/logo.png'">
+        <span class="brand-logo-text">一站式数据服务平台</span>
+      </a>
+
+      <nav class="nav-tabs-group">
+        <a href="home.html" class="nav-tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          首页
+        </a>
+        <a href="app-center.html" class="nav-tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+          应用中心
+        </a>
+        <a href="service-center.html" class="nav-tab-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          服务中心
+        </a>
+        <a href="dataset-detail.html" class="nav-tab-item">数据字典</a>
+        <a href="design-system.html" class="nav-tab-item">设计规范</a>
+      </nav>
+    </div>
+
+    <div class="header-right">
+      <a href="my-approvals.html" class="user-greeting" title="点击进入我的审批">
+        <span>您好，<b>张科技 (科技人员)</b></span>
+        <span class="badge-pending">3 待办</span>
+      </a>
+      <span class="header-action-btn" title="用户反馈">
+        <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        反馈
+      </span>
+      <a href="app-center.html" class="agent-header-pill">
+        <img src="assets/images/app-robot-icon@2x.png" style="width:16px; height:16px; object-fit:contain;">
+        <span>问数助手 Agent</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- 2. 主页面列表视图 (默认显示) -->
+  <div class="app-main-layout" id="serviceListView">
+    
+    <!-- 左侧分类树状导航 (完全对标图片 1 与图片 2：企业级 + 领域级) -->
+    <aside class="category-nav-sidebar" id="sidebarCategoryNav" style="width:236px;">
+      <div class="sidebar-header-toggle">
+        <span class="sidebar-head-caption">服务领域分类</span>
+        <button class="btn-toggle-sidebar" title="折叠/展开侧栏" onclick="toggleSidebar()">≡</button>
+      </div>
+
+      <!-- 全量服务项 -->
+      <div class="category-nav-item active" id="catItemAll" onclick="switchCategory('all')">
+        <div class="category-nav-left">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span>全量服务中心</span>
+        </div>
+        <span class="cat-count-badge">8</span>
+      </div>
+
+      <div class="tree-nav-container">
+        <!-- 分组 1: 企业级 (图片 1) -->
+        <div class="tree-top-group" id="groupEnterprise">
+          <div class="tree-top-header" onclick="toggleTreeGroup('groupEnterprise')">
+            <div class="tree-top-title-left">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#256DF8" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 22v-4h6v4"/><line x1="8" y1="6" x2="10" y2="6"/><line x1="14" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/></svg>
+              <span>企业级</span>
+            </div>
+            <span class="tree-top-arrow">⌃</span>
+          </div>
+
+          <div class="tree-top-children">
+            <!-- 1.1 超级平台 -->
+            <div class="tree-sub-group" id="subgrp-platform">
+              <div class="tree-sub-header">
+                <div class="tree-sub-left" onclick="filterByTree('超级平台')">
+                  <input type="checkbox" class="tree-checkbox" onchange="event.stopPropagation(); filterByTree('超级平台')">
+                  <span>超级平台</span>
+                </div>
+                <span class="tree-sub-arrow" onclick="toggleSubGroup('subgrp-platform')">⌃</span>
+              </div>
+              <div class="tree-sub-children">
+                <div class="tree-leaf-item" onclick="filterByTree('个人手机银行')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>个人手机银行</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('浦惠来了')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>浦惠来了</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 1.2 超级产品 -->
+            <div class="tree-sub-group" id="subgrp-product">
+              <div class="tree-sub-header">
+                <div class="tree-sub-left" onclick="filterByTree('超级产品')">
+                  <input type="checkbox" class="tree-checkbox" onchange="event.stopPropagation(); filterByTree('超级产品')">
+                  <span>超级产品</span>
+                </div>
+                <span class="tree-sub-arrow" onclick="toggleSubGroup('subgrp-product')">⌃</span>
+              </div>
+              <div class="tree-sub-children">
+                <div class="tree-leaf-item" onclick="filterByTree('浦闪贷')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>浦闪贷</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('浦惠贷')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>浦惠贷</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('浦赢并购')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>浦赢并购</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('浦链通')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>浦链通</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('浦科贷')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>浦科贷</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 1.3 超级系统 -->
+            <div class="tree-sub-group" id="subgrp-system">
+              <div class="tree-sub-header">
+                <div class="tree-sub-left" onclick="filterByTree('超级系统')">
+                  <input type="checkbox" class="tree-checkbox" onchange="event.stopPropagation(); filterByTree('超级系统')">
+                  <span>超级系统</span>
+                </div>
+                <span class="tree-sub-arrow" onclick="toggleSubGroup('subgrp-system')">⌃</span>
+              </div>
+              <div class="tree-sub-children">
+                <div class="tree-leaf-item" onclick="filterByTree('代发系统')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>代发系统</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('全球司库')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>全球司库</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('财富管理平台')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>财富管理平台</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('对公驾驶舱')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>对公驾驶舱</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('天眼风险预警监测系统')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>天眼风险预警监测系统</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('大模型应用平台')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>大模型应用平台</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('统一商机平台')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>统一商机平台</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 1.4 五大赛道 (图片 1 底部独立项) -->
+            <div class="tree-leaf-item" style="padding-left:8px;" onclick="filterByTree('科技金融赛道')">
+              <input type="checkbox" class="tree-checkbox">
+              <span>科技金融赛道</span>
+            </div>
+            <div class="tree-leaf-item" style="padding-left:8px;" onclick="filterByTree('供应链金融赛道')">
+              <input type="checkbox" class="tree-checkbox">
+              <span>供应链金融赛道</span>
+            </div>
+            <div class="tree-leaf-item" style="padding-left:8px;" onclick="filterByTree('普惠金融赛道')">
+              <input type="checkbox" class="tree-checkbox">
+              <span>普惠金融赛道</span>
+            </div>
+            <div class="tree-leaf-item" style="padding-left:8px;" onclick="filterByTree('跨境金融赛道')">
+              <input type="checkbox" class="tree-checkbox">
+              <span>跨境金融赛道</span>
+            </div>
+            <div class="tree-leaf-item" style="padding-left:8px;" onclick="filterByTree('财资金融赛道')">
+              <input type="checkbox" class="tree-checkbox">
+              <span>财资金融赛道</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 分组 2: 领域级 (图片 2) -->
+        <div class="tree-top-group" id="groupDomain">
+          <div class="tree-top-header" onclick="toggleTreeGroup('groupDomain')">
+            <div class="tree-top-title-left">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#256DF8" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg>
+              <span>领域级</span>
+            </div>
+            <span class="tree-top-arrow">⌃</span>
+          </div>
+
+          <div class="tree-top-children">
+            <!-- 2.1 零售板块 -->
+            <div class="tree-sub-group" id="subgrp-retail">
+              <div class="tree-sub-header">
+                <div class="tree-sub-left" onclick="filterByTree('零售板块')">
+                  <input type="checkbox" class="tree-checkbox" onchange="event.stopPropagation(); filterByTree('零售板块')">
+                  <span>零售板块</span>
+                </div>
+                <span class="tree-sub-arrow" onclick="toggleSubGroup('subgrp-retail')">⌃</span>
+              </div>
+              <div class="tree-sub-children">
+                <div class="tree-leaf-item" onclick="filterByTree('电子银行')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>电子银行</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('风险')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>风险</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('存款')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>存款</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('银行卡及支付')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>银行卡及支付</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('投资理财')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>投资理财</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('贷款')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>贷款</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2.2 风险板块 -->
+            <div class="tree-sub-group" id="subgrp-risk">
+              <div class="tree-sub-header">
+                <div class="tree-sub-left" onclick="filterByTree('风险板块')">
+                  <input type="checkbox" class="tree-checkbox" onchange="event.stopPropagation(); filterByTree('风险板块')">
+                  <span>风险板块</span>
+                </div>
+                <span class="tree-sub-arrow" onclick="toggleSubGroup('subgrp-risk')">⌃</span>
+              </div>
+              <div class="tree-sub-children">
+                <div class="tree-leaf-item" onclick="filterByTree('贷款')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>贷款</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('风险')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>风险</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2.3 内部管理模块 -->
+            <div class="tree-sub-group" id="subgrp-mgmt">
+              <div class="tree-sub-header">
+                <div class="tree-sub-left" onclick="filterByTree('内部管理模块')">
+                  <input type="checkbox" class="tree-checkbox" onchange="event.stopPropagation(); filterByTree('内部管理模块')">
+                  <span>内部管理模块</span>
+                </div>
+                <span class="tree-sub-arrow" onclick="toggleSubGroup('subgrp-mgmt')">⌃</span>
+              </div>
+              <div class="tree-sub-children">
+                <div class="tree-leaf-item" onclick="filterByTree('资产负债管理')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>资产负债管理</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('综合')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>综合</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('支付结算')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>支付结算</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('财务管理')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>财务管理</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2.4 金融市场板块 -->
+            <div class="tree-sub-group" id="subgrp-finmkt">
+              <div class="tree-sub-header">
+                <div class="tree-sub-left" onclick="filterByTree('金融市场板块')">
+                  <input type="checkbox" class="tree-checkbox" onchange="event.stopPropagation(); filterByTree('金融市场板块')">
+                  <span>金融市场板块</span>
+                </div>
+                <span class="tree-sub-arrow" onclick="toggleSubGroup('subgrp-finmkt')">⌃</span>
+              </div>
+              <div class="tree-sub-children">
+                <div class="tree-leaf-item" onclick="filterByTree('资金交易')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>资金交易</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('债券')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>债券</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('资产管理')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>资产管理</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('存托管')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>存托管</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('同业存款')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>同业存款</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('综合')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>综合</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2.5 运营管理模块 -->
+            <div class="tree-sub-group" id="subgrp-ops">
+              <div class="tree-sub-header">
+                <div class="tree-sub-left" onclick="filterByTree('运营管理模块')">
+                  <input type="checkbox" class="tree-checkbox" onchange="event.stopPropagation(); filterByTree('运营管理模块')">
+                  <span>运营管理模块</span>
+                </div>
+                <span class="tree-sub-arrow" onclick="toggleSubGroup('subgrp-ops')">⌃</span>
+              </div>
+              <div class="tree-sub-children">
+                <div class="tree-leaf-item" onclick="filterByTree('账户管理')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>账户管理</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('网点运营')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>网点运营</span>
+                </div>
+                <div class="tree-leaf-item" onclick="filterByTree('信用运营')">
+                  <input type="checkbox" class="tree-checkbox">
+                  <span>信用运营</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 右侧主体内容区 -->
+    <main class="services-main-content">
+      
+      <!-- 顶部服务监控导流横幅 (参考图片，去除统计指标与时间筛选，点击跳转至服务监控页面) -->
+      <a href="service-monitor.html" class="monitor-banner-entry" title="点击进入全行数据服务实时监控看板">
+        <div class="monitor-banner-left">
+          <div class="monitor-banner-3d-wrap">
+            <img src="assets/images/service_monitor_3d.jpg" class="monitor-banner-3d-icon" alt="服务监控">
+          </div>
+          <div class="monitor-banner-text">
+            <div class="monitor-banner-title-row">
+              <span class="monitor-banner-title">全行数据服务实时监控看板</span>
+            </div>
+            <p class="monitor-banner-subtitle">实时监控全行各业务板块与战略赛道的数据服务规模、并发调用量趋势与 SLA 可靠性</p>
+          </div>
+        </div>
+
+        <div class="monitor-banner-right">
+          <div class="btn-enter-monitor">
+            <span>进入服务监控大屏</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </div>
+        </div>
+      </a>
+
+      <!-- 大圆角搜索栏 (内嵌服务类型下拉筛选：标签查询、指标查询、模型结果查询等) -->
+      <div class="search-hero-bar">
+        <select class="search-type-inline-select" id="inlineSearchTypeSelect" onchange="handleInlineTypeChange(this.value)">
+          <option value="全部服务类型">全部服务类型 ⌵</option>
+          <option value="标签查询">🏷️ 标签查询</option>
+          <option value="指标查询">📊 指标查询</option>
+          <option value="模型结果查询">🤖 模型结果查询</option>
+          <option value="特征查询">⚡ 特征查询</option>
+          <option value="外部数据查询">🌐 外部数据查询</option>
+        </select>
+        <span class="search-hero-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+        <input type="text" class="search-hero-input" id="globalSearchInput" placeholder="请输入数据服务名称、ESF代码或关键词..." oninput="handleSearch()">
+        <button class="search-arrow-btn" title="执行检索" onclick="handleSearch()">➔</button>
+      </div>
+
+      <!-- 筛选与排序行 -->
+      <div class="filter-sort-strip">
+        <div class="filter-dropdown-wrap">
+          <button class="btn-dropdown-trigger" id="btnServiceTypeDrop" onclick="toggleDropdown()">
+            <span id="selectedServiceTypeLabel">全部服务类型</span>
+            <span>⌵</span>
+          </button>
+          <div class="dropdown-menu-popover" id="dropdownPopover">
+            <div class="dropdown-option-item active" onclick="selectType('全部服务类型')">全部服务类型</div>
+            <div class="dropdown-option-item" onclick="selectType('标签查询')">标签查询</div>
+            <div class="dropdown-option-item" onclick="selectType('模型结果查询')">模型结果查询</div>
+            <div class="dropdown-option-item" onclick="selectType('指标查询')">指标查询</div>
+            <div class="dropdown-option-item" onclick="selectType('特征查询')">特征查询</div>
+            <div class="dropdown-option-item" onclick="selectType('外部数据查询')">外部数据查询</div>
+            <div class="dropdown-option-item" onclick="selectType('其他')">其他</div>
+          </div>
+        </div>
+
+        <div class="sort-actions-right">
+          <button class="sort-pill-btn active" id="btnSortHeat" onclick="setSort('heat')">按热度 ↓</button>
+          <button class="sort-pill-btn" id="btnSortTime" onclick="setSort('time')">按上架时间 ↑</button>
+          <a href="service-workbench.html" class="btn-workbench-link" title="进入服务配置工作台">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>服务配置工作台</span>
+          </a>
+          <a href="service-config.html" class="btn-create-service">+ 新建服务配置</a>
+        </div>
+      </div>
+
+      <!-- 5 列卡片网格 (点击卡片进入详情大页面) -->
+      <div class="services-grid-5col" id="servicesGrid">
+        <!-- JS 动态渲染 -->
+      </div>
+
+    </main>
+
+  </div>
+
+  <!-- 3. 全景服务详情页面 (点击卡片进入此页面，对标参考图 media_1789636694172.png) -->
+  <div class="service-detail-page-container" id="serviceDetailPageView">
+    
+    <!-- 详情顶部固定条 -->
+    <div class="detail-nav-header-bar">
+      <div class="detail-nav-left">
+        <button class="btn-back-to-list" onclick="closeDetailPage()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+          <span>返回服务中心</span>
+        </button>
+        <div class="detail-breadcrumb-text">
+          <span>服务中心</span>
+          <span>/</span>
+          <span id="dtlBreadDomain">零售</span>
+          <span>/</span>
+          <b id="dtlBreadTitle">客户跨行转账频次与风险评分服务</b>
+        </div>
+      </div>
+
+      <div class="detail-nav-right">
+        <button class="btn-detail-apply" onclick="openApplyModal()">
+          <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>立即申请授权</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 详情核心两栏内容区 (对标参考图片) -->
+    <div class="detail-content-grid">
+      
+      <!-- 左侧列：上面放系统信息、服务简介、治理质量，最下面放入参出参 -->
+      <div class="detail-left-col">
+        
+        <!-- 1. 业务信息 (整合服务简介说明，服务名称置前，所属业务板块，增加更新频率/表名/数据敏感等级) -->
+        <div class="detail-card-box">
+          <div class="detail-section-title">
+            <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="#256DF8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>业务信息</span>
+          </div>
+
+          <div class="info-kv-grid">
+            <div class="info-kv-item" style="grid-column: 1 / -1;">
+              <span class="info-kv-label">服务名称</span>
+              <span class="info-kv-val" id="dtlServiceName" style="font-weight:700; font-size:14px; color:#0F172A;">客户跨行转账风险评分</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">所属业务板块</span>
+              <span class="info-kv-val" id="dtlDomainText" style="font-weight:600; color:#1E293B;">零售金融板块</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">业务场景</span>
+              <span class="info-kv-val" id="dtlScenarioText">风险管理</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">服务类型</span>
+              <span class="info-kv-val" style="color:#256DF8; font-weight:600;" id="dtlTypeBadge">模型结果查询</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">更新频率</span>
+              <span class="info-kv-val" id="dtlUpdateFreq" style="font-weight:600; color:#059669;">T+1 日频</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">表名</span>
+              <span class="code-pill" id="dtlTableName" style="font-family:var(--font-mono); font-size:11.5px;">ads_retail_cust_transfer_risk_di</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">数据敏感等级</span>
+              <span class="info-kv-val" style="color:#D97706; font-weight:600;" id="dtlSecLevel">L2 敏感受控 (Sensitive)</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">IPMP 系统名称 (4位)</span>
+              <span class="code-pill" id="dtlIpmp">CRMS</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">ESF 系统编码 (8位)</span>
+              <span class="code-pill" id="dtlEsfSys">ESF_RETL_001</span>
+            </div>
+            <div class="info-kv-item" style="grid-column: 1 / -1;">
+              <span class="info-kv-label">服务契约英文名</span>
+              <span class="code-pill" id="dtlEsfSvcName">svc_retail_cust_transfer_risk_v1</span>
+            </div>
+          </div>
+
+          <!-- 服务简介说明 (与业务信息放在同一个卡片中) -->
+          <div class="detail-intro-strip" style="margin-top:14px; margin-bottom:0;">
+            <div class="intro-strip-title">
+              <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+              <span>服务简介说明 (严格对标业务标准)</span>
+            </div>
+            <div class="intro-strip-desc" id="dtlIntroDesc">
+              基于【近30天交易明细数据】，采用【XGBoost机器学习算法】，提供【客户跨行转账频次与金额汇总】能力。
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. 治理与质量要求 -->
+        <div class="detail-card-box">
+          <div class="detail-section-title">
+            <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>治理与质量要求</span>
+          </div>
+
+          <div class="governance-kv-grid">
+            <div class="info-kv-item">
+              <span class="info-kv-label">科技负责人</span>
+              <span class="info-kv-val" id="dtlTechLead">张科技 (084920)</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">归属部门 / 处室</span>
+              <span class="info-kv-val" id="dtlDeptText">总行信息科技部 / 零售研发室</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">数据敏感等级</span>
+              <span class="info-kv-val" style="color:#D97706;" id="dtlSecLevelGov">L2 敏感受控 (Sensitive)</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">SLA 可用性保障</span>
+              <span class="info-kv-val" style="color:#059669;" id="dtlSlaLevel">Tier-1 核心级 (99.99% 实时阻断)</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">报文格式</span>
+              <span class="info-kv-val" id="dtlMsgFormat"><span class="badge-format-pill">BIZJSON</span></span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">服务类型</span>
+              <span class="info-kv-val" id="dtlCommType">联机交易</span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">是否贯标</span>
+              <span class="info-kv-val" id="dtlIsStandard"><span style="color:#059669; font-weight:600;">● 是</span></span>
+            </div>
+            <div class="info-kv-item">
+              <span class="info-kv-label">投产年月</span>
+              <span class="info-kv-val" id="dtlOnlineDate" style="font-family:var(--font-mono); font-weight:600;">2020年8月</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. 入参定义与出参定义 (增加业务口径和技术口径) -->
+        <div class="params-container-card">
+          
+          <!-- 入参定义 -->
+          <div>
+            <div class="param-group-header">
+              <div class="param-group-title">
+                <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="#256DF8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span>入参定义</span>
+              </div>
+              <span class="protocol-tag tag-blue">JSON / RESTful</span>
+            </div>
+
+            <table class="clean-spec-table">
+              <thead>
+                <tr>
+                  <th style="width:17%;">参数英文名</th>
+                  <th style="width:14%;">参数中文名</th>
+                  <th style="width:10%;">数据类型</th>
+                  <th style="width:7%;">必填</th>
+                  <th style="width:22%;">业务口径</th>
+                  <th style="width:18%;">技术口径</th>
+                  <th style="width:12%;">示例值</th>
+                </tr>
+              </thead>
+              <tbody id="dtlInParamsTableBody">
+                <!-- 动态渲染 -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 出参定义 -->
+          <div>
+            <div class="param-group-header">
+              <div class="param-group-title">
+                <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="#059669"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+                <span>出参定义</span>
+              </div>
+              <span class="protocol-tag tag-green">HTTP 200 OK</span>
+            </div>
+
+            <table class="clean-spec-table">
+              <thead>
+                <tr>
+                  <th style="width:17%;">出参英文名</th>
+                  <th style="width:14%;">出参中文名</th>
+                  <th style="width:10%;">数据类型</th>
+                  <th style="width:24%;">业务口径</th>
+                  <th style="width:21%;">技术口径</th>
+                  <th style="width:14%;">示例值</th>
+                </tr>
+              </thead>
+              <tbody id="dtlOutParamsTableBody">
+                <!-- 动态渲染 -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- 右侧列：领域集市 · 服务运行看板 (100% 对标截图) -->
+      <div class="detail-right-col">
+        
+        <div class="mart-dashboard-card">
+          
+          <!-- 看板头部：标题 + 系统筛选下拉 (用户需求) -->
+          <div class="mart-header-line">
+            <div class="mart-title-wrap">
+              <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="#256DF8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              <span>领域集市 · 服务运行看板</span>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px;">
+              <!-- 系统筛选下拉 -->
+              <select class="kpi-select-dropdown" id="sysFilterSelect" onchange="filterKpiBySystem(this.value)" title="选择调用系统筛选数据">
+                <option value="all">全部调用系统 ⌵</option>
+                <option value="mbank">手机银行 APP ⌵</option>
+                <option value="agent">智能投顾与风控 Agent ⌵</option>
+                <option value="aml">反洗钱 AML 平台 ⌵</option>
+                <option value="loan">普惠信贷引擎 ⌵</option>
+              </select>
+              <span style="color:#059669; font-size:11.5px; font-weight:600;">实时生产运行</span>
+            </div>
+          </div>
+
+          <!-- 4 项 KPI 四宫格 (服务可用率改为调用成功率) -->
+          <div class="kpi-quad-grid">
+            <div class="kpi-quad-box">
+              <div class="kpi-quad-label">累计调用量</div>
+              <div class="kpi-quad-val" id="dtlTotalCalls">1,280,450</div>
+            </div>
+            <div class="kpi-quad-box">
+              <div class="kpi-quad-label">今日调用量</div>
+              <div class="kpi-quad-val" id="dtlTodayCalls">38,200</div>
+            </div>
+            <div class="kpi-quad-box">
+              <div class="kpi-quad-label">平均响应时延</div>
+              <div class="kpi-quad-val" style="color:#10B981;" id="dtlLatency">11.4 ms</div>
+            </div>
+            <div class="kpi-quad-box">
+              <div class="kpi-quad-label">调用成功率</div>
+              <div class="kpi-quad-val" style="color:#6366F1;" id="dtlSuccessRate">99.98%</div>
+            </div>
+          </div>
+
+          <!-- 趋势图 (对标截图 + 增加时间筛选下拉) -->
+          <div class="trend-chart-box">
+            <div class="trend-chart-header">
+              <span id="trendTitle">近 7 日服务调用趋势 (次)</span>
+              
+              <div style="display:flex; align-items:center; gap:8px;">
+                <!-- 时间筛选下拉 -->
+                <select class="kpi-select-dropdown" id="timeFilterSelect" onchange="filterTrendTime(this.value)" title="选择趋势时间窗口">
+                  <option value="7d">近 7 日 ⌵</option>
+                  <option value="15d">近 15 日 ⌵</option>
+                  <option value="30d">近 30 日 ⌵</option>
+                </select>
+                <span class="trend-peak-pill" id="trendPeakText">峰值 4.5万/日</span>
+              </div>
+            </div>
+
+            <!-- SVG 平滑曲线图 -->
+            <div class="svg-chart-wrap">
+              <svg class="chart-svg" viewBox="0 0 340 90" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#256DF8" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#256DF8" stop-opacity="0.02"/>
+                  </linearGradient>
+                </defs>
+                <!-- 面积填充 -->
+                <path id="chartAreaPath" d="M 15 65 Q 60 62 100 60 T 180 35 T 260 55 T 325 15 L 325 90 L 15 90 Z" fill="url(#areaGrad)"/>
+                <!-- 曲线描边 -->
+                <path id="chartLinePath" d="M 15 65 Q 60 62 100 60 T 180 35 T 260 55 T 325 15" fill="none" stroke="#256DF8" stroke-width="2.5" stroke-linecap="round"/>
+                <!-- 数据点 -->
+                <circle cx="15" cy="65" r="3" fill="#256DF8"/>
+                <circle cx="100" cy="60" r="3" fill="#256DF8"/>
+                <circle cx="180" cy="35" r="3" fill="#256DF8"/>
+                <circle cx="260" cy="55" r="3" fill="#256DF8"/>
+                <circle cx="325" cy="15" r="4.5" fill="#256DF8" stroke="#FFFFFF" stroke-width="2"/>
+              </svg>
+            </div>
+
+            <div class="chart-xaxis-line" id="chartXAxis">
+              <span>09-11</span>
+              <span>09-13</span>
+              <span>09-15</span>
+              <span>09-17 (今日)</span>
+            </div>
+          </div>
+
+          <!-- 消费方分布 (对标截图) -->
+          <div class="consumers-box">
+            <div class="consumers-title">
+              <svg class="svg-icon-sm" viewBox="0 0 24 24" fill="none" stroke="#64748B"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <span>哪些系统使用了该服务 (消费方分布):</span>
+            </div>
+
+            <div class="consumer-item-row">
+              <div class="consumer-item-bg" style="width: 42.5%;"></div>
+              <div class="consumer-name-text">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                <span>手机银行 APP 交易拦截</span>
+              </div>
+              <span class="consumer-pct-text">42.5%</span>
+            </div>
+
+            <div class="consumer-item-row">
+              <div class="consumer-item-bg" style="width: 28.0%;"></div>
+              <div class="consumer-name-text">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/></svg>
+                <span>智能投顾与风控 Agent</span>
+              </div>
+              <span class="consumer-pct-text">28.0%</span>
+            </div>
+
+            <div class="consumer-item-row">
+              <div class="consumer-item-bg" style="width: 19.2%;"></div>
+              <div class="consumer-name-text">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span>反洗钱 AML 侦测平台</span>
+              </div>
+              <span class="consumer-pct-text">19.2%</span>
+            </div>
+
+            <div class="consumer-item-row">
+              <div class="consumer-item-bg" style="width: 10.3%;"></div>
+              <div class="consumer-name-text">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                <span>普惠金融信贷审批引擎</span>
+              </div>
+              <span class="consumer-pct-text">10.3%</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- 5. 立即申请授权弹窗 -->
+  <div class="auth-modal-mask" id="authApplyModal" onclick="handleAuthModalMaskClick(event)">
+    <div class="auth-dialog">
+      <div class="auth-dialog-header">
+        <h3>服务授权申请</h3>
+        <button class="btn-back-to-list" style="padding:4px 8px;" onclick="closeApplyModal()">✕</button>
+      </div>
+
+      <div class="auth-dialog-body">
+        <div style="background:#EFF6FF; border:1px solid #DBEAFE; border-radius:8px; padding:10px 14px; font-size:12.5px; color:#1E40AF;">
+          您正在为服务 <b id="authSvcNameLabel">客户跨行转账频次与风险评分服务</b> 申请生产调用权限，审核通过后将下发访问凭证。
+        </div>
+
+        <div class="auth-form-grid">
+          <div class="form-group">
+            <label class="form-label">1. 提供方系统名称 <span class="req">*</span></label>
+            <input type="text" class="form-input" id="formProviderSys" readonly value="CRMS (ESF: ESF_RETL_001)">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">2. 提供方数据服务名称 <span class="req">*</span></label>
+            <input type="text" class="form-input" id="formProviderSvc" readonly value="svc_retail_cust_transfer_risk_v1">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">3. 调用方系统名称 (IPMP 4位 / ESF 8位) <span class="req">*</span></label>
+            <input type="text" class="form-input" id="formConsumerSys" placeholder="例如: RETL / ESF_RETL_001" value="RETL (ESF_RETL_001)">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">4. 调用场景 <span class="req">*</span></label>
+            <input type="text" class="form-input" id="formScenario" placeholder="例如: 手机银行转账事前拦截欺诈风险" value="手机银行转账风控实时核验">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">5. 是否对客 <span class="req">*</span></label>
+            <select class="form-input" id="formIsCustomerFacing">
+              <option value="否">否 (内部管理或后台风控)</option>
+              <option value="是">是 (直接面向终端客户展示/交互)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">6. 生产力评估 (单次调用价值) <span class="req">*</span></label>
+            <input type="text" class="form-input" id="formProductivity" placeholder="例如: 预估单次节省人工成本 ¥1,200" value="自动化风控拦截，预估提升审批时效80%">
+          </div>
+        </div>
+      </div>
+
+      <div class="auth-dialog-footer">
+        <button class="btn-detail-copy" onclick="closeApplyModal()">取消</button>
+        <button class="btn-detail-apply" onclick="submitAuthOrder()">确认并提交审批</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. 审批详情流转弹窗 (1:1 对标图2 替代原生系统alert) -->
+  <div class="auth-modal-mask" id="flowDetailModal" onclick="handleFlowModalMaskClick(event)">
+    <div class="flow-dialog">
+      <div class="flow-dialog-header">
+        <h3>审批详情</h3>
+        <button class="flow-btn-close" onclick="closeFlowDetailModal()">✕</button>
+      </div>
+
+      <div class="flow-dialog-body">
+        <div class="flow-target-svc-title" id="flowTargetSvcTitle">客户跨行转账频次与风险评分服务</div>
+
+        <!-- 三节点流转卡片 -->
+        <div class="flow-cards-row">
+          
+          <!-- 节点 1: 发起 -->
+          <div class="flow-step-card">
+            <div class="flow-card-head">
+              <span class="flow-card-head-title">发起</span>
+            </div>
+            <div class="flow-card-content">
+              <div class="flow-info-group">
+                <span class="flow-info-label">部门:</span>
+                <span class="flow-info-val">代发拓展处</span>
+              </div>
+              <div class="flow-info-group">
+                <span class="flow-info-label">处理人:</span>
+                <span class="flow-info-val">张三(12365487)</span>
+              </div>
+              <div class="flow-info-group">
+                <span class="flow-info-label">处理时间:</span>
+                <span class="flow-info-val" id="flowSubmitTime1">2026-02-02 15:37:48</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 流转箭头 -->
+          <div class="flow-arrow-circle">»</div>
+
+          <!-- 节点 2: 一站式数据服务管理员审批 -->
+          <div class="flow-step-card">
+            <div class="flow-card-head">
+              <span class="flow-card-head-title">一站式数据服务管理员审批</span>
+              <span class="flow-badge-pending">待处理</span>
+            </div>
+            <div class="flow-card-content">
+              <div class="flow-info-group">
+                <span class="flow-info-label">部门:</span>
+                <span class="flow-info-val">一站式数据服务管理平台(数据资产管理部)</span>
+              </div>
+              <div class="flow-info-group">
+                <span class="flow-info-label">处理人:</span>
+                <span class="flow-info-val">李四(12365487)</span>
+              </div>
+              <div class="flow-info-group">
+                <span class="flow-info-label">处理时间:</span>
+                <span class="flow-info-val" id="flowSubmitTime2">2026-02-02 15:37:48</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 流转箭头 -->
+          <div class="flow-arrow-circle">»</div>
+
+          <!-- 节点 3: 服务提供方审批 -->
+          <div class="flow-step-card">
+            <div class="flow-card-head">
+              <span class="flow-card-head-title">服务提供方审批</span>
+              <span class="flow-badge-pending">待处理</span>
+            </div>
+            <div class="flow-card-content">
+              <div class="flow-info-group">
+                <span class="flow-info-label">部门:</span>
+                <span class="flow-info-val" id="flowProviderDept">CRMS(服务提供方科技室)</span>
+              </div>
+              <div class="flow-info-group">
+                <span class="flow-info-label">处理人:</span>
+                <span class="flow-info-val">李四(12365487)</span>
+              </div>
+              <div class="flow-info-group">
+                <span class="flow-info-label">处理时间:</span>
+                <span class="flow-info-val" id="flowSubmitTime3">2026-02-02 15:37:48</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="flow-dialog-footer">
+        <button class="btn-flow-confirm" onclick="closeFlowDetailModal()">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. JAVASCRIPT 逻辑驱动 -->
+  <script>
+    // 包含全量规范字段的数据源
+    const SERVICES_DATA = [
+      {
+        id: 'svc-1',
+        title: '客户跨行转账频次与风险评分服务',
+        category: '模型服务',
+        type: '模型结果查询',
+        domain: '零售',
+        track: '数字金融',
+        iconBg: 'icon-bg-orange',
+        iconChar: '转',
+        imgIcon: 'assets/images/fintech_service_3d.jpg',
+        desc: '基于【近30天交易明细数据】，采用【XGBoost机器学习算法】，提供【客户跨行转账频次与金额汇总】能力。',
+        ipmp: 'CRMS (4位)',
+        esfSys: 'ESF_RETL_001',
+        esfSvcName: 'svc_retail_cust_transfer_risk_v1',
+        tableName: 'ads_retail_cust_transfer_risk_di',
+        updateFreq: '实时流处理 / 秒级',
+        scenario: '风险管理',
+        views: '1,280,450',
+        likes: '1,232',
+        dislikes: '8',
+        calls: '1,280,450',
+        today: '38,200',
+        latency: '11.4 ms',
+        successRate: '99.98%',
+        techLead: '张科技 (084920)',
+        dept: '总行信息科技部 / 零售科技研发室',
+        secLevel: 'L2 敏感受控 (Sensitive)',
+        slaLevel: 'Tier-1 核心级 (99.99% 实时阻断)',
+        msgFormat: 'BIZJSON',
+        commType: '联机交易',
+        isStandard: '是',
+        onlineDate: '2020年8月',
+        inParams: [
+          { name: 'cust_id', cname: '客户唯一编号', type: 'String', req: '是', bizRule: '全行统一个人客户唯一核心身份编号', techRule: 'ods_crm.t_cust_base.cust_id', example: 'C98230192', desc: '全行统一个人客户号' },
+          { name: 'time_window_days', cname: '统计时间窗口(天)', type: 'Integer', req: '否', bizRule: '回溯统计自然天数范围，默认近30天', techRule: 'CURRENT_DATE - INTERVAL time_window DAY', example: '30', desc: '默认 30 天' },
+          { name: 'include_interbank', cname: '是否包含跨行标识', type: 'Boolean', req: '是', bizRule: '布尔标识，true时仅汇总跨行清算流水', techRule: 'pay_channel IN ("IBPS", "HVPS")', example: 'true', desc: '为 true 时仅汇总跨行流水' }
+        ],
+        outParams: [
+          { name: 'transfer_count_30d', cname: '近30天转账频次', type: 'Integer', bizRule: '指定时间窗口内发生成功的转账总笔数', techRule: 'COUNT(CASE WHEN tran_status = "00" THEN 1 END)', example: '42', desc: '跨行转账笔数汇总' },
+          { name: 'transfer_amt_total', cname: '近30天转账总金额', type: 'Decimal', bizRule: '指定时间窗口内转账扣账折人民币总金额', techRule: 'SUM(tran_amt_cny)', example: '154000.00', desc: '单位: 元' },
+          { name: 'risk_anomaly_score', cname: '风险异常评分', type: 'Float', bizRule: '反欺诈算法模型综合评分(0~1，超0.8高危)', techRule: 'xgb_model.predict_proba(features)[1]', example: '0.84', desc: '0~1 区间，得分越高风险越大' }
+        ]
+      },
+      {
+        id: 'svc-2',
+        title: '全链路供应链金融资金监控',
+        category: '领域级应用',
+        type: '模型结果查询',
+        domain: '对公',
+        track: '供应链金融',
+        iconBg: 'icon-bg-green',
+        iconChar: '全',
+        imgIcon: 'assets/images/app_center/app-icon-tags@2x.png',
+        desc: '基于核心企业信用的全链条资金监控与风险预警系统。',
+        ipmp: 'CORP (4位)',
+        esfSys: 'ESF_CORP_001',
+        esfSvcName: 'svc_supply_chain_finance_v1',
+        tableName: 'ads_corp_chain_finance_monitor_di',
+        updateFreq: '准实时 / 10分钟批',
+        scenario: '供应链资金监控',
+        views: '129,718',
+        likes: '1,232',
+        dislikes: '8',
+        calls: '1,297,180',
+        today: '42,100',
+        latency: '10.2 ms',
+        successRate: '99.99%',
+        techLead: '李数据 (093121)',
+        dept: '总行公司金融部 / 对公授信创新处',
+        secLevel: 'L2 敏感受控 (Sensitive)',
+        slaLevel: 'Tier-1 核心级 (99.99%)',
+        msgFormat: 'XML',
+        commType: '联机交易',
+        isStandard: '是',
+        onlineDate: '2021年3月',
+        inParams: [
+          { name: 'core_ent_id', cname: '核心企业编号', type: 'String', req: '是', bizRule: '产业链龙头核心企业统一授信机构编号', techRule: 'dwd_ent_base.core_ent_no', example: 'CORP_9981', desc: '统一企业机构代码' },
+          { name: 'chain_level', cname: '供应链层级', type: 'Integer', req: '否', bizRule: '穿透供应商层级深度(1~5级)', techRule: 'graph_node_depth', example: '2', desc: '1~5 级供应商' },
+          { name: 'risk_flag', cname: '预警穿透标识', type: 'Boolean', req: '是', bizRule: '是否同步穿透关联司法涉诉与失信名单', techRule: 'judicial_risk_check_flag', example: 'true', desc: '是否返回关联司法诉讼' }
+        ],
+        outParams: [
+          { name: 'total_chain_credit', cname: '链上总授信额度', type: 'Decimal', bizRule: '整条供应链核定总批复敞口净额', techRule: 'SUM(approved_limit_amt)', example: '50000000.00', desc: '单位: 元' },
+          { name: 'risk_warning_level', cname: '资金预警等级', type: 'String', bizRule: '四色风险预警评级(绿/黄/橙/红)', techRule: 'rule_engine.eval_risk_level()', example: 'LEVEL_YELLOW', desc: '绿/黄/橙/红四色预警' }
+        ]
+      },
+      {
+        id: 'svc-3',
+        title: '对公负债与综合用信指标服务',
+        category: '指标服务',
+        type: '指标查询',
+        domain: '对公',
+        track: '科创金融',
+        iconBg: 'icon-bg-purple',
+        iconChar: '负',
+        imgIcon: 'assets/images/app_center/app-icon-cust360@2x.png',
+        desc: '分布式内存聚合算法实时计算对公客户综合负债、授信敞口及可用额度指标。',
+        ipmp: 'CORP (4位)',
+        esfSys: 'ESF_CORP_002',
+        esfSvcName: 'svc_corp_liability_credit_v2',
+        tableName: 'dws_corp_cust_liability_credit_df',
+        updateFreq: 'T+1 日频',
+        scenario: '客户管理',
+        views: '542,100',
+        likes: '810',
+        dislikes: '2',
+        calls: '542,100',
+        today: '21,500',
+        latency: '9.1 ms',
+        successRate: '99.99%',
+        techLead: '李数据 (093121)',
+        dept: '总行公司金融部',
+        secLevel: 'L2 敏感受控 (Sensitive)',
+        slaLevel: 'Tier-1 核心级',
+        msgFormat: 'SOP',
+        commType: '联机交易',
+        isStandard: '是',
+        onlineDate: '2020年11月',
+        inParams: [
+          { name: 'corp_code', cname: '企业统一信用代码', type: 'String', req: '是', bizRule: '国家标准统一社会信用代码18位', techRule: 'ods_corp.uscc_code', example: '91310000X', desc: '18位统一代码' }
+        ],
+        outParams: [
+          { name: 'total_liability', cname: '对公总负债', type: 'Decimal', bizRule: '对公客户各项存款本金与应付未付利息汇总', techRule: 'SUM(deposit_bal + accrued_interest)', example: '88000000.00', desc: '对公各项存款与负债总额' },
+          { name: 'available_limit', cname: '可用用信额度', type: 'Decimal', bizRule: '核定授信总额剔除已占用表内外信贷后的未用敞口', techRule: 'total_approved_limit - used_limit', example: '12000000.00', desc: '实时未占用敞口' }
+        ]
+      },
+      {
+        id: 'svc-4',
+        title: '高净值客群财富标签推送',
+        category: '标签服务',
+        type: '标签查询',
+        domain: '零售',
+        track: '养老金融',
+        iconBg: 'icon-bg-yellow',
+        iconChar: '客',
+        imgIcon: 'assets/images/app_center/app-icon-rating@2x.png',
+        desc: '多维资产持仓与交易行为分群，助力私行理财经理精准资产配置策略推荐。',
+        ipmp: 'PBOC (4位)',
+        esfSys: 'ESF_PB_001',
+        esfSvcName: 'svc_wealth_cust_tags_v3',
+        tableName: 'dws_retail_wealth_tag_monthly',
+        updateFreq: 'T+1 日频 / 月初重算',
+        scenario: '营销管理',
+        views: '320,800',
+        likes: '620',
+        dislikes: '4',
+        calls: '320,800',
+        today: '15,200',
+        latency: '15.0 ms',
+        successRate: '99.95%',
+        techLead: '王敏捷 (077421)',
+        dept: '总行零售业务部 / 财富私行业务处',
+        secLevel: 'L2 敏感受控 (Sensitive)',
+        slaLevel: 'Tier-2 核心级',
+        msgFormat: 'SOAP',
+        commType: '订阅发布',
+        isStandard: '否',
+        onlineDate: '2019年6月',
+        inParams: [
+          { name: 'cust_id', cname: '客户号', type: 'String', req: '是', bizRule: '全行统一零售客户号', techRule: 'ods_crm.t_cust_base.cust_id', example: 'C992102', desc: '全行统一客户号' }
+        ],
+        outParams: [
+          { name: 'wealth_tier', cname: '财富客群分级', type: 'String', bizRule: '按照近3个月日均AUM核定财富等级', techRule: 'CASE WHEN aum>=6000000 THEN "DIAMOND" ELSE "GOLD" END', example: 'DIAMOND_HNW', desc: '私行高净值标签' }
+        ]
+      },
+      {
+        id: 'svc-5',
+        title: '金市债券成交与对账检索',
+        category: '特征服务',
+        type: '特征查询',
+        domain: '金市',
+        track: '科技金融',
+        iconBg: 'icon-bg-blue',
+        iconChar: '金',
+        imgIcon: 'assets/images/app_center/app-icon-supply-ext@2x.png',
+        desc: '全品种债券成交报文毫秒级倒排索引，自动对齐中债中证估值对账。',
+        ipmp: 'FMKT (4位)',
+        esfSys: 'ESF_FMKT_004',
+        esfSvcName: 'svc_bond_trade_recon_v2',
+        tableName: 'ads_fmkt_bond_trade_recon_df',
+        updateFreq: '实时流处理',
+        scenario: '内部管理',
+        views: '215,900',
+        likes: '488',
+        dislikes: '1',
+        calls: '215,900',
+        today: '9,800',
+        latency: '14.0 ms',
+        successRate: '99.98%',
+        techLead: '赵金融 (065541)',
+        dept: '上海分行 / 金融市场业务分部',
+        secLevel: 'L1 内部共享',
+        slaLevel: 'Tier-2 核心级',
+        msgFormat: 'BIZJSON',
+        commType: '文件传输',
+        isStandard: '是',
+        onlineDate: '2022年5月',
+        inParams: [
+          { name: 'bond_code', cname: '债券代码', type: 'String', req: '是', bizRule: '银行间或交易所标准化债券代码', techRule: 'dwd_bond.bond_uni_code', example: '230001.IB', desc: '银行间债券唯一码' }
+        ],
+        outParams: [
+          { name: 'clean_price', cname: '净价', type: 'Decimal', bizRule: '不含应计利息的实际百元面值成交净价', techRule: 'trade_dirty_price - accrued_interest', example: '101.45', desc: '每百元面值' }
+        ]
+      },
+      {
+        id: 'svc-6',
+        title: '绿色信贷碳减排评估与贴标服务',
+        category: '标签服务',
+        type: '标签查询',
+        domain: '对公',
+        track: '绿色金融',
+        iconBg: 'icon-bg-green',
+        iconChar: '绿',
+        imgIcon: '',
+        desc: '结合央行碳减排支持工具标准，对企业绿色低碳技改项目提供自动化核算与精准贴标。',
+        ipmp: 'GRNF (4位)',
+        esfSys: 'ESF_GRN_001',
+        esfSvcName: 'svc_green_credit_carbon_v1',
+        tableName: 'ads_green_credit_carbon_eval_df',
+        updateFreq: 'T+1 日频',
+        scenario: '信贷审批',
+        views: '186,400',
+        likes: '412',
+        dislikes: '2',
+        calls: '186,400',
+        today: '7,600',
+        latency: '12.0 ms',
+        successRate: '99.99%',
+        techLead: '陈绿色 (081290)',
+        dept: '总行绿色金融部 / 业务创新室',
+        secLevel: 'L1 内部共享',
+        slaLevel: 'Tier-2 核心级',
+        msgFormat: 'SOP',
+        commType: '订阅发布',
+        isStandard: '是',
+        onlineDate: '2023年2月',
+        inParams: [
+          { name: 'proj_id', cname: '绿色项目编号', type: 'String', req: '是', bizRule: '绿色信贷审批立项全局唯一编号', techRule: 'green_proj_app.proj_no', example: 'GRN_202601', desc: '授信项目申报编码' }
+        ],
+        outParams: [
+          { name: 'carbon_reduction_ton', cname: '预估年减碳吨数', type: 'Decimal', bizRule: '基于央行绿色减碳计量模型核算的二氧化碳当量', techRule: 'calc_co2_reduction(energy_saved, factor)', example: '1250.80', desc: 'tCO2/年' }
+        ]
+      },
+      {
+        id: 'svc-7',
+        title: '普惠微小客群流水画像与额度测算',
+        category: '模型服务',
+        type: '模型结果查询',
+        domain: '零售',
+        track: '普惠金融',
+        iconBg: 'icon-bg-orange',
+        iconChar: '普',
+        imgIcon: '',
+        desc: '基于银税互动、收单流水与多维经营数据，为普惠小微业主提供秒级信用测额能力。',
+        ipmp: 'INCL (4位)',
+        esfSys: 'ESF_INCL_002',
+        esfSvcName: 'svc_inclusive_credit_eval_v2',
+        tableName: 'ads_inclusive_credit_quota_eval_di',
+        updateFreq: '实时流计算',
+        scenario: '信贷测算',
+        views: '410,200',
+        likes: '956',
+        dislikes: '5',
+        calls: '410,200',
+        today: '28,900',
+        latency: '8.8 ms',
+        successRate: '99.98%',
+        techLead: '孙普惠 (094132)',
+        dept: '总行普惠金融部 / 微贷研发室',
+        secLevel: 'L2 敏感受控 (Sensitive)',
+        slaLevel: 'Tier-1 核心级',
+        msgFormat: 'BIZJSON',
+        commType: '联机交易',
+        isStandard: '是',
+        onlineDate: '2020年8月',
+        inParams: [
+          { name: 'tax_no', cname: '企业统一税号', type: 'String', req: '是', bizRule: '税务局纳税人登记代码', techRule: 'ods_tax.ent_tax_code', example: '91310115MA1', desc: '法人企业纳税代码' }
+        ],
+        outParams: [
+          { name: 'suggested_limit', cname: '建议授信额度', type: 'Decimal', bizRule: '结合纳税额与经营流水测算的最高信用贷款建议额度', techRule: 'MIN(annual_tax_amt * 5, 3000000.00)', example: '1000000.00', desc: '单位: 元' }
+        ]
+      },
+      {
+        id: 'svc-8',
+        title: '跨境离岸FT账户资金跨境汇划指标',
+        category: '指标服务',
+        type: '指标查询',
+        domain: '对公',
+        track: '跨境金融',
+        iconBg: 'icon-bg-blue',
+        iconChar: '跨',
+        imgIcon: '',
+        desc: '全量 FT/NRA 跨境账户流水分钟级对齐，提供涉外收付款敞口与资金合规监控。',
+        ipmp: 'FTAC (4位)',
+        esfSys: 'ESF_FT_005',
+        esfSvcName: 'svc_crossborder_ft_flow_v1',
+        tableName: 'dws_crossborder_ft_settle_summary_df',
+        updateFreq: '准实时 / 分钟级更新',
+        scenario: '跨境业务',
+        views: '274,300',
+        likes: '530',
+        dislikes: '3',
+        calls: '274,300',
+        today: '11,400',
+        latency: '10.5 ms',
+        successRate: '99.99%',
+        techLead: '张跨境 (078312)',
+        dept: '自贸区分行 / 跨境金融业务部',
+        secLevel: 'L2 敏感受控 (Sensitive)',
+        slaLevel: 'Tier-1 核心级',
+        msgFormat: 'XML',
+        commType: '联机交易',
+        isStandard: '是',
+        onlineDate: '2021年9月',
+        inParams: [
+          { name: 'ft_acc_no', cname: 'FT账户号码', type: 'String', req: '是', bizRule: '自由贸易试验区分离分账核算离岸FT账户', techRule: 'ods_ft.ft_account_no', example: 'FTN981023', desc: '自贸离岸账号' }
+        ],
+        outParams: [
+          { name: 'cross_in_amt_usd', cname: '今日跨境入账折美元', type: 'Decimal', bizRule: '当日汇入所有外币折算USD金额加总', techRule: 'SUM(tran_amt * fx_rate_to_usd)', example: '350000.00', desc: '实时汇率折算' }
+        ]
+      }
+    ];
+
+    let currentSelectedType = '全部服务类型';
+    let currentActiveSvc = SERVICES_DATA[0];
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCards();
+    });
+
+    let currentSelectedCategory = 'all';
+
+    // 树状导航展开与收起
+    function toggleTreeGroup(groupId) {
+      const el = document.getElementById(groupId);
+      if (el) el.classList.toggle('collapsed');
+    }
+
+    function toggleSubGroup(subId) {
+      const el = document.getElementById(subId);
+      if (el) el.classList.toggle('collapsed');
+    }
+
+    // 树状导航点击筛选
+    function filterByTree(treeKey) {
+      currentSelectedCategory = treeKey;
+      document.querySelectorAll('.tree-leaf-item').forEach(el => el.classList.remove('active'));
+      const catAll = document.getElementById('catItemAll');
+      if (catAll) catAll.classList.remove('active');
+      if (window.event && window.event.currentTarget && window.event.currentTarget.classList.contains('tree-leaf-item')) {
+        window.event.currentTarget.classList.add('active');
+      }
+      renderCards();
+    }
+
+    // 渲染 5 列卡片
+    function renderCards() {
+      const grid = document.getElementById('servicesGrid');
+      const searchVal = document.getElementById('globalSearchInput').value.trim().toLowerCase();
+
+      let list = SERVICES_DATA.filter(item => {
+        const matchesSearch = !searchVal || 
+          item.title.toLowerCase().includes(searchVal) ||
+          item.desc.toLowerCase().includes(searchVal) ||
+          item.esfSvcName.toLowerCase().includes(searchVal);
+
+        const matchesType = (currentSelectedType === '全部服务类型') || (item.type === currentSelectedType);
+        
+        let matchesCategory = true;
+        if (currentSelectedCategory === 'all') {
+          matchesCategory = true;
+        } else if (currentSelectedCategory === 'retail' || currentSelectedCategory === '零售板块' || currentSelectedCategory === '电子银行' || currentSelectedCategory === '存款' || currentSelectedCategory === '银行卡及支付' || currentSelectedCategory === '投资理财' || currentSelectedCategory === '贷款') {
+          matchesCategory = (item.domain === '零售');
+        } else if (currentSelectedCategory === 'corp' || currentSelectedCategory === '超级平台' || currentSelectedCategory === '超级产品' || currentSelectedCategory === '超级系统' || currentSelectedCategory === '内部管理模块' || currentSelectedCategory === '资产负债管理' || currentSelectedCategory === '综合' || currentSelectedCategory === '对公驾驶舱' || currentSelectedCategory === '代发系统' || currentSelectedCategory === '全球司库') {
+          matchesCategory = (item.domain === '对公');
+        } else if (currentSelectedCategory === 'gold' || currentSelectedCategory === '金融市场板块' || currentSelectedCategory === '资金交易' || currentSelectedCategory === '债券' || currentSelectedCategory === '资产管理' || currentSelectedCategory === '存托管' || currentSelectedCategory === '同业存款') {
+          matchesCategory = (item.domain === '金市');
+        } else if (currentSelectedCategory === 'risk_ops' || currentSelectedCategory === '风险板块' || currentSelectedCategory === '风险' || currentSelectedCategory === '运营管理模块' || currentSelectedCategory === '账户管理' || currentSelectedCategory === '天眼风险预警监测系统') {
+          matchesCategory = (item.domain === '风险' || item.domain === '运营' || item.domain === '财资');
+        } else if (currentSelectedCategory.includes('科技金融')) {
+          matchesCategory = (item.track === '科技金融' || item.track === '科创金融');
+        } else if (currentSelectedCategory.includes('供应链金融') || currentSelectedCategory === '浦链通') {
+          matchesCategory = (item.track === '供应链金融');
+        } else if (currentSelectedCategory.includes('绿色金融')) {
+          matchesCategory = (item.track === '绿色金融');
+        } else if (currentSelectedCategory.includes('普惠金融') || currentSelectedCategory.includes('浦惠') || currentSelectedCategory === '浦闪贷') {
+          matchesCategory = (item.track === '普惠金融');
+        } else if (currentSelectedCategory.includes('跨境金融')) {
+          matchesCategory = (item.track === '跨境金融');
+        } else if (currentSelectedCategory.includes('财资金融')) {
+          matchesCategory = (item.domain === '财资' || item.track === '科技金融');
+        }
+
+        return matchesSearch && matchesType && matchesCategory;
+      });
+
+      if (list.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1 / -1; padding: 60px; text-align: center; color: #94A3B8;">暂无符合条件的数据服务</div>';
+        return;
+      }
+
+      let html = '';
+      list.forEach(svc => {
+        // 卡片顶部图标：去掉图片，换成服务名称的首个字符
+        const firstChar = (svc.title && svc.title.trim().length > 0) ? svc.title.trim().charAt(0) : '服';
+
+        html += `
+          <div class="service-card-item" onclick="openDetailPage('${svc.id}')">
+            <div class="card-top-section">
+              <div class="card-squircle-icon ${svc.iconBg}">
+                <span>${firstChar}</span>
+              </div>
+              <div class="card-title-text" title="${svc.title}">${svc.title}</div>
+              <span class="card-category-pill">${svc.category}</span>
+              <p class="card-desc-text" title="${svc.desc}">${svc.desc}</p>
+            </div>
+
+            <div>
+              <button class="btn-card-visit" onclick="event.stopPropagation(); openDetailPage('${svc.id}')">立即访问</button>
+              
+              <div class="card-metrics-strip">
+                <div class="metric-item-cell">
+                  <span>访问量</span>
+                  <span class="metric-item-num">${svc.views}</span>
+                </div>
+                <div class="metric-item-cell">
+                  <span>点赞量</span>
+                  <span class="metric-item-num">${svc.likes} <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></span>
+                </div>
+                <div class="metric-item-cell">
+                  <span>点踩量</span>
+                  <span class="metric-item-num">${svc.dislikes} <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2.5"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg></span>
+                </div>
+              </div>
+
+              <div class="card-bottom-actions">
+                <div class="card-action-icons">
+                  <span title="收藏"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <span title="关注"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2"><path d="m19 21-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16z"/></svg></span>
+                </div>
+                <span class="card-analysis-pill" onclick="event.stopPropagation(); openDetailPage('${svc.id}')">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#256DF8" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><path d="m14.83 14.83 4.24 4.24"/><path d="m9.17 14.83-4.24 4.24"/></svg>
+                  <span>关联分析</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      grid.innerHTML = html;
+    }
+
+    function handleSearch() { renderCards(); }
+
+    function toggleDropdown() {
+      document.getElementById('dropdownPopover').classList.toggle('show');
+    }
+
+    // 搜索框内嵌类型下拉同步
+    function handleInlineTypeChange(type) {
+      selectType(type);
+    }
+
+    function selectType(type) {
+      currentSelectedType = type;
+      const lbl = document.getElementById('selectedServiceTypeLabel');
+      if (lbl) lbl.textContent = type;
+      
+      const inlineSel = document.getElementById('inlineSearchTypeSelect');
+      if (inlineSel) inlineSel.value = type;
+
+      const pop = document.getElementById('dropdownPopover');
+      if (pop) pop.classList.remove('show');
+      
+      renderCards();
+    }
+
+    function switchCategory(cat) {
+      currentSelectedCategory = cat;
+      document.querySelectorAll('.tree-leaf-item').forEach(el => el.classList.remove('active'));
+      const catAll = document.getElementById('catItemAll');
+      if (catAll) catAll.classList.toggle('active', cat === 'all');
+      renderCards();
+    }
+
+    function setSort(type) {
+      document.getElementById('btnSortHeat').classList.toggle('active', type === 'heat');
+      document.getElementById('btnSortTime').classList.toggle('active', type === 'time');
+      renderCards();
+    }
+
+    function toggleSidebar() {
+      const sb = document.getElementById('sidebarCategoryNav');
+      sb.style.width = (sb.style.width === '60px') ? '236px' : '60px';
+    }
+
+    // 打开全景服务详情大页面 (点击卡片触发)
+    function openDetailPage(svcId) {
+      const svc = SERVICES_DATA.find(x => x.id === svcId) || SERVICES_DATA[0];
+      currentActiveSvc = svc;
+
+      // 填充面包屑与业务信息
+      document.getElementById('dtlBreadDomain').textContent = `${svc.domain}金融板块`;
+      document.getElementById('dtlBreadTitle').textContent = svc.title;
+      
+      // 1. 业务信息核心字段 (服务名称最前、所属业务板块、更新频率、表名、数据敏感等级)
+      document.getElementById('dtlServiceName').textContent = svc.title;
+      document.getElementById('dtlDomainText').textContent = `${svc.domain}金融板块`;
+      document.getElementById('dtlScenarioText').textContent = svc.scenario;
+      document.getElementById('dtlTypeBadge').textContent = svc.type;
+      document.getElementById('dtlUpdateFreq').textContent = svc.updateFreq || 'T+1 日频';
+      document.getElementById('dtlTableName').textContent = svc.tableName || 'ads_retail_cust_transfer_risk_di';
+      document.getElementById('dtlSecLevel').textContent = svc.secLevel || 'L2 敏感受控 (Sensitive)';
+      document.getElementById('dtlIpmp').textContent = svc.ipmp;
+      document.getElementById('dtlEsfSys').textContent = svc.esfSys;
+      document.getElementById('dtlEsfSvcName').textContent = svc.esfSvcName;
+      document.getElementById('dtlIntroDesc').textContent = svc.desc;
+
+      // 2. 治理与质量要求
+      document.getElementById('dtlTechLead').textContent = svc.techLead;
+      document.getElementById('dtlDeptText').textContent = svc.dept;
+      if (document.getElementById('dtlSecLevelGov')) {
+        document.getElementById('dtlSecLevelGov').textContent = svc.secLevel;
+      }
+      document.getElementById('dtlSlaLevel').textContent = svc.slaLevel;
+      document.getElementById('dtlMsgFormat').innerHTML = `<span class="badge-format-pill">${svc.msgFormat || 'BIZJSON'}</span>`;
+      document.getElementById('dtlCommType').textContent = svc.commType || '联机交易';
+      const isStd = svc.isStandard !== '否';
+      document.getElementById('dtlIsStandard').innerHTML = isStd 
+        ? `<span style="color:#059669; font-weight:600;">● 是</span>` 
+        : `<span style="color:#64748B; font-weight:600;">○ 否</span>`;
+      document.getElementById('dtlOnlineDate').textContent = svc.onlineDate || '2020年8月';
+
+      // 填充 KPI
+      document.getElementById('dtlTotalCalls').textContent = svc.calls;
+      document.getElementById('dtlTodayCalls').textContent = svc.today;
+      document.getElementById('dtlLatency').textContent = svc.latency;
+      document.getElementById('dtlSuccessRate').textContent = svc.successRate;
+
+      // 3. 渲染入参表格 (新增业务口径、技术口径)
+      const inTbody = document.getElementById('dtlInParamsTableBody');
+      inTbody.innerHTML = svc.inParams.map(p => `
+        <tr>
+          <td><span class="field-name-mono" style="color:#256DF8;">${p.name}</span></td>
+          <td style="color:#1E293B; font-weight:500;">${p.cname}</td>
+          <td><span class="type-pill-purple">${p.type}</span></td>
+          <td><b style="color:${p.req === '是' ? '#EF4444' : '#94A3B8'};">${p.req}</b></td>
+          <td style="color:#334155; font-size:12px;">${p.bizRule || p.desc || '符合核心业务数据标准口径'}</td>
+          <td style="color:#64748B; font-family:var(--font-mono); font-size:11.5px;">${p.techRule || 'DW_SRC_FIELD'}</td>
+          <td style="font-family:var(--font-mono); color:#0F172A; font-weight:500;">${p.example}</td>
+        </tr>
+      `).join('');
+
+      // 4. 渲染出参表格 (新增业务口径、技术口径)
+      const outTbody = document.getElementById('dtlOutParamsTableBody');
+      outTbody.innerHTML = svc.outParams.map(p => `
+        <tr>
+          <td><span class="field-name-mono" style="color:#059669;">${p.name}</span></td>
+          <td style="color:#1E293B; font-weight:500;">${p.cname}</td>
+          <td><span class="type-pill-purple">${p.type}</span></td>
+          <td style="color:#334155; font-size:12px;">${p.bizRule || p.desc || '全行统一指标核算口径'}</td>
+          <td style="color:#64748B; font-family:var(--font-mono); font-size:11.5px;">${p.techRule || 'ADS_CALC_EXPR'}</td>
+          <td style="font-family:var(--font-mono); color:#0F172A; font-weight:500;">${p.example}</td>
+        </tr>
+      `).join('');
+
+      // 切换视图：隐藏卡片列表，显示全景详情页
+      document.getElementById('serviceListView').style.display = 'none';
+      const footerBar = document.getElementById('mainFooterBar');
+      if (footerBar) footerBar.style.display = 'none';
+      document.getElementById('serviceDetailPageView').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 返回卡片列表
+    function closeDetailPage() {
+      document.getElementById('serviceDetailPageView').classList.remove('active');
+      document.getElementById('serviceListView').style.display = 'flex';
+      const footerBar = document.getElementById('mainFooterBar');
+      if (footerBar) footerBar.style.display = 'flex';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 系统筛选下拉触发 (用户需求)
+    function filterKpiBySystem(sysKey) {
+      if (sysKey === 'all') {
+        document.getElementById('dtlTotalCalls').textContent = currentActiveSvc.calls;
+        document.getElementById('dtlTodayCalls').textContent = currentActiveSvc.today;
+      } else if (sysKey === 'mbank') {
+        document.getElementById('dtlTotalCalls').textContent = '544,191';
+        document.getElementById('dtlTodayCalls').textContent = '16,235';
+      } else if (sysKey === 'agent') {
+        document.getElementById('dtlTotalCalls').textContent = '358,526';
+        document.getElementById('dtlTodayCalls').textContent = '10,696';
+      } else if (sysKey === 'aml') {
+        document.getElementById('dtlTotalCalls').textContent = '245,846';
+        document.getElementById('dtlTodayCalls').textContent = '7,334';
+      } else {
+        document.getElementById('dtlTotalCalls').textContent = '131,886';
+        document.getElementById('dtlTodayCalls').textContent = '3,934';
+      }
+    }
+
+    // 趋势时间筛选触发 (用户需求)
+    function filterTrendTime(timeRange) {
+      const titleEl = document.getElementById('trendTitle');
+      const peakEl = document.getElementById('trendPeakText');
+      const xaxis = document.getElementById('chartXAxis');
+
+      if (timeRange === '7d') {
+        titleEl.textContent = '近 7 日服务调用趋势 (次)';
+        peakEl.textContent = '峰值 4.5万/日';
+        xaxis.innerHTML = '<span>09-11</span><span>09-13</span><span>09-15</span><span>09-17 (今日)</span>';
+      } else if (timeRange === '15d') {
+        titleEl.textContent = '近 15 日服务调用趋势 (次)';
+        peakEl.textContent = '峰值 5.2万/日';
+        xaxis.innerHTML = '<span>09-03</span><span>09-08</span><span>09-13</span><span>09-17 (今日)</span>';
+      } else {
+        titleEl.textContent = '近 30 日服务调用趋势 (次)';
+        peakEl.textContent = '峰值 6.8万/日';
+        xaxis.innerHTML = '<span>08-18</span><span>08-28</span><span>09-07</span><span>09-17 (今日)</span>';
+      }
+    }
+
+    function copyApiSnippet() {
+      if (!currentActiveSvc) return;
+      alert(`已复制 ESF API cURL 生产调用代码:
+curl -X POST https://esf.spdb.com/api/${currentActiveSvc.esfSvcName} \
+ -H "Authorization: Bearer <AUTH_TOKEN>" \
+ -H "Content-Type: application/json" \
+ -d '{"cust_id": "C98230192"}'`);
+    }
+
+    function openApplyModal() {
+      if (!currentActiveSvc) return;
+      document.getElementById('authSvcNameLabel').textContent = currentActiveSvc.title;
+      document.getElementById('formProviderSys').value = `${currentActiveSvc.ipmp} (ESF: ${currentActiveSvc.esfSys})`;
+      document.getElementById('formProviderSvc').value = currentActiveSvc.esfSvcName;
+      document.getElementById('authApplyModal').classList.add('show');
+    }
+
+    function closeApplyModal() {
+      document.getElementById('authApplyModal').classList.remove('show');
+    }
+
+    function handleAuthModalMaskClick(e) {
+      if (e.target.id === 'authApplyModal') closeApplyModal();
+    }
+
+    function submitAuthOrder() {
+      // 关闭申请输入框
+      closeApplyModal();
+
+      // 获取当前时间格式化为 YYYY-MM-DD HH:mm:ss
+      const now = new Date();
+      const pad = n => String(n).padStart(2, '0');
+      const timeStr = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+      // 绑定图2 审批详情中的服务名称与时间
+      if (currentActiveSvc) {
+        document.getElementById('flowTargetSvcTitle').textContent = currentActiveSvc.title;
+        document.getElementById('flowProviderDept').textContent = `${currentActiveSvc.ipmp || 'CRMS'}(服务提供方科技室)`;
+      }
+      document.getElementById('flowSubmitTime1').textContent = timeStr;
+      document.getElementById('flowSubmitTime2').textContent = timeStr;
+      document.getElementById('flowSubmitTime3').textContent = timeStr;
+
+      // 弹出对标图2的精美流转弹窗
+      openFlowDetailModal();
+    }
+
+    function openFlowDetailModal() {
+      document.getElementById('flowDetailModal').classList.add('show');
+    }
+
+    function closeFlowDetailModal() {
+      document.getElementById('flowDetailModal').classList.remove('show');
+    }
+
+    function handleFlowModalMaskClick(e) {
+      if (e.target.id === 'flowDetailModal') closeFlowDetailModal();
+    }
+  </script>
+</body>
+</html>

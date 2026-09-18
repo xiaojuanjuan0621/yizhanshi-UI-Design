@@ -1,0 +1,33 @@
+<svg viewBox="0 0 290 390" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="290.000000" height="390.000000" fill="none" customFrame="#000000">
+	<defs>
+		<g id="pixso_custom_effect_86">
+			<effect x="0.000000" y="17.000000" visibility="visible" fill="rgb(192,195,201)" fill-opacity="0.250980407" effectType="dropShadow" showShadowBehind="1" stdDeviation="25" radius="0" />
+			<effect x="0.000000" y="4.000000" visibility="visible" fill="rgb(255,255,255)" fill-opacity="0.274509817" effectType="dropShadow" showShadowBehind="1" stdDeviation="3" radius="0" />
+			<effect visibility="visible" effectType="backgroundBlur" saturation="0" stdDeviation="48.9290428" />
+		</g>
+		<filter id="filter_86" width="290.000000" height="390.000000" x="0.000000" y="0.000000" filterUnits="userSpaceOnUse" customEffect="url(#pixso_custom_effect_86)" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix" />
+			<feOffset dx="0.000000" dy="17.000000" in="SourceAlpha" />
+			<feGaussianBlur stdDeviation="8.33333302" />
+			<feColorMatrix type="matrix" values="0 0 0 0 0.752941 0 0 0 0 0.764706 0 0 0 0 0.788235 0 0 0 0.25098 0 " />
+			<feBlend result="effect_dropShadow_1" in2="BackgroundImageFix" mode="normal" />
+			<feOffset dx="0.000000" dy="4.000000" in="SourceAlpha" />
+			<feGaussianBlur stdDeviation="1" />
+			<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.27451 0 " />
+			<feBlend result="effect_dropShadow_2" in2="effect_dropShadow_1" mode="normal" />
+			<feBlend result="shape" in="SourceGraphic" in2="effect_dropShadow_2" mode="normal" />
+		</filter>
+		<clipPath id="outline_mask_13" transform="matrix(1,0,0,1,-0,-0)">
+			<path d="M45 8L245 8C256.046 8 265 16.9543 265 28L265 328C265 339.046 256.046 348 245 348L45 348C33.9543 348 25 339.046 25 328L25 28C25 16.9543 33.9543 8 45 8Z" fill="rgb(255,255,255)" fill-rule="evenodd" />
+		</clipPath>
+	</defs>
+	<g data-pixso-skip-parse="true">
+		<foreignObject width="290.000000" height="390.000000" x="0.000000" y="0.000000">
+			<div xmlns="http://www.w3.org/1999/xhtml" style="clip-path:url(#outline_mask_13);height:100%;backdrop-filter:blur(24.464521px);width:100%;-webkit-backdrop-filter:blur(24.464521px);" />
+		</foreignObject>
+	</g>
+	<g filter="url(#filter_86)">
+		<path id="矩形 10" d="M45 8L245 8C256.046 8 265 16.9543 265 28L265 328C265 339.046 256.046 348 245 348L45 348C33.9543 348 25 339.046 25 328L25 28C25 16.9543 33.9543 8 45 8Z" fill="rgb(255,255,255)" fill-rule="evenodd" />
+		<path id="矩形 10" d="M249.795 6.52082L249.794 6.52069L249.794 6.52056Q247.455 6 245 6L45 6Q42.5446 6 40.2052 6.52085L40.205 6.52089Q38.2813 6.9492 36.436 7.72969Q34.5725 8.51786 32.9106 9.61204L32.9105 9.61205L32.9105 9.61208Q31.051 10.8363 29.4437 12.4436Q27.8364 14.0509 26.6121 15.9104L26.6121 15.9105L26.6121 15.9105Q25.5179 17.5725 24.7297 19.436Q23.9492 21.2812 23.5209 23.2049L23.5209 23.2049L23.5209 23.2049L23.5209 23.205Q23 25.5445 23 28L23 328Q23 330.456 23.5211 332.796Q23.9494 334.719 24.7297 336.564Q25.5176 338.427 26.6113 340.088C27.4276 341.328 28.3717 342.484 29.4436 343.556Q31.05 345.163 32.9083 346.386L32.9108 346.388C34.0187 347.118 35.1938 347.745 36.436 348.27C37.6655 348.79 38.9212 349.193 40.203 349.479L40.2041 349.479Q42.544 350 45 350L245 350C246.637 350 248.236 349.826 249.795 349.479C251.078 349.193 252.334 348.791 253.564 348.27C254.807 347.745 255.982 347.117 257.09 346.387C258.33 345.571 259.485 344.628 260.556 343.556C261.628 342.484 262.573 341.328 263.389 340.088C264.118 338.98 264.745 337.806 265.27 336.564C265.791 335.333 266.194 334.077 266.479 332.794C266.826 331.235 267 329.637 267 328L267 28C267 26.3632 266.826 24.7651 266.479 23.2057L266.479 23.2035Q266.051 21.2806 265.27 19.436C264.745 18.1938 264.118 17.0188 263.388 15.9109C262.572 14.6711 261.628 13.5153 260.556 12.4437C259.485 11.372 258.329 10.4281 257.089 9.61185C255.981 8.88248 254.806 8.25509 253.564 7.72969C252.334 7.20932 251.077 6.80637 249.795 6.52082ZM265 28C265 16.9543 256.046 8 245 8L45 8C33.9543 8 25 16.9543 25 28L25 328C25 339.046 33.9543 348 45 348L245 348C256.046 348 265 339.046 265 328L265 28Z" fill="rgb(255,255,255)" fill-opacity="0" fill-rule="evenodd" />
+	</g>
+</svg>

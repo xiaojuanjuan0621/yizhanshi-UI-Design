@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一站式数据服务平台 - Design System & Living Style Guide</title>
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       1. PIXSO 原生 DESIGN TOKENS (100% 对齐 Pixso Local Styles & Variables)
+       ========================================================================== */
+    :root {
+      /* 品牌主色与操作色 (Pixso 原生) */
+      --brand: #256DF8;               /* 按钮主色 */
+      --brand-hover: #1A57D0;
+      --brand-light: #EEF3FE;
+      --brand-accent-blue: #3B66F1;   /* 科技宝蓝 */
+
+      /* Pixso 语义辅助色 */
+      --color-success: #00A20B;       /* 2.2功能辅助色/成功 */
+      --color-warning: #F5A216;       /* 2.2功能辅助色/警告 */
+      --color-danger: #F24B5C;        /* 2.2功能辅助色/错误危险 */
+      --color-info: #1B7DEA;          /* 2.2功能辅助色/信息辅助 */
+      --color-purple: #593AC4;        /* 2.2功能辅助色/颜色补充 */
+      --color-disabled-bg: #ECEDF1;   /* 2.2功能辅助色/禁用 */
+
+      /* L0~L3 风险与标签映射 (10% Alpha 浅底) */
+      --risk-l0: #00A20B;
+      --risk-l0-bg: rgba(0, 162, 11, 0.1);
+      --risk-l0-border: rgba(0, 162, 11, 0.25);
+
+      --risk-l1: #1B7DEA;
+      --risk-l1-bg: rgba(27, 125, 234, 0.1);
+      --risk-l1-border: rgba(27, 125, 234, 0.25);
+
+      --risk-l2: #F5A216;
+      --risk-l2-bg: rgba(245, 162, 22, 0.1);
+      --risk-l2-border: rgba(245, 162, 22, 0.25);
+
+      --risk-l3: #F24B5C;
+      --risk-l3-bg: rgba(242, 75, 92, 0.1);
+      --risk-l3-border: rgba(242, 75, 92, 0.25);
+
+      /* Pixso 中性色阶 */
+      --text-title: #303133;          /* 2.3中性色/文本/标题 */
+      --text-body: #4B5563;           /* 2.3中性色/文本/正文 */
+      --text-sub: #6B7280;            /* 2.3中性色/文本/次要 */
+      --text-placeholder: #9397A4;    /* 2.3中性色/文本/占位 */
+      --text-disabled: #B5B8BF;       /* 2.3中性色/文本/置灰未选中 */
+      --text-inverse: #FFFFFF;
+
+      --border-1: #E8EEF8;            /* 2.3中性色/边框/边框1 */
+      --border-2: #D3D7DD;            /* 2.3中性色/边框/边框2 */
+
+      /* 字体族 */
+      --font-sans: '阿里巴巴普惠体 3.0', 'Alibaba Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", sans-serif;
+      --font-mono: 'JetBrains Mono', Consolas, monospace;
+
+      /* Pixso 间距 (Variables) */
+      --space-4: 4px;
+      --space-8: 8px;
+      --space-10: 10px;
+      --space-16: 16px;
+      --space-24: 24px;
+
+      /* Pixso 圆角 (Variables) */
+      --r-2: 2px;
+      --r-4: 4px;
+      --r-8: 8px;
+      --r-10: 10px;
+      --r-16: 16px;
+      --r-pill: 9999px;
+
+      /* 渐变系列 */
+      --grad-ai-sphere: linear-gradient(135deg, #3B66F1 0%, #8B5CF6 50%, #00B4D8 100%);
+      --grad-banner: linear-gradient(135deg, #EEF4FF 0%, #F5F3FF 50%, #E8F7FF 100%);
+      --grad-badge-active: linear-gradient(135deg, #4A6CF7 0%, #7B61FF 100%);
+
+      /* 阴影 */
+      --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04);
+      --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 6px 18px -2px rgba(59, 102, 241, 0.08);
+      --shadow-lg: 0 14px 34px -4px rgba(59, 102, 241, 0.12);
+
+      --ease: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* 浅色主题 (Pixso 默认原生) */
+    :root[data-theme="light"], :root {
+      --bg-page: #F9F9FC;             /* 2.3中性色/背景/页面 */
+      --bg-card: #FFFFFF;             /* 2.3中性色/背景/基础 */
+      --bg-subtle: #F5F7FA;           /* 2.3中性色/背景/表格隔行背景 */
+      --border: var(--border-1);
+      --border-hover: var(--border-2);
+      
+      --text-primary: var(--text-title);
+      --text-secondary: var(--text-body);
+      --text-muted: var(--text-sub);
+    }
+
+    /* 深色主题 */
+    :root[data-theme="dark"] {
+      --bg-page: #0C121E;
+      --bg-card: #151F32;
+      --bg-subtle: #1E2C45;
+      --border: #24344E;
+      --border-hover: #3D5377;
+      
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --text-title: #F8FAFC;
+      --text-body: #94A3B8;
+    }
+
+    /* ==========================================================================
+       2. RESET & BASE
+       ========================================================================== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-page);
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background var(--ease), color var(--ease);
+    }
+    .font-mono {
+      font-family: var(--font-mono) !important;
+    }
+
+    /* ==========================================================================
+       3. LIVING STYLE GUIDE LAYOUT
+       ========================================================================== */
+    .sg-top-header {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      height: 80px;
+      padding: 0 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      backdrop-filter: blur(12px);
+    }
+    .sg-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+    .sg-logo-img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+    }
+    .sg-brand-title {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sg-brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .sg-container {
+      display: flex;
+      max-width: 1560px;
+      margin: 0 auto;
+      min-height: calc(100vh - 80px);
+    }
+    .sg-sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      padding: 24px 16px;
+      position: sticky;
+      top: 80px;
+      height: calc(100vh - 80px);
+      overflow-y: auto;
+      background: var(--bg-card);
+    }
+    .sg-nav-group-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin: 16px 0 6px 8px;
+      letter-spacing: 0.8px;
+    }
+    .sg-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-radius: var(--r-8);
+      transition: all var(--ease);
+      margin-bottom: 2px;
+    }
+    .sg-nav-link:hover {
+      background: var(--bg-subtle);
+      color: var(--brand);
+    }
+    .sg-nav-link.active {
+      background: var(--brand-light);
+      color: var(--brand);
+      font-weight: 600;
+    }
+
+    .sg-main-content {
+      flex: 1;
+      padding: 32px 40px;
+      max-width: calc(100% - 260px);
+    }
+    .sg-section {
+      margin-bottom: 48px;
+      scroll-margin-top: 100px;
+    }
+    .sg-section-header {
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sg-section-tag {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: var(--brand);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .sg-section-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .sg-section-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      line-height: 1.6;
+    }
+
+    .sg-example-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--r-16);
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-xs);
+    }
+    .sg-example-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* ==========================================================================
+       4. PIXSO COLOR SWATCHES & ICONS
+       ========================================================================== */
+    .color-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 12px;
+    }
+    .color-swatch-card {
+      border: 1px solid var(--border);
+      border-radius: var(--r-8);
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+    .color-swatch-preview {
+      height: 54px;
+      width: 100%;
+    }
+    .color-swatch-info {
+      padding: 8px 10px;
+    }
+    .color-swatch-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+    .color-swatch-code {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      margin-top: 2px;
+    }
+
+    /* 3D 图标展示栏 */
+    .icon-asset-showcase {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+    .icon-showcase-item {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--r-10);
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+    }
+    .icon-showcase-img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.06));
+    }
+    .icon-showcase-name {
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* 徽章 Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: var(--r-pill);
+      white-space: nowrap;
+    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; }
+    .badge-l0 { background: var(--risk-l0-bg); color: var(--risk-l0); border: 1px solid var(--risk-l0-border); }
+    .badge-l0 .badge-dot { background: var(--risk-l0); }
+    .badge-l1 { background: var(--risk-l1-bg); color: var(--risk-l1); border: 1px solid var(--risk-l1-border); }
+    .badge-l1 .badge-dot { background: var(--risk-l1); }
+    .badge-l2 { background: var(--risk-l2-bg); color: var(--risk-l2); border: 1px solid var(--risk-l2-border); }
+    .badge-l2 .badge-dot { background: var(--risk-l2); }
+    .badge-l3 { background: var(--risk-l3-bg); color: var(--risk-l3); border: 1px solid var(--risk-l3-border); }
+    .badge-l3 .badge-dot { background: var(--risk-l3); }
+
+    /* 按键 Button */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 38px;
+      padding: 0 18px;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: var(--r-8);
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all var(--ease);
+      font-family: var(--font-sans);
+    }
+    .btn-primary {
+      background: var(--brand);
+      color: #FFFFFF;
+      box-shadow: 0 2px 6px rgba(37, 109, 248, 0.25);
+    }
+    .btn-primary:hover { background: var(--brand-hover); }
+    .btn-secondary {
+      background: var(--brand-light);
+      color: var(--brand);
+      border-color: #D3E0FF;
+    }
+    .btn-outline {
+      background: var(--bg-card);
+      color: var(--text-primary);
+      border-color: var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. 顶部 Header -->
+  <header class="sg-top-header">
+    <a href="home.html" class="sg-brand">
+      <img src="assets/images/logo.png" alt="Logo" class="sg-logo-img">
+      <div>
+        <div class="sg-brand-title">一站式数据服务平台 <span class="badge badge-l0" style="font-size:11px; padding:1px 6px;">Pixso-Aligned v2.0</span></div>
+        <div class="sg-brand-sub">Native Tokens & Living Style Guide</div>
+      </div>
+    </a>
+
+    <div style="display:flex; align-items:center; gap:12px;">
+      <a href="home.html" class="btn btn-outline" style="height:32px; font-size:12px;">返回首页工作台 →</a>
+      <button class="btn btn-primary" style="height:32px; font-size:12px;" id="themeToggleBtn">🌓 切换主题</button>
+    </div>
+  </header>
+
+  <!-- 2. 主页面分栏 -->
+  <div class="sg-container">
+    
+    <!-- 左侧快捷索引导航 -->
+    <aside class="sg-sidebar">
+      <div class="sg-nav-group-title">设计系统架构</div>
+      <a href="#sec-tokens" class="sg-nav-link active">🎨 Pixso 原生色彩 Tokens</a>
+      <a href="#sec-typography" class="sg-nav-link">🔤 普惠体 3.0 排版系统</a>
+      <a href="#sec-spacing" class="sg-nav-link">📐 空间间距与圆角体系</a>
+
+      <div class="sg-nav-group-title">原子与 3D 资产</div>
+      <a href="#sec-badges" class="sg-nav-link">🏷️ L0~L3 风险与标签</a>
+      <a href="#sec-tech-icons" class="sg-nav-link">📊 技术模式 3D 图标库</a>
+      <a href="#sec-biz-icons" class="sg-nav-link">💼 业务模式 3D 图标库</a>
+      <a href="#sec-product-visual" class="sg-nav-link">🧊 数据产品专区视觉</a>
+    </aside>
+
+    <!-- 右侧展示主体 -->
+    <main class="sg-main-content">
+
+      <!-- Section 1: Pixso 原生色彩系统 -->
+      <section class="sg-section" id="sec-tokens">
+        <div class="sg-section-header">
+          <div class="sg-section-tag">01 / Design Tokens</div>
+          <h2 class="sg-section-title">Pixso 原生色彩系统 (Local Styles)</h2>
+          <p class="sg-section-desc">直接读取自 Pixso 设计稿 Local Styles，包含按钮主色、中性色阶梯、功能辅助色与 10% Alpha 标签色。</p>
+        </div>
+
+        <div class="sg-example-box">
+          <div class="sg-example-title">
+            <span>Pixso 功能辅助与状态色</span>
+          </div>
+          <div class="color-swatch-grid">
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #256DF8;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">按钮主色</div>
+                <div class="color-swatch-code">#256DF8</div>
+              </div>
+            </div>
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #00A20B;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">2.2功能辅助色/成功</div>
+                <div class="color-swatch-code">#00A20B</div>
+              </div>
+            </div>
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #F5A216;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">2.2功能辅助色/警告</div>
+                <div class="color-swatch-code">#F5A216</div>
+              </div>
+            </div>
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #F24B5C;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">2.2功能辅助色/错误危险</div>
+                <div class="color-swatch-code">#F24B5C</div>
+              </div>
+            </div>
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #1B7DEA;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">2.2功能辅助色/信息辅助</div>
+                <div class="color-swatch-code">#1B7DEA</div>
+              </div>
+            </div>
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #593AC4;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">2.2功能辅助色/颜色补充</div>
+                <div class="color-swatch-code">#593AC4</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sg-example-box">
+          <div class="sg-example-title">
+            <span>Pixso 中性色与表层阶梯</span>
+          </div>
+          <div class="color-swatch-grid">
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #303133;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">文本/标题</div>
+                <div class="color-swatch-code">#303133</div>
+              </div>
+            </div>
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #4B5563;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">文本/正文</div>
+                <div class="color-swatch-code">#4B5563</div>
+              </div>
+            </div>
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #6B7280;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">文本/次要</div>
+                <div class="color-swatch-code">#6B7280</div>
+              </div>
+            </div>
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #E8EEF8;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">边框/边框1</div>
+                <div class="color-swatch-code">#E8EEF8</div>
+              </div>
+            </div>
+            <div class="color-swatch-card">
+              <div class="color-swatch-preview" style="background: #F9F9FC; border:1px solid #E2E8F0;"></div>
+              <div class="color-swatch-info">
+                <div class="color-swatch-name">背景/页面</div>
+                <div class="color-swatch-code">#F9F9FC</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: 技术模式 3D 切图资产 -->
+      <section class="sg-section" id="sec-tech-icons">
+        <div class="sg-section-header">
+          <div class="sg-section-tag">02 / 3D Assets</div>
+          <h2 class="sg-section-title">技术模式 3D 图标库 (Tech Mode 3D Icons)</h2>
+          <p class="sg-section-desc">从 Pixso 设计稿原生导出的 6 大全流程数据中台 3D 拟态图标（@2x 高清）。</p>
+        </div>
+
+        <div class="sg-example-box">
+          <div class="icon-asset-showcase">
+            <div class="icon-showcase-item">
+              <img src="assets/images/tech/icon-report@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">看报表</span>
+            </div>
+            <div class="icon-showcase-item">
+              <img src="assets/images/tech/icon-ask@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">问数</span>
+            </div>
+            <div class="icon-showcase-item">
+              <img src="assets/images/tech/icon-explore@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">探数</span>
+            </div>
+            <div class="icon-showcase-item">
+              <img src="assets/images/tech/icon-analyze@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">析数</span>
+            </div>
+            <div class="icon-showcase-item">
+              <img src="assets/images/tech/icon-extract@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">取数</span>
+            </div>
+            <div class="icon-showcase-item">
+              <img src="assets/images/tech/icon-building@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">更多建设中</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: 业务模式 3D 切图资产 -->
+      <section class="sg-section" id="sec-biz-icons">
+        <div class="sg-section-header">
+          <div class="sg-section-tag">03 / 3D Assets</div>
+          <h2 class="sg-section-title">业务模式 3D 图标库 (Business Mode 3D Icons)</h2>
+          <p class="sg-section-desc">面向全行业务人员的金融场景 3D 图标资产。</p>
+        </div>
+
+        <div class="sg-example-box">
+          <div class="icon-asset-showcase">
+            <div class="icon-showcase-item">
+              <img src="assets/images/biz/icon-super-prod@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">超级产品</span>
+            </div>
+            <div class="icon-showcase-item">
+              <img src="assets/images/biz/icon-puhui@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">浦惠来了</span>
+            </div>
+            <div class="icon-showcase-item">
+              <img src="assets/images/biz/icon-tech-fin@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">科技金融</span>
+            </div>
+            <div class="icon-showcase-item">
+              <img src="assets/images/biz/icon-inclusive-fin@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">普惠金融</span>
+            </div>
+            <div class="icon-showcase-item">
+              <img src="assets/images/biz/icon-cross-border@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">跨境金融</span>
+            </div>
+            <div class="icon-showcase-item">
+              <img src="assets/images/biz/icon-treasury-fin@2x.png" class="icon-showcase-img">
+              <span class="icon-showcase-name">财资金融</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: 专区视觉与机器人 -->
+      <section class="sg-section" id="sec-product-visual">
+        <div class="sg-section-header">
+          <div class="sg-section-tag">04 / Visual Banner</div>
+          <h2 class="sg-section-title">数据产品专区视觉 & 智能 Agent (Visual Showcase)</h2>
+        </div>
+
+        <div class="sg-example-box" style="display:flex; align-items:center; justify-content:space-around;">
+          <div style="text-align:center;">
+            <img src="assets/images/ai-agent-robot@2x.png" style="width:90px; height:90px; object-fit:contain;">
+            <div style="font-size:13px; font-weight:700; margin-top:8px; color:var(--brand);">用数助手 Agent (3D 机器人)</div>
+          </div>
+          <div style="text-align:center;">
+            <img src="assets/images/product/puchacha-banner-visual@2x.png" style="width:200px; height:150px; object-fit:contain;">
+            <div style="font-size:13px; font-weight:700; margin-top:8px;">浦查查 3D 悬浮水晶球视觉</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    const themeToggleBtn = document.getElementById('themeToggleBtn');
+    const htmlEl = document.documentElement;
+    themeToggleBtn.addEventListener('click', () => {
+      const currentTheme = htmlEl.getAttribute('data-theme') || 'light';
+      const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+      htmlEl.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+    });
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    htmlEl.setAttribute('data-theme', savedTheme);
+  </script>
+</body>
+</html>

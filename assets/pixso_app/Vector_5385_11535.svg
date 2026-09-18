@@ -1,0 +1,26 @@
+<svg viewBox="0 0 1351 132" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1351.000000" height="132.000000" fill="none" customFrame="#000000">
+	<defs>
+		<g id="pixso_custom_effect_80">
+			<effect x="0.000000" y="25.000000" visibility="visible" fill="rgb(192,205,253)" fill-opacity="0.250980407" effectType="dropShadow" showShadowBehind="1" stdDeviation="36" radius="0" />
+			<effect visibility="hidden" effectType="backgroundBlur" saturation="0" stdDeviation="27.1828003" />
+		</g>
+		<filter id="filter_80" width="1351.000000" height="132.000000" x="0.000000" y="0.000000" filterUnits="userSpaceOnUse" customEffect="url(#pixso_custom_effect_80)" color-interpolation-filters="sRGB">
+			<feFlood flood-opacity="0" result="BackgroundImageFix" />
+			<feColorMatrix result="hardAlpha" in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.02 0 " />
+			<feOffset dx="0.000000" dy="25.000000" in="hardAlpha" />
+			<feGaussianBlur stdDeviation="12" />
+			<feColorMatrix type="matrix" values="0 0 0 0 0.752941 0 0 0 0 0.803922 0 0 0 0 0.992157 0 0 0 0.25098 0 " />
+			<feBlend result="effect_dropShadow_1" in2="BackgroundImageFix" mode="normal" />
+			<feBlend result="shape" in="SourceGraphic" in2="effect_dropShadow_1" mode="normal" />
+		</filter>
+		<linearGradient id="paint_linear_102" x1="368.345154" x2="420.59079" y1="19.8064575" y2="249.291397" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(0,59,249)" offset="0" stop-opacity="1" />
+			<stop stop-color="rgb(0,129,255)" offset="0.494104981" stop-opacity="0.988235295" />
+			<stop stop-color="rgb(130,0,255)" offset="1" stop-opacity="0.980392158" />
+		</linearGradient>
+	</defs>
+	<g filter="url(#filter_80)">
+		<path id="矩形 3" d="M1301.68 11C1309.03 11 1315 15.4771 1315 21L1315 61C1315 66.5229 1309.03 71 1301.68 71L49.3233 71C41.9653 71 36 66.5229 36 61L36 21C36 15.4771 41.9653 11 49.3233 11L1301.68 11L1301.68 11Z" fill="rgb(255,255,255)" fill-rule="evenodd" />
+		<path id="矩形 3" d="M36 21C36 15.4771 41.9653 11 49.3233 11L1301.68 11C1309.03 11 1315 15.4771 1315 21L1315 61C1315 66.5229 1309.03 71 1301.68 71L49.3233 71C41.9653 71 36 66.5229 36 61L36 21ZM1314 21C1314 20.6535 1313.97 20.3111 1313.92 19.9728C1313.79 19.1576 1313.51 18.3661 1313.08 17.5985C1312.48 16.5241 1311.61 15.5675 1310.5 14.7287C1309.36 13.874 1308.05 13.2107 1306.56 12.739C1306.52 12.7259 1306.48 12.713 1306.44 12.7003Q1304.16 12 1301.68 12L49.3233 12Q46.8344 12 44.5615 12.7009C44.5209 12.7134 44.4804 12.7261 44.44 12.739Q42.2109 13.4466 40.5027 14.7287Q38.8265 15.9868 37.9182 17.5985Q37.269 18.7506 37.0788 19.974L37.0788 19.9741L37.0788 19.9741Q37 20.4809 37 21L37 61C37 61.346 37.0263 61.688 37.0788 62.0259C37.2056 62.8416 37.4854 63.6334 37.9182 64.4015Q38.8265 66.0132 40.5027 67.2713C41.6415 68.126 42.9539 68.7892 44.44 69.261C44.4805 69.2739 44.5212 69.2866 44.5619 69.2992C46.077 69.7664 47.6641 70 49.3233 70L1301.68 70C1303.34 70 1304.92 69.7666 1306.44 69.2997C1306.48 69.287 1306.52 69.2741 1306.56 69.261C1308.05 68.7893 1309.36 68.126 1310.5 67.2713C1311.61 66.4325 1312.48 65.4759 1313.08 64.4015C1313.51 63.6339 1313.79 62.8425 1313.92 62.0273C1313.97 61.6889 1314 61.3465 1314 61L1314 21Z" fill="url(#paint_linear_102)" fill-rule="evenodd" />
+	</g>
+</svg>

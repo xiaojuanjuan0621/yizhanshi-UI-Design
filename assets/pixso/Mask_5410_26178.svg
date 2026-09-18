@@ -1,0 +1,16 @@
+<svg viewBox="0 0 2078.68 1084" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2078.681152" height="1084.000000" fill="none" customFrame="#000000" mask="url(#mask_8)">
+	<mask id="mask_8" width="2078.681152" height="1084.000000" x="0.000000" y="0.000000" maskUnits="userSpaceOnUse">
+		<g filter="url(#pixso_custom_mask_type_alpha)">
+			<rect id="矩形 1405" width="2078.681152" height="1084.000000" x="0.000000" y="0.000000" fill="url(#paint_linear_11)" />
+		</g>
+	</mask>
+	<defs>
+		<linearGradient id="paint_linear_11" x1="1039.34058" x2="1039.34058" y1="0" y2="1084" gradientUnits="userSpaceOnUse">
+			<stop stop-color="rgb(196,196,196)" offset="0.788319767" stop-opacity="1" />
+			<stop stop-color="rgb(196,196,196)" offset="1" stop-opacity="0" />
+		</linearGradient>
+		<filter id="pixso_custom_mask_type_alpha">
+			<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0 " />
+		</filter>
+	</defs>
+</svg>

@@ -1,0 +1,1818 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>一站式数据服务平台 - 我的审批</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ==========================================================================
+       1. DESIGN TOKENS & CORE PALETTE
+       ========================================================================== */
+    :root {
+      --brand: #256DF8;
+      --brand-hover: #1A57D0;
+      --brand-light: #EBF2FE;
+      --brand-gradient: linear-gradient(135deg, #256DF8 0%, #4F46E5 100%);
+      
+      --color-success: #10B981;
+      --color-warning: #F59E0B;
+      --color-danger: #EF4444;
+      --color-info: #3B82F6;
+
+      --font-sans: 'PingFang SC', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', Consolas, monospace;
+
+      --bg-page: #F4F7FB;
+      --bg-card: #FFFFFF;
+      --bg-subtle: #F8FAFD;
+      --border: #E2E8F0;
+      --border-light: #EDF2F7;
+      
+      --text-primary: #0F172A;
+      --text-secondary: #475569;
+      --text-muted: #94A3B8;
+      
+      --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+      --shadow-card: 0 10px 32px -4px rgba(15, 23, 42, 0.06), 0 2px 6px rgba(0, 0, 0, 0.02);
+      --shadow-hover: 0 16px 36px -6px rgba(37, 109, 248, 0.16);
+      
+      --ease: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-page);
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* 页面顶部流体柔光背景（严格对标图片波浪柔光光晕） */
+    .hero-glow-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 460px;
+      background: 
+        radial-gradient(circle at 15% 25%, rgba(219, 234, 254, 0.9) 0%, rgba(219, 234, 254, 0) 55%),
+        radial-gradient(circle at 85% 15%, rgba(237, 233, 254, 0.95) 0%, rgba(237, 233, 254, 0) 52%),
+        radial-gradient(circle at 50% 60%, rgba(243, 232, 255, 0.75) 0%, rgba(243, 232, 255, 0) 60%),
+        linear-gradient(180deg, #FFFFFF 0%, #F4F7FB 100%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-wave-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 440px;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    
+    .appr-svg-icon {
+      width: 15px;
+      height: 15px;
+      stroke-width: 2;
+      vertical-align: -2px;
+    }
+    .appr-tab-svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2;
+    }
+
+    /* ==========================================================================
+       2. PLATFORM HEADER
+       ========================================================================== */
+    .platform-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 36px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .brand-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .brand-logo-img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .brand-logo-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: #111827;
+      letter-spacing: -0.2px;
+    }
+
+    .nav-tabs-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-tab-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--ease);
+    }
+
+    .nav-tab-item:hover {
+      color: var(--brand);
+      background: rgba(37, 109, 248, 0.05);
+    }
+
+    .nav-tab-item.active {
+      color: var(--brand);
+      font-weight: 600;
+      background: rgba(37, 109, 248, 0.08);
+    }
+
+    .nav-tab-item svg {
+      width: 15px;
+      height: 15px;
+      stroke-width: 2;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .user-profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #EFF6FF;
+      border: 1px solid #DBEAFE;
+      padding: 4px 12px 4px 6px;
+      border-radius: 9999px;
+      font-size: 13px;
+      color: #1E40AF;
+      text-decoration: none;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .user-profile-badge:hover {
+      background: #DBEAFE;
+      transform: translateY(-1px);
+    }
+
+    .user-avatar-mini {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #256DF8, #60A5FA);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge-pending-tag {
+      background: #256DF8;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 1px 7px;
+      border-radius: 10px;
+      margin-left: 4px;
+    }
+
+    .theme-toggle-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #4B5563;
+      transition: var(--ease);
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    /* ==========================================================================
+       3. PROFILE HERO SECTION (对标截图上半部分姜晓晓)
+       ========================================================================== */
+    .profile-hero-section {
+      position: relative;
+      z-index: 10;
+      padding-top: 36px;
+      padding-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .user-avatar-wrap {
+      position: relative;
+      width: 78px;
+      height: 78px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(180deg, #FFFFFF, rgba(224, 231, 255, 0.9));
+      box-shadow: 0 10px 28px -4px rgba(99, 102, 241, 0.3), 0 2px 8px rgba(0, 0, 0, 0.04);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-img-3d {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #E0E7FF;
+      display: block;
+    }
+
+    /* 在线状态呼吸微点 */
+    .avatar-online-dot {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #10B981;
+      border: 2px solid #FFFFFF;
+      box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+    }
+
+    .user-name-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    .user-org-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(238, 242, 255, 0.9);
+      border: 1px solid rgba(224, 231, 255, 0.95);
+      padding: 3px 12px;
+      border-radius: 9999px;
+      font-size: 12.5px;
+      color: #4F46E5;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .user-signature-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12.5px;
+      color: #94A3B8;
+      font-weight: 400;
+    }
+
+    /* 一级横向标签栏 (包含我的消息、我的审批、我的收藏等) */
+    .top-level-tabs-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      margin-top: 26px;
+      position: relative;
+      z-index: 10;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+      padding-bottom: 1px;
+    }
+
+    .top-level-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 16px 14px 16px;
+      font-size: 14.5px;
+      font-weight: 500;
+      color: #64748B;
+      text-decoration: none;
+      cursor: pointer;
+      position: relative;
+      transition: var(--ease);
+      border-radius: 6px 6px 0 0;
+    }
+
+    .top-level-tab:hover {
+      color: #1E293B;
+    }
+
+    .top-level-tab.active {
+      color: #256DF8;
+      font-weight: 600;
+    }
+
+    .top-level-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 12px;
+      right: 12px;
+      height: 3px;
+      background: #256DF8;
+      border-radius: 3px 3px 0 0;
+    }
+
+    .tab-icon-box {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .tab-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 18px;
+      padding: 0 6px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      background: #EF4444;
+      color: #FFFFFF;
+      line-height: 1;
+    }
+
+    /* ==========================================================================
+       4. MAIN WORKSPACE (红框区域：左侧分类 + 右侧精炼内容，彻底去掉有效授权)
+       ========================================================================== */
+    .main-workspace-container {
+      position: relative;
+      z-index: 10;
+      max-width: 1440px;
+      margin: 20px auto 40px auto;
+      padding: 0 32px;
+    }
+
+    .workspace-frame-card {
+      background: #FFFFFF;
+      border-radius: 16px;
+      border: 1px solid #E2E8F0;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      min-height: 640px;
+      overflow: hidden;
+    }
+
+    /* 左侧二级子导航 (待我审批、我发起的审批、审批历史) */
+    .sub-sidebar-nav {
+      width: 230px;
+      background: #FAFCFF;
+      border-right: 1px solid #EDF2F7;
+      padding: 24px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-section-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 4px 10px 8px 10px;
+    }
+
+    .sub-nav-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: #475569;
+      cursor: pointer;
+      transition: var(--ease);
+      user-select: none;
+      border: 1px solid transparent;
+      position: relative;
+    }
+
+    .sub-nav-item:hover {
+      background: #F1F5F9;
+      color: #1E293B;
+    }
+
+    .sub-nav-item.active {
+      background: #EFF6FF;
+      color: #256DF8;
+      font-weight: 600;
+      border-color: #DBEAFE;
+      box-shadow: 0 2px 6px rgba(37, 109, 248, 0.08);
+    }
+
+    .sub-nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 3.5px;
+      background: #256DF8;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .sub-nav-item-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sub-nav-icon {
+      font-size: 15px;
+      width: 18px;
+      text-align: center;
+    }
+
+    .sub-nav-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 9999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      background: #E2E8F0;
+      color: #475569;
+    }
+
+    .sub-nav-badge.danger {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+
+    .sub-nav-badge.primary {
+      background: #DBEAFE;
+      color: #256DF8;
+    }
+
+    /* 右侧工作区主体 */
+    .sub-content-pane {
+      flex: 1;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      overflow-x: auto;
+    }
+
+    .content-pane-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .pane-header-title-box h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .pane-header-title-box p {
+      font-size: 12.5px;
+      color: #64748B;
+      margin-top: 3px;
+    }
+
+    .pane-filter-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-box-wrap {
+      position: relative;
+      width: 240px;
+    }
+
+    .search-box-wrap svg {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 14px;
+      height: 14px;
+      color: #94A3B8;
+    }
+
+    .search-input-field {
+      width: 100%;
+      height: 34px;
+      padding: 0 12px 0 32px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 12.5px;
+      color: #1E293B;
+      outline: none;
+      transition: var(--ease);
+    }
+
+    .search-input-field:focus {
+      background: #FFFFFF;
+      border-color: #256DF8;
+      box-shadow: 0 0 0 3px rgba(37, 109, 248, 0.12);
+    }
+
+    .filter-select {
+      height: 34px;
+      padding: 0 10px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      font-size: 12.5px;
+      color: #475569;
+      outline: none;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .btn-refresh-icon {
+      height: 34px;
+      width: 34px;
+      border-radius: 8px;
+      border: 1px solid #E2E8F0;
+      background: #F8FAFC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: #64748B;
+      transition: var(--ease);
+    }
+
+    .btn-refresh-icon:hover {
+      background: #FFFFFF;
+      color: #256DF8;
+      border-color: #CBD5E1;
+    }
+
+    /* 精炼现代表格 */
+    .table-responsive-box {
+      width: 100%;
+      border: 1px solid #EDF2F7;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #FFFFFF;
+    }
+
+    .modern-data-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .modern-data-table th {
+      background: #F8FAFC;
+      color: #64748B;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #EDF2F7;
+      white-space: nowrap;
+    }
+
+    .modern-data-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #F1F5F9;
+      color: #334155;
+      vertical-align: middle;
+    }
+
+    .modern-data-table tbody tr {
+      transition: background-color 0.15s ease;
+    }
+
+    .modern-data-table tbody tr:hover {
+      background-color: #F8FAFC;
+    }
+
+    .modern-data-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .order-code-text {
+      font-family: var(--font-mono);
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #256DF8;
+      cursor: pointer;
+    }
+
+    .order-code-text:hover {
+      text-decoration: underline;
+    }
+
+    .service-name-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .service-title {
+      font-weight: 600;
+      color: #0F172A;
+    }
+
+    .service-meta-sub {
+      font-size: 11.5px;
+      color: #94A3B8;
+      font-family: var(--font-mono);
+    }
+
+    .type-badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 500;
+    }
+
+    .type-badge-consumer {
+      background: #EFF6FF;
+      color: #256DF8;
+      border: 1px solid #DBEAFE;
+    }
+
+    .type-badge-publish {
+      background: #F5F3FF;
+      color: #7C3AED;
+      border: 1px solid #EDE9FE;
+    }
+
+    .status-capsule {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .status-capsule::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .status-capsule.pending { background: #FEF3C7; color: #D97706; }
+    .status-capsule.pending::before { background: #F59E0B; }
+
+    .status-capsule.processing { background: #DBEAFE; color: #1D4ED8; }
+    .status-capsule.processing::before { background: #256DF8; }
+
+    .status-capsule.approved { background: #D1FAE5; color: #047857; }
+    .status-capsule.approved::before { background: #10B981; }
+
+    .status-capsule.rejected { background: #FEE2E2; color: #B91C1C; }
+    .status-capsule.rejected::before { background: #EF4444; }
+
+    .action-btn-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-action-primary {
+      padding: 5px 12px;
+      border-radius: 6px;
+      background: #256DF8;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .btn-action-primary:hover {
+      background: #1D4ED8;
+    }
+
+    .btn-action-ghost {
+      padding: 5px 10px;
+      border-radius: 6px;
+      background: transparent;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 500;
+      border: 1px solid #E2E8F0;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .btn-action-ghost:hover {
+      background: #F8FAFC;
+      color: #0F172A;
+      border-color: #CBD5E1;
+    }
+
+    .table-pagination-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      padding: 4px 2px;
+      font-size: 12.5px;
+      color: #64748B;
+    }
+
+    .pagination-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .page-btn {
+      min-width: 28px;
+      height: 28px;
+      padding: 0 6px;
+      border-radius: 6px;
+      border: 1px solid #E2E8F0;
+      background: #FFFFFF;
+      font-size: 12px;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .page-btn.active {
+      background: #256DF8;
+      color: #FFFFFF;
+      border-color: #256DF8;
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       5. APPROVAL DETAIL MODAL (融入 3D 审批盾牌徽标)
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .modal-backdrop.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      width: 780px;
+      max-width: 92vw;
+      max-height: 90vh;
+      background: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px -8px rgba(15, 23, 42, 0.16);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: scale(0.96);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-backdrop.show .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid #EDF2F7;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #FAFCFE;
+    }
+
+    .modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .modal-3d-shield-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .modal-header-left h3 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #0F172A;
+    }
+
+    .modal-header-left p {
+      font-size: 12px;
+      color: #64748B;
+      margin-top: 2px;
+      font-family: var(--font-mono);
+    }
+
+    .btn-close-modal {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: var(--ease);
+    }
+
+    .btn-close-modal:hover {
+      background: #F1F5F9;
+      color: #0F172A;
+    }
+
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .flow-stepper-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+
+    .flow-stepper-title {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .stepper-timeline {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .stepper-timeline::before {
+      content: '';
+      position: absolute;
+      top: 14px;
+      left: 36px;
+      right: 36px;
+      height: 2px;
+      background: #E2E8F0;
+      z-index: 1;
+    }
+
+    .step-item {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .step-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 2px solid #CBD5E1;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      transition: var(--ease);
+    }
+
+    .step-item.completed .step-circle {
+      background: #10B981;
+      border-color: #10B981;
+      color: #FFFFFF;
+    }
+
+    .step-item.current .step-circle {
+      background: #256DF8;
+      border-color: #256DF8;
+      color: #FFFFFF;
+      box-shadow: 0 0 0 4px rgba(37, 109, 248, 0.2);
+    }
+
+    .step-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #64748B;
+    }
+
+    .step-item.current .step-label { color: #256DF8; }
+    .step-item.completed .step-label { color: #0F172A; }
+
+    .step-subtext {
+      font-size: 11px;
+      color: #94A3B8;
+      margin-top: 2px;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      background: #FFFFFF;
+      border: 1px solid #EDF2F7;
+      border-radius: 10px;
+      padding: 16px;
+    }
+
+    .summary-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .summary-label {
+      font-size: 11.5px;
+      color: #64748B;
+    }
+
+    .summary-value {
+      font-size: 13px;
+      color: #0F172A;
+      font-weight: 500;
+    }
+
+    .opinion-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .opinion-box label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .opinion-textarea {
+      width: 100%;
+      height: 70px;
+      padding: 10px 12px;
+      border: 1px solid #CBD5E1;
+      border-radius: 8px;
+      font-size: 12.5px;
+      color: #0F172A;
+      outline: none;
+      resize: none;
+      transition: var(--ease);
+    }
+
+    .opinion-textarea:focus {
+      border-color: #256DF8;
+      box-shadow: 0 0 0 3px rgba(37, 109, 248, 0.12);
+    }
+
+    .quick-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .quick-tag {
+      font-size: 11.5px;
+      padding: 3px 8px;
+      background: #F1F5F9;
+      border-radius: 4px;
+      color: #475569;
+      cursor: pointer;
+      user-select: none;
+      transition: var(--ease);
+    }
+
+    .quick-tag:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #EDF2F7;
+      background: #FAFCFE;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 页面顶部波浪流体光晕 (对标参考图片) -->
+  <div class="hero-glow-bg"></div>
+  <svg class="hero-wave-svg" viewBox="0 0 1440 440" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M-100 240C200 160 450 360 800 200C1150 40 1350 220 1550 180V0H-100V240Z" fill="url(#waveGrad)" fill-opacity="0.32"/>
+    <defs>
+      <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#3B82F6"/>
+        <stop offset="50%" stop-color="#8B5CF6"/>
+        <stop offset="100%" stop-color="#EC4899"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <!-- 1. 顶部 Header 导航 -->
+  <header class="platform-header">
+    <div class="header-left">
+      <a href="home.html" class="brand-logo-wrap">
+        <img src="assets/pixso/fJ8X4eJNz.png" alt="Logo" class="brand-logo-img" onerror="this.src='assets/images/logo.png'">
+        <span class="brand-logo-text">一站式数据服务平台</span>
+      </a>
+
+      <nav class="nav-tabs-group">
+        <a href="home.html" class="nav-tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          首页
+        </a>
+        <a href="app-center.html" class="nav-tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+          应用中心
+        </a>
+        <a href="service-center.html" class="nav-tab-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+          服务中心
+        </a>
+        <a href="dataset-detail.html" class="nav-tab-item">数据字典</a>
+        <a href="design-system.html" class="nav-tab-item">设计规范</a>
+      </nav>
+    </div>
+
+    <div class="header-right">
+      <a href="my-approvals.html" class="user-profile-badge" title="个人主页与审批中心">
+        <span class="user-avatar-mini">张</span>
+        <span>您好，<b>张科技 (科技人员)</b></span>
+        <span class="badge-pending-tag" id="headerPendingBadge">3 待办</span>
+      </a>
+      <button class="theme-toggle-btn" title="深色/浅色模式"><svg class="appr-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button>
+    </div>
+  </header>
+
+  <!-- 2. PROFILE HERO 区域 (严格对标截图上半部分姜晓晓) -->
+  <section class="profile-hero-section">
+    <!-- 居中 3D 萌系头像 -->
+    <div class="user-avatar-wrap">
+      <img src="assets/images/avatar_jiang_hd.png" alt="姜晓晓" class="avatar-img-3d" onerror="this.src='assets/images/avatar_jiang.png'">
+      <div class="avatar-online-dot" title="在线"></div>
+    </div>
+
+    <!-- 姓名 -->
+    <h1 class="user-name-title">姜晓晓</h1>
+
+    <!-- 归属机构药丸胶囊 -->
+    <div class="user-org-pill">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4F46E5" stroke-width="2.2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <span>浦东发展银行（全行）</span>
+    </div>
+
+    <!-- 个性签名 -->
+    <div class="user-signature-text">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+      <span>个性签名个性签名个性签名</span>
+    </div>
+
+    <!-- 一级横向标签栏 (包含我的消息、我的审批、我的收藏等) -->
+    <div class="top-level-tabs-wrap">
+      <div class="top-level-tab" onclick="switchTopTab('msg')">
+        <span class="tab-icon-box"><svg class="appr-tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+        <span>我的消息</span>
+        <span class="tab-badge-pill">99+</span>
+      </div>
+
+      <div class="top-level-tab active" onclick="switchTopTab('approval')">
+        <span class="tab-icon-box" style="color:#256DF8;"><svg class="appr-tab-svg" viewBox="0 0 24 24" fill="none" stroke="#256DF8"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/><path d="m9 14 2 2 4-4"/></svg></span>
+        <span>我的审批</span>
+        <span class="tab-badge-pill">99+</span>
+      </div>
+
+      <div class="top-level-tab" onclick="switchTopTab('fav')">
+        <span class="tab-icon-box"><svg class="appr-tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+        <span>我的收藏</span>
+      </div>
+
+      <div class="top-level-tab" onclick="switchTopTab('sub')">
+        <span class="tab-icon-box"><svg class="appr-tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span>
+        <span>我的订阅</span>
+      </div>
+
+      <div class="top-level-tab" onclick="switchTopTab('todo')">
+        <span class="tab-icon-box"><svg class="appr-tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+        <span>我的待办</span>
+        <span class="tab-badge-pill">99+</span>
+      </div>
+
+      <div class="top-level-tab" onclick="switchTopTab('done')">
+        <span class="tab-icon-box"><svg class="appr-tab-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+        <span>我的已办</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. MAIN WORKSPACE (红框区域：左侧分类 + 右侧精炼内容，彻底去掉有效授权) -->
+  <main class="main-workspace-container">
+    <div class="workspace-frame-card">
+      
+      <!-- 左侧二级子导航 (待我审批、我发起的审批、审批历史) -->
+      <aside class="sub-sidebar-nav">
+        <div class="sidebar-section-label">审批分类导航</div>
+
+        <div class="sub-nav-item active" id="subNavItem-pending" onclick="selectSubMenu('pending')">
+          <div class="sub-nav-item-left">
+            <span class="sub-nav-icon"><svg class="appr-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+            <span>待我审批</span>
+          </div>
+          <span class="sub-nav-badge danger" id="sidebarBadgePending">3</span>
+        </div>
+
+        <div class="sub-nav-item" id="subNavItem-mySubmits" onclick="selectSubMenu('mySubmits')">
+          <div class="sub-nav-item-left">
+            <span class="sub-nav-icon"><svg class="appr-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg></span>
+            <span>我发起的审批</span>
+          </div>
+          <span class="sub-nav-badge primary" id="sidebarBadgeMySubmits">5</span>
+        </div>
+
+        <div class="sub-nav-item" id="subNavItem-history" onclick="selectSubMenu('history')">
+          <div class="sub-nav-item-left">
+            <span class="sub-nav-icon"><svg class="appr-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>
+            <span>审批历史</span>
+          </div>
+          <span class="sub-nav-badge">28</span>
+        </div>
+      </aside>
+
+      <!-- 右侧精炼工作台内容区 -->
+      <section class="sub-content-pane">
+        
+        <!-- 头部标题与筛选条 -->
+        <div class="content-pane-header">
+          <div class="pane-header-title-box">
+            <h2 id="currentPaneTitle">待我审批</h2>
+            <p id="currentPaneSub">当前需您审核把关的数据服务申请与契约发布单</p>
+          </div>
+
+          <div class="pane-filter-toolbar">
+            <div class="search-box-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" class="search-input-field" id="searchInput" placeholder="搜索工单号、服务名称、系统..." oninput="handleSearch()">
+            </div>
+
+            <select class="filter-select" id="typeFilter" onchange="handleFilter()">
+              <option value="all">全部申请类型</option>
+              <option value="consumer">调用方授权申请</option>
+              <option value="publish">契约上架发布</option>
+            </select>
+
+            <select class="filter-select" id="statusFilter" onchange="handleFilter()">
+              <option value="all">全部审批状态</option>
+              <option value="pending">待处理</option>
+              <option value="processing">流转中</option>
+              <option value="approved">已通过</option>
+            </select>
+
+            <button class="btn-refresh-icon" title="刷新列表" onclick="refreshTableData()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 数据表格 (结构精炼，现代轻质感，无冗余字) -->
+        <div class="table-responsive-box">
+          <table class="modern-data-table">
+            <thead>
+              <tr>
+                <th style="width: 160px;">工单编号</th>
+                <th>申请服务</th>
+                <th style="width: 140px;">审批类型</th>
+                <th style="width: 160px;">发起人 / 归属</th>
+                <th style="width: 150px;">申请时间</th>
+                <th style="width: 140px;">当前状态</th>
+                <th style="width: 120px; text-align: right;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="approvalsTableBody">
+              <!-- JS 动态渲染 -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 底部分页器 -->
+        <div class="table-pagination-footer">
+          <span id="pageSummaryText">显示 1 到 3 条，共 3 条工单记录</span>
+          <div class="pagination-controls">
+            <button class="page-btn">‹</button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">›</button>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 4. 审批详情与流转弹窗 (融入 3D 审批盾牌徽标，图片 2 流程节点规范) -->
+  <div class="modal-backdrop" id="approvalModal" onclick="handleBackdropClick(event)">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <img src="assets/images/approval_shield_3d.jpg" class="modal-3d-shield-icon" alt="审批安全盾">
+          <div>
+            <h3 id="modalDetailTitle">工单详情与审批流转</h3>
+            <p id="modalDetailCode">REQ-20260917-8891</p>
+          </div>
+        </div>
+        <button class="btn-close-modal" onclick="closeModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- 审批流程步进节点 (图片 2 规范) -->
+        <div class="flow-stepper-box">
+          <div class="flow-stepper-title">
+            <svg class="appr-svg-icon" viewBox="0 0 24 24" fill="none" stroke="#256DF8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span id="modalFlowTitle">审批流程节点进度</span>
+          </div>
+
+          <div class="stepper-timeline" id="stepperTimeline">
+            <!-- 动态生成流程节点 -->
+          </div>
+        </div>
+
+        <!-- 工单核心摘要 (轻量 2 列无冗余) -->
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span class="summary-label">申请数据服务</span>
+            <span class="summary-value" id="modalSvcName">各期限存款产品结构(支行)</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">申请人及归属</span>
+            <span class="summary-value" id="modalApplicant">张三 (代发拓展处 / CRMS)</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">调用系统 (IPMP/ESF)</span>
+            <span class="summary-value" id="modalConsumerSys">CRMS (ESF_CRMS_001)</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">服务提供系统</span>
+            <span class="summary-value" id="modalProviderSys">RETL (ESF_RETL_001 · 零售金融部)</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">调用场景</span>
+            <span class="summary-value" id="modalScenario">网点代发客户存款偏好分析</span>
+          </div>
+          <div class="summary-item">
+            <span class="summary-label">是否对客 / 业务价值</span>
+            <span class="summary-value" id="modalProdValue">否 · 预估单次节省 ¥1,200</span>
+          </div>
+        </div>
+
+        <!-- 审批处理操作区 -->
+        <div class="opinion-box" id="approvalActionForm">
+          <label>审批处理意见</label>
+          <textarea class="opinion-textarea" id="opinionText" placeholder="请输入审核意见或核对批注..."></textarea>
+          <div class="quick-tags">
+            <span class="quick-tag" onclick="fillOpinion('符合准入规范，同意申请')">✓ 符合准入规范，同意申请</span>
+            <span class="quick-tag" onclick="fillOpinion('请补充单日频次与限流防护评估')">⚠️ 请补充调用频次与限流评估</span>
+            <span class="quick-tag" onclick="fillOpinion('调用方系统未完成联调，建议核验后重新发起')">✕ 建议核验后重新发起</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-action-ghost" onclick="closeModal()">取消</button>
+        <button class="btn-action-ghost" style="color:#DC2626; border-color:#FCA5A5;" id="btnRejectAction" onclick="submitDecision('reject')">驳回修改</button>
+        <button class="btn-action-primary" id="btnApproveAction" onclick="submitDecision('approve')">同意并流转</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. JAVASCRIPT 逻辑驱动 -->
+  <script>
+    let currentSubMenu = 'pending';
+    let currentActiveOrder = null;
+
+    // 1. 待我审批列表
+    const pendingList = [
+      {
+        id: 'REQ-20260917-8891',
+        type: 'consumer',
+        typeName: '调用方授权申请',
+        svcName: '各期限存款产品结构(支行)',
+        svcCode: 'SVC_DEP_0012',
+        applicant: '张三 (代发拓展处)',
+        applicantDept: '总行零售金融部',
+        consumerSys: 'CRMS (ESF_CRMS_001)',
+        providerSys: 'RETL (ESF_RETL_001)',
+        scenario: '网点代发客户存款偏好分析',
+        prodValue: '不对客 · 预估单次节省 ¥1,200',
+        submitTime: '2026-09-17 14:35',
+        status: 'pending',
+        statusText: '待提供方终审',
+        flowNodes: [
+          { name: '提交申请', role: '张三', time: '14:35', state: 'completed' },
+          { name: '一站式管理员', role: '数据管理部 (李四)', time: '14:50', state: 'completed' },
+          { name: '服务提供方终审', role: '姜晓晓 (科技负责人)', time: '待处理', state: 'current' },
+          { name: '生效发牌', role: '平台自动下发', time: '-', state: 'upcoming' }
+        ]
+      },
+      {
+        id: 'PUB-20260917-001',
+        type: 'publish',
+        typeName: '契约上架发布',
+        svcName: '近30天跨行转账频次与风险统计',
+        svcCode: 'SVC_RISK_8820',
+        applicant: '陈工 (研发室)',
+        applicantDept: '信息科技部',
+        consumerSys: '全行业务系统通用',
+        providerSys: 'RISK (ESF_RISK_001)',
+        scenario: '对公对私跨行洗钱风险识别',
+        prodValue: '核心入库服务，契约已通过联调',
+        submitTime: '2026-09-17 15:10',
+        status: 'pending',
+        statusText: '待管理员审批',
+        flowNodes: [
+          { name: '提交上架申请', role: '陈工', time: '15:10', state: 'completed' },
+          { name: '一站式平台初审', role: '姜晓晓 (管理员)', time: '待处理', state: 'current' },
+          { name: '正式上架入库', role: '系统生效', time: '-', state: 'upcoming' }
+        ]
+      },
+      {
+        id: 'REQ-20260917-9102',
+        type: 'consumer',
+        typeName: '调用方授权申请',
+        svcName: '对公核心负债变动与日均流水',
+        svcCode: 'SVC_CORP_0088',
+        applicant: '王经理 (对公金融部)',
+        applicantDept: '总行对公金融部',
+        consumerSys: 'CORP_LOAN (ESF_CORP_002)',
+        providerSys: 'CORP_CORE (ESF_CORP_001)',
+        scenario: '授信审批穿透核查',
+        prodValue: '授信决策风控赋能',
+        submitTime: '2026-09-17 15:20',
+        status: 'pending',
+        statusText: '待提供方终审',
+        flowNodes: [
+          { name: '提交申请', role: '王经理', time: '15:20', state: 'completed' },
+          { name: '一站式管理员', role: '数据管理部', time: '15:42', state: 'completed' },
+          { name: '服务提供方终审', role: '姜晓晓 (科技负责人)', time: '待处理', state: 'current' },
+          { name: '生效发牌', role: '平台自动下发', time: '-', state: 'upcoming' }
+        ]
+      }
+    ];
+
+    // 2. 我发起的申请
+    const mySubmitsList = [
+      {
+        id: 'REQ-20260917-3819',
+        type: 'consumer',
+        typeName: '调用方授权申请',
+        svcName: '个人涉诈涉赌风险评估画像(天级)',
+        svcCode: 'SVC_ANTI_FRAUD',
+        applicant: '姜晓晓 (当前登录人)',
+        applicantDept: '零售科技研发室',
+        consumerSys: 'RETL (ESF_RETL_001)',
+        providerSys: 'RISK (ESF_RISK_001)',
+        scenario: '手机银行转账事前拦截欺诈风险',
+        prodValue: '对客实时风控，单次价值极高',
+        submitTime: '2026-09-17 11:20',
+        status: 'processing',
+        statusText: '审批中 (待一站式管理员)',
+        flowNodes: [
+          { name: '提交申请', role: '姜晓晓', time: '11:20', state: 'completed' },
+          { name: '一站式管理员审批', role: '数据资产部', time: '审核中', state: 'current' },
+          { name: '服务提供方审批', role: '反欺诈科技室', time: '-', state: 'upcoming' },
+          { name: '生效发牌', role: '密钥下发', time: '-', state: 'upcoming' }
+        ]
+      },
+      {
+        id: 'PUB-20260916-042',
+        type: 'publish',
+        typeName: '契约上架发布',
+        svcName: '零售客户全景评级与AUM分布',
+        svcCode: 'SVC_CUST_AUM',
+        applicant: '姜晓晓 (当前登录人)',
+        applicantDept: '零售科技研发室',
+        consumerSys: '全行调用',
+        providerSys: 'RETL (ESF_RETL_001)',
+        scenario: '财富中台客群分层洞察',
+        prodValue: '全行基础客户数据支撑',
+        submitTime: '2026-09-16 16:45',
+        status: 'approved',
+        statusText: '已上架生效',
+        flowNodes: [
+          { name: '提交申请', role: '姜晓晓', time: '09-16 16:45', state: 'completed' },
+          { name: '一站式管理员审批', role: '管理部', time: '09-16 17:10', state: 'completed' },
+          { name: '正式上架', role: '系统已生效', time: '09-16 17:15', state: 'completed' }
+        ]
+      },
+      {
+        id: 'REQ-20260915-081',
+        type: 'consumer',
+        typeName: '调用方授权申请',
+        svcName: '对公网银流水实时动账通知',
+        svcCode: 'SVC_CORP_NOTICE',
+        applicant: '姜晓晓 (当前登录人)',
+        applicantDept: '零售科技研发室',
+        consumerSys: 'CRMS (ESF_CRMS_001)',
+        providerSys: 'NOTIFY (ESF_NOTIFY_001)',
+        scenario: '企业大额动账自动化推送',
+        prodValue: '服务体验提效',
+        submitTime: '2026-09-15 09:15',
+        status: 'approved',
+        statusText: '授权生效',
+        flowNodes: [
+          { name: '提交申请', role: '姜晓晓', time: '09-15 09:15', state: 'completed' },
+          { name: '一站式平台初审', role: '数据部', time: '09-15 10:00', state: 'completed' },
+          { name: '提供方终审', role: '渠道中心', time: '09-15 11:30', state: 'completed' },
+          { name: '生效下发Token', role: '平台下发', time: '09-15 11:31', state: 'completed' }
+        ]
+      }
+    ];
+
+    // 3. 审批历史
+    const historyList = [
+      {
+        id: 'HIS-20260916-7721',
+        type: 'consumer',
+        typeName: '调用方授权申请',
+        svcName: '高净值客户持有财富产品分析',
+        svcCode: 'SVC_WEALTH_ANALYSIS',
+        applicant: '刘经理 (私人银行部)',
+        applicantDept: '私人银行部',
+        consumerSys: 'PB_APP (ESF_PB_001)',
+        providerSys: 'RETL (ESF_RETL_001)',
+        scenario: '理财经理精准资产配置推荐',
+        prodValue: '提升理财成交率',
+        submitTime: '2026-09-16 11:00',
+        status: 'approved',
+        statusText: '终审通过 (已办结)',
+        flowNodes: [
+          { name: '提交申请', role: '刘经理', time: '09-16 11:00', state: 'completed' },
+          { name: '一站式初审', role: '数据部', time: '09-16 13:20', state: 'completed' },
+          { name: '提供方终审', role: '姜晓晓 (科技负责人已同意)', time: '09-16 14:10', state: 'completed' },
+          { name: '已生效发牌', role: 'Token已生效', time: '09-16 14:11', state: 'completed' }
+        ]
+      },
+      {
+        id: 'HIS-20260915-6612',
+        type: 'publish',
+        typeName: '契约上架发布',
+        svcName: '网点现金库箱调拨预警指标',
+        svcCode: 'SVC_CASH_ALARM',
+        applicant: '赵工程师 (运营科技)',
+        applicantDept: '运营管理部',
+        consumerSys: '全行运营中台',
+        providerSys: 'OPS_CASH (ESF_OPS_003)',
+        scenario: '现金库存超限实时预警',
+        prodValue: '降低现金资金占用成本',
+        submitTime: '2026-09-15 08:30',
+        status: 'approved',
+        statusText: '已上架生效',
+        flowNodes: [
+          { name: '提交上架', role: '赵工程师', time: '09-15 08:30', state: 'completed' },
+          { name: '一站式审核', role: '姜晓晓 (已通过)', time: '09-15 09:15', state: 'completed' },
+          { name: '正式上架', role: '已入库发布', time: '09-15 09:16', state: 'completed' }
+        ]
+      }
+    ];
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCurrentTable();
+      updateBadges();
+    });
+
+    function selectSubMenu(menuKey) {
+      currentSubMenu = menuKey;
+      document.querySelectorAll('.sub-nav-item').forEach(el => el.classList.remove('active'));
+      const activeEl = document.getElementById(`subNavItem-${menuKey}`);
+      if (activeEl) activeEl.classList.add('active');
+
+      const titleEl = document.getElementById('currentPaneTitle');
+      const subEl = document.getElementById('currentPaneSub');
+
+      if (menuKey === 'pending') {
+        titleEl.textContent = '待我审批';
+        subEl.textContent = '当前需您审核把关的数据服务申请与契约发布单';
+      } else if (menuKey === 'mySubmits') {
+        titleEl.textContent = '我发起的审批';
+        subEl.textContent = '跟踪您向平台或服务提供方提交的调用权限与发布进度';
+      } else {
+        titleEl.textContent = '审批历史';
+        subEl.textContent = '已办结归档的审批事项、处理意见与流转日志';
+      }
+
+      document.getElementById('searchInput').value = '';
+      document.getElementById('typeFilter').value = 'all';
+      document.getElementById('statusFilter').value = 'all';
+
+      renderCurrentTable();
+    }
+
+    function switchTopTab(tabKey) {
+      document.querySelectorAll('.top-level-tab').forEach(el => el.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+    }
+
+    function getCurrentData() {
+      if (currentSubMenu === 'pending') return pendingList;
+      if (currentSubMenu === 'mySubmits') return mySubmitsList;
+      return historyList;
+    }
+
+    function renderCurrentTable() {
+      const tbody = document.getElementById('approvalsTableBody');
+      const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
+      const typeVal = document.getElementById('typeFilter').value;
+      const statusVal = document.getElementById('statusFilter').value;
+
+      let list = getCurrentData();
+
+      list = list.filter(item => {
+        const matchesSearch = !searchVal || 
+          item.id.toLowerCase().includes(searchVal) ||
+          item.svcName.toLowerCase().includes(searchVal) ||
+          (item.consumerSys && item.consumerSys.toLowerCase().includes(searchVal)) ||
+          (item.applicant && item.applicant.toLowerCase().includes(searchVal));
+
+        const matchesType = (typeVal === 'all') || (item.type === typeVal);
+        const matchesStatus = (statusVal === 'all') || (item.status === statusVal);
+
+        return matchesSearch && matchesType && matchesStatus;
+      });
+
+      if (list.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align:center; padding:50px; color:#94A3B8;">暂无符合条件的工单记录</td>
+          </tr>
+        `;
+        document.getElementById('pageSummaryText').textContent = '显示 0 条工单';
+        return;
+      }
+
+      let html = '';
+      list.forEach(item => {
+        let statusBadgeClass = 'pending';
+        if (item.status === 'processing') statusBadgeClass = 'processing';
+        if (item.status === 'approved') statusBadgeClass = 'approved';
+        if (item.status === 'rejected') statusBadgeClass = 'rejected';
+
+        const typeBadgeClass = item.type === 'consumer' ? 'type-badge-consumer' : 'type-badge-publish';
+
+        let actionBtnHtml = '';
+        if (currentSubMenu === 'pending') {
+          actionBtnHtml = `
+            <button class="btn-action-primary" onclick="openApprovalModal('${item.id}')">去审批</button>
+          `;
+        } else {
+          actionBtnHtml = `
+            <button class="btn-action-ghost" onclick="openApprovalModal('${item.id}')">详情</button>
+          `;
+        }
+
+        html += `
+          <tr>
+            <td>
+              <span class="order-code-text" onclick="openApprovalModal('${item.id}')">${item.id}</span>
+            </td>
+            <td>
+              <div class="service-name-cell">
+                <span class="service-title">${item.svcName}</span>
+                <span class="service-meta-sub">${item.svcCode || item.consumerSys || '-'}</span>
+              </div>
+            </td>
+            <td>
+              <span class="type-badge-pill ${typeBadgeClass}">
+                <svg class="appr-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> ${item.typeName}
+              </span>
+            </td>
+            <td>
+              <div style="font-weight:500; color:#1E293B;">${item.applicant}</div>
+              <div style="font-size:11.5px; color:#94A3B8;">${item.applicantDept || '-'}</div>
+            </td>
+            <td style="color:#64748B; font-size:12px;">${item.submitTime}</td>
+            <td>
+              <span class="status-capsule ${statusBadgeClass}">
+                ${item.statusText}
+              </span>
+            </td>
+            <td style="text-align: right;">
+              <div class="action-btn-group" style="justify-content: flex-end;">
+                ${actionBtnHtml}
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+      document.getElementById('pageSummaryText').textContent = `显示 1 到 ${list.length} 条，共 ${list.length} 条工单记录`;
+    }
+
+    function handleSearch() { renderCurrentTable(); }
+    function handleFilter() { renderCurrentTable(); }
+    function refreshTableData() { renderCurrentTable(); updateBadges(); }
+
+    function updateBadges() {
+      const pendingCount = pendingList.length;
+      document.getElementById('sidebarBadgePending').textContent = pendingCount;
+      document.getElementById('headerPendingBadge').textContent = `${pendingCount} 待办`;
+    }
+
+    function openApprovalModal(orderId) {
+      let item = pendingList.find(x => x.id === orderId) ||
+                 mySubmitsList.find(x => x.id === orderId) ||
+                 historyList.find(x => x.id === orderId);
+
+      if (!item) return;
+      currentActiveOrder = item;
+
+      document.getElementById('modalDetailCode').textContent = item.id;
+      document.getElementById('modalDetailTitle').textContent = `${item.typeName} · 流转审批`;
+      document.getElementById('modalSvcName').textContent = `${item.svcName} (${item.svcCode || '标准数据服务'})`;
+      document.getElementById('modalApplicant').textContent = `${item.applicant} · ${item.applicantDept || ''}`;
+      document.getElementById('modalConsumerSys').textContent = item.consumerSys || '-';
+      document.getElementById('modalProviderSys').textContent = item.providerSys || '-';
+      document.getElementById('modalScenario').textContent = item.scenario || '未指定业务场景';
+      document.getElementById('modalProdValue').textContent = item.prodValue || '常规赋能';
+
+      const stepper = document.getElementById('stepperTimeline');
+      stepper.innerHTML = '';
+      if (item.flowNodes && item.flowNodes.length) {
+        item.flowNodes.forEach((node, index) => {
+          let circleText = index + 1;
+          if (node.state === 'completed') circleText = '✓';
+          
+          const stepDiv = document.createElement('div');
+          stepDiv.className = `step-item ${node.state}`;
+          stepDiv.innerHTML = `
+            <div class="step-circle">${circleText}</div>
+            <div class="step-label">${node.name}</div>
+            <div class="step-subtext">${node.role}</div>
+            <div class="step-subtext" style="color:#94A3B8;">${node.time}</div>
+          `;
+          stepper.appendChild(stepDiv);
+        });
+      }
+
+      const isPending = (currentSubMenu === 'pending');
+      document.getElementById('approvalActionForm').style.display = isPending ? 'flex' : 'none';
+      document.getElementById('btnRejectAction').style.display = isPending ? 'inline-block' : 'none';
+      document.getElementById('btnApproveAction').textContent = isPending ? '同意并流转' : '确定';
+
+      document.getElementById('approvalModal').classList.add('show');
+    }
+
+    function closeModal() {
+      document.getElementById('approvalModal').classList.remove('show');
+      currentActiveOrder = null;
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target.id === 'approvalModal') {
+        closeModal();
+      }
+    }
+
+    function fillOpinion(text) {
+      document.getElementById('opinionText').value = text;
+    }
+
+    function submitDecision(type) {
+      if (!currentActiveOrder || currentSubMenu !== 'pending') {
+        closeModal();
+        return;
+      }
+
+      const idx = pendingList.findIndex(x => x.id === currentActiveOrder.id);
+      if (idx !== -1) {
+        const removed = pendingList.splice(idx, 1)[0];
+        removed.status = (type === 'approve') ? 'approved' : 'rejected';
+        removed.statusText = (type === 'approve') ? '终审通过 (已办结)' : '已驳回';
+        historyList.unshift(removed);
+      }
+
+      closeModal();
+      updateBadges();
+      renderCurrentTable();
+    }
+  </script>
+</body>
+</html>
